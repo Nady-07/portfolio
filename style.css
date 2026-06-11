@@ -1008,10 +1008,62 @@ html[data-theme="light"] .moon-icon { display: block; }
     box-shadow: 0 10px 30px var(--card-shadow);
     display: flex;
     flex-direction: column;
-    padding: 30px;
+    padding: 24px;
     transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
     position: relative;
     overflow: hidden;
+}
+
+.project-image-container {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    border-radius: var(--border-radius-md);
+    margin-bottom: 20px;
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.project-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.project-card:hover .project-image {
+    transform: scale(1.06);
+}
+
+.project-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(99, 102, 241, 0.03) 100%);
+    color: var(--accent);
+    gap: 8px;
+}
+
+.project-image-placeholder svg {
+    width: 48px;
+    height: 48px;
+    fill: currentColor;
+    opacity: 0.85;
+}
+
+.project-image-placeholder span {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
 }
 
 .project-card::before {
@@ -1818,4 +1870,72 @@ html[data-theme="light"] .moon-icon { display: block; }
         border-radius: var(--border-radius-sm);
         padding: 8px 12px;
     }
+}
+
+/* ==========================================================================
+   MODAL SLIDESHOW STYLES
+   ========================================================================== */
+.modal-slideshow {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 20px 0 30px;
+}
+
+.slideshow-image-wrapper {
+    width: 100%;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background-color: var(--bg-primary);
+    aspect-ratio: 16/9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slideshow-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.slideshow-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+.slide-tab-btn {
+    padding: 8px 16px;
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius-sm);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all var(--transition-fast);
+}
+
+.slide-tab-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--border-hover);
+}
+
+.slide-tab-btn.active {
+    background: var(--accent-gradient);
+    color: #ffffff;
+    border-color: var(--accent);
+}
+
+.slideshow-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-align: center;
+    line-height: 1.5;
+    background-color: var(--bg-tertiary);
+    padding: 12px 16px;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border);
 }
