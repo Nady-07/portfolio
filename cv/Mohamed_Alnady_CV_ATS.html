@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohamed Al Nady — Data Analyst Resume</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Inter', Arial, Helvetica, sans-serif;
+            color: #1e293b;
+            line-height: 1.5;
+            background: #f1f5f9;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .cv-page {
+            width: 210mm;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 22px 32px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            padding-bottom: 8px;
+            border-bottom: 2.5px solid #1e293b;
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1e293b;
+            letter-spacing: -0.5px;
+            margin-bottom: 1px;
+        }
+
+        .header .role {
+            font-size: 12px;
+            font-weight: 600;
+            color: #2563eb;
+            margin-bottom: 4px;
+        }
+
+        .header .contact-line {
+            font-size: 9.5px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        .header .contact-line a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .separator {
+            margin: 0 5px;
+            color: #94a3b8;
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-size: 10.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #1e293b;
+            padding-bottom: 2px;
+            border-bottom: 1.5px solid #1e293b;
+            margin-bottom: 5px;
+        }
+
+        /* ===== SUMMARY ===== */
+        .summary {
+            font-size: 9.5px;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        /* ===== SKILLS ===== */
+        .skills-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .skills-row {
+            font-size: 9.5px;
+            line-height: 1.5;
+        }
+
+        .skills-label {
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .skills-value {
+            color: #475569;
+        }
+
+        /* ===== ENTRIES ===== */
+        .entry {
+            margin-bottom: 6px;
+        }
+
+        .entry:last-child {
+            margin-bottom: 0;
+        }
+
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .entry-title {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .entry-date {
+            font-size: 9px;
+            font-weight: 600;
+            color: #475569;
+            white-space: nowrap;
+        }
+
+        .entry-subtitle {
+            font-size: 9.5px;
+            font-weight: 600;
+            color: #2563eb;
+            margin-bottom: 2px;
+        }
+
+        .entry-tools {
+            font-size: 9px;
+            color: #64748b;
+            font-weight: 500;
+            margin-bottom: 2px;
+            font-style: italic;
+        }
+
+        .bullets {
+            list-style: none;
+            padding: 0;
+        }
+
+        .bullets li {
+            font-size: 9px;
+            color: #475569;
+            line-height: 1.4;
+            padding-left: 12px;
+            position: relative;
+            margin-bottom: 0.5px;
+        }
+
+        .bullets li::before {
+            content: '•';
+            position: absolute;
+            left: 2px;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        .entry-link {
+            font-size: 8.5px;
+            color: #2563eb;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1px;
+        }
+
+        /* ===== EDUCATION & CERTS ===== */
+        .edu-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .cert-item {
+            margin-bottom: 3px;
+        }
+
+        .cert-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .cert-name {
+            font-size: 9.5px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .cert-issuer {
+            font-size: 8.5px;
+            color: #64748b;
+        }
+
+        /* Bottom row */
+        .bottom-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* ===== PRINT ===== */
+        @media print {
+            body {
+                background: white;
+            }
+            .cv-page {
+                box-shadow: none;
+                width: 100%;
+                padding: 22px 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cv-page">
+
+        <!-- HEADER -->
+        <header class="header">
+            <h1>Mohamed Al Nady</h1>
+            <div class="role">Data Analyst</div>
+            <div class="contact-line">
+                Cairo, Egypt
+                <span class="separator">|</span>
+                +20 155 517 3721
+                <span class="separator">|</span>
+                mohamedalnady0@outlook.com
+                <span class="separator">|</span>
+                <a href="https://www.linkedin.com/in/mohamed-al-nady-52b87123b">LinkedIn</a>
+                <span class="separator">|</span>
+                <a href="https://github.com/Nady-07">GitHub</a>
+            </div>
+        </header>
+
+        <!-- PROFESSIONAL SUMMARY -->
+        <section class="section">
+            <div class="section-title">Professional Summary</div>
+            <p class="summary">
+                Data Analyst with a strong foundation in SQL, Power BI, and Excel, combined with 4 years of client-facing business experience. Skilled in data extraction, transformation, visualization, and reporting. Built end-to-end data solutions including a SQL data warehouse with ETL pipelines and interactive Power BI dashboards analyzing 1,470+ records. Passionate about turning raw data into actionable business insights.
+            </p>
+        </section>
+
+        <!-- TECHNICAL SKILLS -->
+        <section class="section">
+            <div class="section-title">Technical Skills</div>
+            <div class="skills-grid">
+                <div class="skills-row">
+                    <span class="skills-label">Data Analysis: </span>
+                    <span class="skills-value">SQL, T-SQL, Microsoft Excel (Pivot Tables, VLOOKUP, Advanced Formulas), Data Cleaning, EDA, Statistical Analysis</span>
+                </div>
+                <div class="skills-row">
+                    <span class="skills-label">Visualization & BI: </span>
+                    <span class="skills-value">Power BI, DAX, Interactive Dashboards, KPI Design, Data Storytelling, Business Reporting</span>
+                </div>
+                <div class="skills-row">
+                    <span class="skills-label">Data Engineering: </span>
+                    <span class="skills-value">ETL (Extract, Transform, Load), Data Modeling, Star Schema, Data Warehouse Design</span>
+                </div>
+                <div class="skills-row">
+                    <span class="skills-label">Learning: </span>
+                    <span class="skills-value">Python (Pandas, Matplotlib), Microsoft Azure, AWS</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section class="section">
+            <div class="section-title">Projects</div>
+
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="entry-title">IBM HR Analytics Dashboard</div>
+                    <div class="entry-date">Power BI · DAX · Excel</div>
+                </div>
+                <ul class="bullets">
+                    <li>Built a 4-page interactive Power BI dashboard analyzing employee attrition across 1,470 records and 35 attributes</li>
+                    <li>Designed KPI cards for attrition rate (16.1%), retention rate (83.9%), satisfaction scores, and income analysis</li>
+                    <li>Identified key attrition drivers: overtime workers leave at 30.5%, employees under 25 at 39.18%, most quit within first 2 years</li>
+                    <li>Created DAX measures for calculated metrics, dynamic slicers for department/role/age filtering, and drill-down capabilities</li>
+                    <li>Delivered actionable retention recommendations across Overview, Attrition Deep Dive, Workforce Profile, and Compensation pages</li>
+                </ul>
+            </div>
+
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="entry-title">SQL Data Warehouse — End-to-End ETL & Data Modeling</div>
+                    <div class="entry-date">SQL Server · T-SQL</div>
+                </div>
+                <ul class="bullets">
+                    <li>Designed and implemented a full data warehouse solution using star schema methodology with fact and dimension tables</li>
+                    <li>Developed ETL pipelines to extract, transform, and load raw data into analytics-ready tables</li>
+                    <li>Optimized schema for efficient querying, serving as the foundation for business intelligence reporting</li>
+                </ul>
+                <a class="entry-link" href="https://github.com/Nady-07/SQL_Data_Warehouse_Project">github.com/Nady-07/SQL_Data_Warehouse_Project</a>
+            </div>
+
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="entry-title">Exploratory Data Analysis (EDA) Using SQL</div>
+                    <div class="entry-date">SQL Server · T-SQL</div>
+                </div>
+                <ul class="bullets">
+                    <li>Conducted comprehensive EDA using advanced SQL: aggregations, GROUP BY, HAVING, window functions (RANK, ROW_NUMBER, LAG/LEAD), CTEs</li>
+                    <li>Uncovered hidden trends, patterns, and anomalies across datasets, delivering actionable business recommendations</li>
+                </ul>
+                <a class="entry-link" href="https://github.com/Nady-07/EDA_Project">github.com/Nady-07/EDA_Project</a>
+            </div>
+        </section>
+
+        <!-- PROFESSIONAL EXPERIENCE -->
+        <section class="section">
+            <div class="section-title">Professional Experience</div>
+
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="entry-title">Freelance Real Estate Agent — Resale</div>
+                    <div class="entry-date">2025 – 2026</div>
+                </div>
+                <div class="entry-subtitle">Self-Employed · Cairo, Egypt</div>
+                <ul class="bullets">
+                    <li>Built a client tracking system using Excel to monitor leads, follow-ups, and closed transactions</li>
+                    <li>Analyzed market trends and property price fluctuations across Cairo districts to advise clients on timing</li>
+                </ul>
+            </div>
+
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="entry-title">Real Estate Agent — Resale Department</div>
+                    <div class="entry-date">2023 – 2025</div>
+                </div>
+                <div class="entry-subtitle">Smart Step · Cairo, Egypt</div>
+                <ul class="bullets">
+                    <li>Cleaned, organized, and maintained property inventory data in Excel, ensuring accuracy across 200+ listings</li>
+                    <li>Built Excel-based KPI dashboards tracking sales performance, conversion rates, and revenue targets</li>
+                    <li>Analyzed inventory data to identify pricing trends, high-demand areas, and slow-moving listings for management</li>
+                </ul>
+            </div>
+
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="entry-title">Real Estate Agent — Primary Sales</div>
+                    <div class="entry-date">2022 – 2023</div>
+                </div>
+                <div class="entry-subtitle">MLS · Cairo, Egypt</div>
+                <ul class="bullets">
+                    <li>Tracked property pricing trends and sales performance across multiple projects using Excel</li>
+                    <li>Created weekly sales reports summarizing pipeline status, conversion rates, and revenue targets</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- BOTTOM ROW: Education + Certifications side by side -->
+        <div class="bottom-row">
+            <section class="section">
+                <div class="section-title">Education</div>
+                <div class="entry">
+                    <div class="entry-title">Bachelor of Commerce</div>
+                    <div class="entry-subtitle">Helwan University — Cairo, Egypt</div>
+                    <div style="font-size: 9px; color: #475569;">2018 – 2022</div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="section-title">Certifications</div>
+                <div class="cert-item">
+                    <div class="cert-name">Data Analysis Diploma</div>
+                    <div class="cert-issuer">EraaSoft Academy · Apr 2026</div>
+                </div>
+                <div class="cert-item">
+                    <div class="cert-name">Modern Data Warehouse — Data Engineering</div>
+                    <div class="cert-issuer">Udemy · Jun 2026</div>
+                </div>
+                <div class="cert-item">
+                    <div class="cert-name">Complete SQL Bootcamp (30 Hours)</div>
+                    <div class="cert-issuer">Udemy · 2026</div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+</body>
+</html>

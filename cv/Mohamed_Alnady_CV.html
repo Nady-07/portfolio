@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohamed Al Nady — Data Analyst CV</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --sidebar-bg: #1a1f2e;
+            --sidebar-text: #e2e8f0;
+            --sidebar-accent: #60a5fa;
+            --sidebar-muted: #94a3b8;
+            --main-bg: #ffffff;
+            --main-text: #1e293b;
+            --main-muted: #64748b;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --border: #e2e8f0;
+            --section-gap: 18px;
+        }
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f1f5f9;
+            color: var(--main-text);
+            line-height: 1.5;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .cv-container {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            background: var(--main-bg);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            background: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 28px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-name {
+            text-align: center;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-name h1 {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+            line-height: 1.2;
+            color: #fff;
+        }
+
+        .sidebar-name .role {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--sidebar-accent);
+            margin-top: 4px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .sidebar-section-title {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--sidebar-accent);
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 2px solid var(--sidebar-accent);
+            display: inline-block;
+        }
+
+        .sidebar-section {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        /* Contact */
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 9.5px;
+            color: var(--sidebar-muted);
+            line-height: 1.4;
+            margin-bottom: 5px;
+        }
+
+        .contact-item .icon {
+            flex-shrink: 0;
+            width: 14px;
+            height: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1px;
+        }
+
+        .contact-item .icon svg {
+            width: 12px;
+            height: 12px;
+            fill: var(--sidebar-accent);
+        }
+
+        .contact-item a {
+            color: var(--sidebar-muted);
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            color: var(--sidebar-accent);
+        }
+
+        /* Skills */
+        .skill-category {
+            margin-bottom: 8px;
+        }
+
+        .skill-category-name {
+            font-size: 9.5px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .skill-tag {
+            font-size: 8.5px;
+            padding: 2px 7px;
+            background: rgba(96, 165, 250, 0.15);
+            color: var(--sidebar-accent);
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        .skill-tag.learning {
+            background: rgba(251, 191, 36, 0.15);
+            color: #fbbf24;
+        }
+
+        /* Languages */
+        .language-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 9.5px;
+            margin-bottom: 3px;
+        }
+
+        .language-name {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .language-level {
+            color: var(--sidebar-muted);
+            font-size: 8.5px;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main {
+            padding: 28px 26px;
+            display: flex;
+            flex-direction: column;
+            gap: var(--section-gap);
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--accent);
+            margin-bottom: 10px;
+        }
+
+        /* Summary */
+        .summary-text {
+            font-size: 10.5px;
+            color: var(--main-muted);
+            line-height: 1.6;
+        }
+
+        /* Experience */
+        .experience-item {
+            margin-bottom: 14px;
+        }
+
+        .experience-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2px;
+        }
+
+        .exp-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--main-text);
+        }
+
+        .exp-date {
+            font-size: 9px;
+            color: var(--main-muted);
+            font-weight: 500;
+            white-space: nowrap;
+            background: var(--accent-light);
+            padding: 1px 8px;
+            border-radius: 3px;
+            color: var(--accent);
+        }
+
+        .exp-company {
+            font-size: 10.5px;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .exp-bullets {
+            list-style: none;
+            padding: 0;
+        }
+
+        .exp-bullets li {
+            font-size: 10px;
+            color: var(--main-muted);
+            line-height: 1.5;
+            padding-left: 12px;
+            position: relative;
+            margin-bottom: 2px;
+        }
+
+        .exp-bullets li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 10px;
+        }
+
+        /* Projects */
+        .project-item {
+            margin-bottom: 12px;
+            padding: 10px 12px;
+            background: #f8fafc;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .project-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .project-name {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--main-text);
+            margin-bottom: 2px;
+        }
+
+        .project-tools {
+            font-size: 9px;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .project-desc {
+            font-size: 9.5px;
+            color: var(--main-muted);
+            line-height: 1.5;
+        }
+
+        .project-link {
+            font-size: 8.5px;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 3px;
+            display: inline-block;
+        }
+
+        /* Education */
+        .edu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .edu-degree {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--main-text);
+        }
+
+        .edu-school {
+            font-size: 10px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .edu-date {
+            font-size: 9px;
+            color: var(--main-muted);
+            font-weight: 500;
+            white-space: nowrap;
+            background: var(--accent-light);
+            padding: 1px 8px;
+            border-radius: 3px;
+            color: var(--accent);
+        }
+
+        /* Certifications */
+        .cert-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
+
+        .cert-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .cert-name {
+            font-size: 10.5px;
+            font-weight: 600;
+            color: var(--main-text);
+        }
+
+        .cert-issuer {
+            font-size: 9px;
+            color: var(--main-muted);
+        }
+
+        .cert-date {
+            font-size: 8.5px;
+            color: var(--main-muted);
+            white-space: nowrap;
+        }
+
+        /* Print */
+        @media print {
+            body {
+                background: white;
+            }
+            .cv-container {
+                box-shadow: none;
+                width: 100%;
+                min-height: 100vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cv-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <!-- Name -->
+            <div class="sidebar-name">
+                <h1>Mohamed<br>Al Nady</h1>
+                <div class="role">Data Analyst</div>
+            </div>
+
+            <!-- Contact -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Contact</div>
+                <div class="contact-item">
+                    <div class="icon">
+                        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    </div>
+                    <span>mohamedalnady0<br>@outlook.com</span>
+                </div>
+                <div class="contact-item">
+                    <div class="icon">
+                        <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                    </div>
+                    <span>+20 155 517 3721</span>
+                </div>
+                <div class="contact-item">
+                    <div class="icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    </div>
+                    <span>Cairo, Egypt</span>
+                </div>
+                <div class="contact-item">
+                    <div class="icon">
+                        <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+                    </div>
+                    <a href="https://www.linkedin.com/in/mohamed-al-nady-52b87123b">LinkedIn Profile</a>
+                </div>
+                <div class="contact-item">
+                    <div class="icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                    </div>
+                    <a href="https://github.com/Nady-07">github.com/Nady-07</a>
+                </div>
+            </div>
+
+            <!-- Technical Skills -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Technical Skills</div>
+                
+                <div class="skill-category">
+                    <div class="skill-category-name">Data & Analytics</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">T-SQL</span>
+                        <span class="skill-tag">Power BI</span>
+                        <span class="skill-tag">DAX</span>
+                        <span class="skill-tag">Excel</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-category-name">Data Engineering</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">ETL</span>
+                        <span class="skill-tag">Data Modeling</span>
+                        <span class="skill-tag">Star Schema</span>
+                        <span class="skill-tag">Data Warehouse</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-category-name">Analysis</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">EDA</span>
+                        <span class="skill-tag">Data Cleaning</span>
+                        <span class="skill-tag">Visualization</span>
+                        <span class="skill-tag">Reporting</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-category-name">Currently Learning</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag learning">Python</span>
+                        <span class="skill-tag learning">Azure</span>
+                        <span class="skill-tag learning">AWS</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Soft Skills -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Soft Skills</div>
+                <div class="skill-tags">
+                    <span class="skill-tag">Communication</span>
+                    <span class="skill-tag">Problem Solving</span>
+                    <span class="skill-tag">Client Management</span>
+                    <span class="skill-tag">Negotiation</span>
+                    <span class="skill-tag">Stakeholder Mgmt</span>
+                    <span class="skill-tag">Self-Motivated</span>
+                </div>
+            </div>
+
+            <!-- Languages -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Languages</div>
+                <div class="language-item">
+                    <span class="language-name">Arabic</span>
+                    <span class="language-level">Native</span>
+                </div>
+                <div class="language-item">
+                    <span class="language-name">English</span>
+                    <span class="language-level">Professional</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main">
+            <!-- Professional Summary -->
+            <section>
+                <div class="section-title">Professional Summary</div>
+                <p class="summary-text">
+                    Detail-oriented Data Analyst with a strong foundation in SQL, Power BI, and Excel, combined with 4 years of business experience in real estate sales. Skilled in data extraction, transformation, visualization, and reporting. Built end-to-end data solutions including a SQL data warehouse with ETL pipelines and interactive Power BI dashboards. Passionate about turning raw data into actionable insights that drive business decisions. Seeking a Data Analyst role to leverage both analytical and business communication skills.
+                </p>
+            </section>
+
+            <!-- Projects -->
+            <section>
+                <div class="section-title">Projects</div>
+                
+                <div class="project-item">
+                    <div class="project-name">IBM HR Analytics Dashboard</div>
+                    <div class="project-tools">Power BI · DAX · Excel</div>
+                    <div class="project-desc">
+                        Built a 4-page interactive dashboard analyzing 1,470 employee records across 35 attributes. Designed KPIs for attrition rate (16.1%), retention rate, and satisfaction scores. Identified key attrition drivers: overtime workers leave at 30.5%, employees under 25 at 39.18%, and most quit within the first 2 years. Created DAX measures, dynamic slicers, and drill-down capabilities across Overview, Attrition Deep Dive, Workforce Profile, and Compensation pages.
+                    </div>
+                </div>
+
+                <div class="project-item">
+                    <div class="project-name">SQL Data Warehouse — End-to-End ETL & Data Modeling</div>
+                    <div class="project-tools">SQL Server · T-SQL · ETL · Data Modeling</div>
+                    <div class="project-desc">
+                        Designed and implemented a full data warehouse solution using star schema methodology. Built fact and dimension tables, and developed ETL pipelines to extract, transform, and load raw data into analytics-ready tables optimized for business intelligence reporting.
+                    </div>
+                    <a class="project-link" href="https://github.com/Nady-07/SQL_Data_Warehouse_Project">github.com/Nady-07/SQL_Data_Warehouse_Project</a>
+                </div>
+
+                <div class="project-item">
+                    <div class="project-name">Exploratory Data Analysis (EDA) Using SQL</div>
+                    <div class="project-tools">SQL Server · T-SQL · Data Analysis</div>
+                    <div class="project-desc">
+                        Conducted comprehensive EDA using advanced SQL techniques including aggregations, window functions (RANK, ROW_NUMBER, LAG/LEAD), CTEs, and subqueries. Uncovered trends, patterns, and anomalies, delivering actionable business recommendations.
+                    </div>
+                    <a class="project-link" href="https://github.com/Nady-07/EDA_Project">github.com/Nady-07/EDA_Project</a>
+                </div>
+            </section>
+
+            <!-- Experience -->
+            <section>
+                <div class="section-title">Professional Experience</div>
+
+                <div class="experience-item">
+                    <div class="exp-header">
+                        <div class="exp-title">Freelance Real Estate Agent — Resale</div>
+                        <div class="exp-date">2025 – 2026</div>
+                    </div>
+                    <div class="exp-company">Self-Employed · Cairo, Egypt</div>
+                    <ul class="exp-bullets">
+                        <li>Independently managed end-to-end property resale transactions, from lead generation to deal closure</li>
+                        <li>Built a personal client tracking system using Excel to monitor leads, follow-ups, and closed transactions</li>
+                        <li>Analyzed market trends and property price fluctuations across Cairo districts to advise clients on buy/sell timing</li>
+                        <li>Generated performance reports tracking monthly revenue, commission, and client satisfaction metrics</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div class="exp-header">
+                        <div class="exp-title">Real Estate Agent — Resale Department</div>
+                        <div class="exp-date">2023 – 2025</div>
+                    </div>
+                    <div class="exp-company">Smart Step · Cairo, Egypt</div>
+                    <ul class="exp-bullets">
+                        <li>Cleaned, organized, and maintained property inventory data in Excel spreadsheets, ensuring data accuracy across 200+ listings</li>
+                        <li>Built Excel-based KPI dashboards tracking sales performance, conversion rates, average deal value, and monthly revenue targets</li>
+                        <li>Analyzed property inventory data to identify pricing trends, high-demand areas, and slow-moving listings for management decision-making</li>
+                        <li>Conducted comparative market analysis (CMA) using historical sales data to determine fair property valuations</li>
+                        <li>Prepared weekly and monthly performance reports summarizing sales pipeline, client acquisition metrics, and market insights</li>
+                        <li>Negotiated deals between buyers and sellers, leveraging data-driven pricing recommendations</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div class="exp-header">
+                        <div class="exp-title">Real Estate Agent — Primary Sales</div>
+                        <div class="exp-date">2022 – 2023</div>
+                    </div>
+                    <div class="exp-company">MLS · Cairo, Egypt</div>
+                    <ul class="exp-bullets">
+                        <li>Managed and sold primary residential units, advising clients using market data and pricing analysis</li>
+                        <li>Tracked property availability, pricing trends, and sales performance across multiple projects using Excel</li>
+                        <li>Created weekly sales reports summarizing pipeline status, conversion rates, and revenue targets</li>
+                        <li>Built and maintained a client database, organizing lead sources and follow-up schedules</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Education -->
+            <section>
+                <div class="section-title">Education</div>
+                <div class="edu-item">
+                    <div>
+                        <div class="edu-degree">Bachelor of Commerce</div>
+                        <div class="edu-school">Helwan University — Cairo, Egypt</div>
+                    </div>
+                    <div class="edu-date">2018 – 2022</div>
+                </div>
+            </section>
+
+            <!-- Certifications -->
+            <section>
+                <div class="section-title">Certifications</div>
+                
+                <div class="cert-item">
+                    <div>
+                        <div class="cert-name">Data Analysis Diploma</div>
+                        <div class="cert-issuer">EraaSoft Academy</div>
+                    </div>
+                    <div class="cert-date">Apr 2026</div>
+                </div>
+
+                <div class="cert-item">
+                    <div>
+                        <div class="cert-name">Building a Modern Data Warehouse — Data Engineering Bootcamp</div>
+                        <div class="cert-issuer">Udemy · Baraa Khatib Salkini</div>
+                    </div>
+                    <div class="cert-date">Jun 2026</div>
+                </div>
+
+                <div class="cert-item">
+                    <div>
+                        <div class="cert-name">The Complete SQL Bootcamp (30 Hours): Go from Zero to Hero</div>
+                        <div class="cert-issuer">Udemy · Baraa Khatib Salkini</div>
+                    </div>
+                    <div class="cert-date">2026</div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
