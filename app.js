@@ -370,43 +370,57 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ==========================================================================
-       7. CONTACT FORM SUBMISSION
+       7. CONTACT FORM SUBMISSION — EmailJS
        ========================================================================== */
     const contactForm = document.getElementById('contact-form');
     const formResponse = document.getElementById('form-response');
-    
+
+    // Initialize EmailJS with your public key
+    emailjs.init('su7tbpdo6ynL9DHiW');
+
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            
+
             const submitBtn = contactForm.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerHTML;
-            
-            // Show Loading State
+            const originalBtnHTML = submitBtn.innerHTML;
+
+            // Show loading state
             submitBtn.disabled = true;
-            submitBtn.innerHTML = 'Sending Message... <span class="spinner"></span>';
+            submitBtn.innerHTML = 'Sending... <span class="spinner"></span>';
             formResponse.textContent = '';
             formResponse.className = 'form-response';
-            
-            // Simulate API Call
-            setTimeout(() => {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnText;
-                
-                // Success Response
-                formResponse.textContent = 'Thank you! Your message has been sent successfully. I will get back to you shortly.';
-                formResponse.classList.add('success');
-                
-                // Clear Form
-                contactForm.reset();
-                
-                // Clear message after 5 seconds
-                setTimeout(() => {
-                    formResponse.textContent = '';
-                    formResponse.className = 'form-response';
-                }, 5000);
-                
-            }, 1500);
+
+            // Collect form values
+            const templateParams = {
+                from_name:  document.getElementById('form-name').value,
+                email:      document.getElementById('form-email').value,
+                subject:    document.getElementById('form-subject').value,
+                message:    document.getElementById('form-message').value,
+            };
+
+            // Send via EmailJS
+            emailjs.send('service_qty1cef', 'template_69as8sp', templateParams)
+                .then(() => {
+                    formResponse.textContent = '✅ Message sent! I will get back to you shortly.';
+                    formResponse.classList.add('success');
+                    contactForm.reset();
+
+                    // Clear success message after 5 seconds
+                    setTimeout(() => {
+                        formResponse.textContent = '';
+                        formResponse.className = 'form-response';
+                    }, 5000);
+                })
+                .catch((error) => {
+                    console.error('EmailJS error:', error);
+                    formResponse.textContent = '❌ Something went wrong. Please try again or email me directly.';
+                    formResponse.classList.add('error');
+                })
+                .finally(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHTML;
+                });
         });
     }
 });
