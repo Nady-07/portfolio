@@ -420,8 +420,8 @@
                 width: 100%;
                 min-height: 100vh;
             }
-            .download-section {
-                display: none;
+            [data-html-only] {
+                display: none !important;
             }
         }
     </style>
@@ -720,7 +720,7 @@
         </main>
     </div>
 
-    <div class="download-section">
+    <div class="download-section" data-html-only>
         <a class="download-button" href="Mohamed_Alnady_CV.pdf" download="Mohamed_Alnady_CV.pdf">
             <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M5 20h14v-2H5v2zm14-9h-4V3H9v8H5l7 7 7-7z"/>
