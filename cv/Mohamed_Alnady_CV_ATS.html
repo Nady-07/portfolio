@@ -223,6 +223,39 @@
             gap: 20px;
         }
 
+        .download-section {
+            width: 210mm;
+            margin: 22px auto 36px;
+            text-align: center;
+        }
+
+        .download-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            padding: 12px 22px;
+            border-radius: 8px;
+            background: #2563eb;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .download-button:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        .download-button svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
         /* ===== PRINT ===== */
         @media print {
             body {
@@ -232,6 +265,19 @@
                 box-shadow: none;
                 width: 100%;
                 padding: 22px 32px;
+            }
+            .entry,
+            .bottom-row,
+            .bottom-row .section {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            .experience-section {
+                break-before: page;
+                page-break-before: always;
+            }
+            [data-html-only] {
+                display: none !important;
             }
         }
     </style>
@@ -371,7 +417,7 @@
         </section>
 
         <!-- PROFESSIONAL EXPERIENCE -->
-        <section class="section">
+        <section class="section experience-section">
             <div class="section-title">Professional Experience</div>
 
             <div class="entry">
@@ -440,6 +486,15 @@
             </section>
         </div>
 
+    </div>
+
+    <div class="download-section" data-html-only>
+        <a class="download-button" href="Mohamed_Alnady_CV_ATS.pdf" download="Mohamed_Alnady_CV_ATS.pdf">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 20h14v-2H5v2zm14-9h-4V3H9v8H5l7 7 7-7z"/>
+            </svg>
+            Download ATS Resume as PDF
+        </a>
     </div>
 </body>
 </html>
