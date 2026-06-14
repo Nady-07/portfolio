@@ -265,7 +265,7 @@
             .cv-page {
                 box-shadow: none;
                 width: 100%;
-                padding: 22px 32px;
+                padding: 14px 28px;
             }
             .entry,
             .bottom-row,
@@ -273,9 +273,28 @@
                 break-inside: avoid;
                 page-break-inside: avoid;
             }
-            .experience-section {
-                break-before: page;
-                page-break-before: always;
+            .header {
+                padding-bottom: 5px;
+                margin-bottom: 6px;
+            }
+            .section {
+                margin-bottom: 5px;
+            }
+            .section-title {
+                margin-bottom: 3px;
+            }
+            .entry {
+                margin-bottom: 3px;
+            }
+            .summary,
+            .skills-row {
+                line-height: 1.35;
+            }
+            .bullets li {
+                line-height: 1.25;
+            }
+            .entry-link {
+                margin-top: 0;
             }
             [data-html-only] {
                 display: none !important;
@@ -309,7 +328,7 @@
         <section class="section">
             <div class="section-title">Professional Summary</div>
             <p class="summary">
-                Data Analyst with a strong foundation in SQL, Power BI, and Excel, combined with 4 years of client-facing business experience. Skilled in data extraction, transformation, visualization, and reporting. Built end-to-end data solutions including a SQL data warehouse with ETL pipelines and interactive Power BI dashboards analyzing 1,470+ records. Passionate about turning raw data into actionable business insights.
+                Data Analyst skilled in SQL, Power BI, Excel, ETL, data modeling, visualization, and reporting, with 4 years of client-facing business experience. Built end-to-end analytics solutions including a SQL data warehouse and interactive dashboards analyzing 1,470+ records.
             </p>
         </section>
 
@@ -346,11 +365,7 @@
                     <div class="entry-date">Power BI · DAX · Excel</div>
                 </div>
                 <ul class="bullets">
-                    <li>Built a 4-page interactive Power BI dashboard analyzing employee attrition drivers across 1,470 records and 35 attributes</li>
-                    <li>Designed KPI cards for attrition rate (16.1%), retention rate (83.9%), satisfaction scores, and income analysis</li>
-                    <li>Identified key attrition drivers: overtime workers leave at 30.5%, employees under 25 at 39.18%, most quit within first 2 years</li>
-                    <li>Created DAX measures for calculated metrics, dynamic slicers for department/role/age filtering, and drill-down capabilities</li>
-                    <li>Delivered actionable retention recommendations across Overview, Attrition Deep Dive, Workforce Profile, and Compensation pages</li>
+                    <li>Built a 4-page Power BI dashboard with DAX and dynamic filters to analyze attrition across 1,470 employees and identify key retention drivers</li>
                 </ul>
             </div>
 
@@ -360,9 +375,7 @@
                     <div class="entry-date">Excel · Slicers · Pivot Tables</div>
                 </div>
                 <ul class="bullets">
-                    <li>Developed an interactive sales reporting dashboard in Excel tracking $14.54M in revenue across 28.7K units sold</li>
-                    <li>Designed dynamic regional slicers and category filters, identifying peak seasonal sales of $885.4K in December</li>
-                    <li>Created charts mapping regional performance (West at $5.23M) and visual gender sales contribution metrics (64.6% Female)</li>
+                    <li>Developed an interactive Excel dashboard tracking $14.54M revenue and 28.7K units, with regional, category, and seasonal analysis</li>
                 </ul>
             </div>
 
@@ -372,9 +385,7 @@
                     <div class="entry-date">Excel · Power Pivot · DAX</div>
                 </div>
                 <ul class="bullets">
-                    <li>Built an end-to-end sales tracking workbook in Excel using Power Query to clean and ingest transaction databases</li>
-                    <li>Modeled dimensional relationships via a star schema and wrote DAX measures to compute a 41.1% profit margin ($126.29M profit)</li>
-                    <li>Analyzed product profitability, highlighting Mountain-200 Black series sales ($5.2M profit) as top revenue driver</li>
+                    <li>Used Power Query, Power Pivot, star-schema modeling, and DAX to analyze $126.29M profit and a 41.1% margin</li>
                 </ul>
             </div>
 
@@ -384,9 +395,7 @@
                     <div class="entry-date">SQL Server · T-SQL</div>
                 </div>
                 <ul class="bullets">
-                    <li>Designed and implemented a full data warehouse solution using star schema methodology with fact and dimension tables</li>
-                    <li>Developed ETL pipelines to extract, transform, and load raw data into analytics-ready tables</li>
-                    <li>Optimized schema for efficient querying, serving as the foundation for business intelligence reporting</li>
+                    <li>Designed a star-schema data warehouse and ETL pipelines that transformed raw data into analytics-ready fact and dimension tables</li>
                 </ul>
                 <a class="entry-link" href="https://github.com/Nady-07/SQL_Data_Warehouse_Project">github.com/Nady-07/SQL_Data_Warehouse_Project</a>
             </div>
@@ -397,8 +406,7 @@
                     <div class="entry-date">SQL Server · T-SQL</div>
                 </div>
                 <ul class="bullets">
-                    <li>Conducted comprehensive EDA using advanced SQL: aggregations, GROUP BY, HAVING, window functions (RANK, ROW_NUMBER, LAG/LEAD), CTEs</li>
-                    <li>Uncovered hidden trends, patterns, and anomalies across datasets, delivering actionable business recommendations</li>
+                    <li>Used CTEs, subqueries, aggregations, and window functions to uncover business trends, patterns, and anomalies</li>
                 </ul>
                 <a class="entry-link" href="https://github.com/Nady-07/EDA_Project">github.com/Nady-07/EDA_Project</a>
             </div>
@@ -409,9 +417,7 @@
                     <div class="entry-date">SQL Server · T-SQL</div>
                 </div>
                 <ul class="bullets">
-                    <li>Analyzed yearly and monthly sales trends using cumulative totals, running averages, and time-based comparisons</li>
-                    <li>Evaluated product performance against prior-year results and annual averages using LAG and window functions</li>
-                    <li>Built reusable customer and product reporting views with segmentation, recency, and lifecycle metrics</li>
+                    <li>Built reusable SQL reporting views for sales trends, prior-year product comparisons, customer segmentation, recency, and lifecycle metrics</li>
                 </ul>
                 <a class="entry-link" href="https://github.com/Nady-07/Advanced_EDA_Project">github.com/Nady-07/Advanced_EDA_Project</a>
             </div>
@@ -428,8 +434,7 @@
                 </div>
                 <div class="entry-subtitle">Self-Employed · Cairo, Egypt</div>
                 <ul class="bullets">
-                    <li>Built a client tracking system using Excel to monitor leads, follow-ups, and closed transactions</li>
-                    <li>Analyzed market trends and property price fluctuations across Cairo districts to advise clients on timing</li>
+                    <li>Built an Excel client tracker and analyzed property pricing trends to support follow-ups and client decisions</li>
                 </ul>
             </div>
 
@@ -440,9 +445,7 @@
                 </div>
                 <div class="entry-subtitle">Smart Step · Cairo, Egypt</div>
                 <ul class="bullets">
-                    <li>Cleaned, organized, and maintained property inventory data in Excel, ensuring accuracy across 200+ listings</li>
-                    <li>Built Excel-based KPI dashboards tracking sales performance, conversion rates, and revenue targets</li>
-                    <li>Analyzed inventory data to identify pricing trends, high-demand areas, and slow-moving listings for management</li>
+                    <li>Maintained 200+ property listings and built Excel KPI reports for sales, conversion, pricing, and inventory trends</li>
                 </ul>
             </div>
 
@@ -453,8 +456,7 @@
                 </div>
                 <div class="entry-subtitle">MLS · Cairo, Egypt</div>
                 <ul class="bullets">
-                    <li>Tracked property pricing trends and sales performance across multiple projects using Excel</li>
-                    <li>Created weekly sales reports summarizing pipeline status, conversion rates, and revenue targets</li>
+                    <li>Tracked pricing, sales performance, pipeline status, conversion rates, and revenue targets in Excel</li>
                 </ul>
             </div>
         </section>
