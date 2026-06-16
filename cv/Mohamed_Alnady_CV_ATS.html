@@ -76,7 +76,7 @@
 
         /* ===== SECTIONS ===== */
         .section {
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
 
         .section-title {
@@ -87,14 +87,14 @@
             color: #1e293b;
             padding-bottom: 2px;
             border-bottom: 1.5px solid #1e293b;
-            margin-bottom: 5px;
+            margin-bottom: 7px;
         }
 
         /* ===== SUMMARY ===== */
         .summary {
             font-size: 9.5px;
             color: #475569;
-            line-height: 1.5;
+            line-height: 1.65;
         }
 
         /* ===== SKILLS ===== */
@@ -106,7 +106,7 @@
 
         .skills-row {
             font-size: 9.5px;
-            line-height: 1.5;
+            line-height: 1.65;
         }
 
         .skills-label {
@@ -120,8 +120,27 @@
 
         /* ===== ENTRIES ===== */
         .entry {
-            margin-bottom: 6px;
+            margin-bottom: 9px;
         }
+
+        .entry.is-hidden {
+            display: none;
+        }
+
+        .projects-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .projects-section .section-title {
+            order: 0;
+        }
+
+        .project-sql-dwh { order: 1; }
+        .project-advanced-sql { order: 2; }
+        .project-ibm-hr { order: 3; }
+        .project-adventureworks { order: 4; }
+        .project-excel-sales { order: 5; }
 
         .entry:last-child {
             margin-bottom: 0;
@@ -169,7 +188,7 @@
         .bullets li {
             font-size: 9px;
             color: #475569;
-            line-height: 1.4;
+            line-height: 1.55;
             padding-left: 12px;
             position: relative;
             margin-bottom: 0.5px;
@@ -199,7 +218,7 @@
         }
 
         .cert-item {
-            margin-bottom: 3px;
+            margin-bottom: 5px;
         }
 
         .cert-item:last-child {
@@ -273,10 +292,6 @@
                 break-inside: avoid;
                 page-break-inside: avoid;
             }
-            .experience-section {
-                break-before: page;
-                page-break-before: always;
-            }
             [data-html-only] {
                 display: none !important;
             }
@@ -289,7 +304,7 @@
         <!-- HEADER -->
         <header class="header">
             <h1>Mohamed Al Nady</h1>
-            <div class="role">Data Analyst</div>
+            <div class="role">Junior Data Analyst</div>
             <div class="contact-line">
                 Cairo, Egypt
                 <span class="separator">|</span>
@@ -309,7 +324,7 @@
         <section class="section">
             <div class="section-title">Professional Summary</div>
             <p class="summary">
-                Data Analyst with a strong foundation in SQL, Power BI, and Excel, combined with 4 years of client-facing business experience. Skilled in data extraction, transformation, visualization, and reporting. Built end-to-end data solutions including a SQL data warehouse with ETL pipelines and interactive Power BI dashboards analyzing 1,470+ records. Passionate about turning raw data into actionable business insights.
+                Junior Data Analyst skilled in SQL, Power BI, Excel, ETL, data modeling, dashboard design, and business reporting. Built end-to-end analytics projects including SQL data warehouses, exploratory data analysis, reusable reporting views, and interactive dashboards. Combines technical analytics skills with 4 years of client-facing business experience in sales, reporting, market analysis, and stakeholder communication.
             </p>
         </section>
 
@@ -319,38 +334,36 @@
             <div class="skills-grid">
                 <div class="skills-row">
                     <span class="skills-label">Data Analysis: </span>
-                    <span class="skills-value">SQL, T-SQL, Microsoft Excel (Pivot Tables, VLOOKUP, Advanced Formulas), Data Cleaning, EDA, Statistical Analysis</span>
+                    <span class="skills-value">SQL, T-SQL, Excel, Pivot Tables, Power Query, Power Pivot, Data Cleaning, EDA, Statistical Analysis</span>
                 </div>
                 <div class="skills-row">
-                    <span class="skills-label">Visualization & BI: </span>
+                    <span class="skills-label">Business Intelligence: </span>
                     <span class="skills-value">Power BI, DAX, Interactive Dashboards, KPI Design, Data Storytelling, Business Reporting</span>
                 </div>
                 <div class="skills-row">
                     <span class="skills-label">Data Engineering: </span>
-                    <span class="skills-value">ETL (Extract, Transform, Load), Data Modeling, Star Schema, Data Warehouse Design</span>
+                    <span class="skills-value">ETL, Data Modeling, Star Schema, Fact Tables, Dimension Tables, Data Warehouse Design</span>
                 </div>
                 <div class="skills-row">
-                    <span class="skills-label">Learning: </span>
-                    <span class="skills-value">Python (Pandas, Matplotlib), Microsoft Azure, AWS</span>
+                    <span class="skills-label">Tools: </span>
+                    <span class="skills-value">SQL Server, Power BI, Microsoft Excel, GitHub, Documentation | Currently Learning: Python, Azure Fundamentals</span>
                 </div>
             </div>
         </section>
 
         <!-- PROJECTS -->
-        <section class="section">
+        <section class="section projects-section">
             <div class="section-title">Projects</div>
 
-            <div class="entry">
+            <div class="entry project-ibm-hr">
                 <div class="entry-header">
                     <div class="entry-title">IBM HR Analytics Dashboard</div>
                     <div class="entry-date">Power BI · DAX · Excel</div>
                 </div>
                 <ul class="bullets">
                     <li>Built a 4-page interactive Power BI dashboard analyzing employee attrition drivers across 1,470 records and 35 attributes</li>
-                    <li>Designed KPI cards for attrition rate (16.1%), retention rate (83.9%), satisfaction scores, and income analysis</li>
-                    <li>Identified key attrition drivers: overtime workers leave at 30.5%, employees under 25 at 39.18%, most quit within first 2 years</li>
-                    <li>Created DAX measures for calculated metrics, dynamic slicers for department/role/age filtering, and drill-down capabilities</li>
-                    <li>Delivered actionable retention recommendations across Overview, Attrition Deep Dive, Workforce Profile, and Compensation pages</li>
+                    <li>Designed KPI cards for attrition rate, retention rate, satisfaction, income, overtime, and department analysis</li>
+                    <li>Identified key attrition drivers including overtime, age group, marital status, job role, and tenure</li>
                 </ul>
             </div>
 
@@ -361,8 +374,7 @@
                 </div>
                 <ul class="bullets">
                     <li>Developed an interactive sales reporting dashboard in Excel tracking $14.54M in revenue across 28.7K units sold</li>
-                    <li>Designed dynamic regional slicers and category filters, identifying peak seasonal sales of $885.4K in December</li>
-                    <li>Created charts mapping regional performance (West at $5.23M) and visual gender sales contribution metrics (64.6% Female)</li>
+                    <li>Used slicers, pivot tables, and charts to identify revenue trends, peak sales months, and regional performance</li>
                 </ul>
             </div>
 
@@ -372,9 +384,9 @@
                     <div class="entry-date">Excel · Power Pivot · DAX</div>
                 </div>
                 <ul class="bullets">
-                    <li>Built an end-to-end sales tracking workbook in Excel using Power Query to clean and ingest transaction databases</li>
-                    <li>Modeled dimensional relationships via a star schema and wrote DAX measures to compute a 41.1% profit margin ($126.29M profit)</li>
-                    <li>Analyzed product profitability, highlighting Mountain-200 Black series sales ($5.2M profit) as top revenue driver</li>
+                    <li>Built an Excel-based sales and profit dashboard using Power Query for data cleaning and preparation</li>
+                    <li>Modeled relationships using a star schema and calculated profit margin, revenue, and product performance</li>
+                    <li>Analyzed product profitability and identified top-performing product categories and sales drivers</li>
                 </ul>
             </div>
 
@@ -384,14 +396,14 @@
                     <div class="entry-date">SQL Server · T-SQL</div>
                 </div>
                 <ul class="bullets">
-                    <li>Designed and implemented a full data warehouse solution using star schema methodology with fact and dimension tables</li>
-                    <li>Developed ETL pipelines to extract, transform, and load raw data into analytics-ready tables</li>
-                    <li>Optimized schema for efficient querying, serving as the foundation for business intelligence reporting</li>
+                    <li>Designed a complete SQL data warehouse using star schema methodology with fact and dimension tables</li>
+                    <li>Built ETL pipelines to extract, transform, and load raw data into analytics-ready tables</li>
+                    <li>Structured the model to support efficient querying, reporting, and business intelligence analysis</li>
                 </ul>
                 <a class="entry-link" href="https://github.com/Nady-07/SQL_Data_Warehouse_Project">github.com/Nady-07/SQL_Data_Warehouse_Project</a>
             </div>
 
-            <div class="entry">
+            <div class="entry is-hidden">
                 <div class="entry-header">
                     <div class="entry-title">Exploratory Data Analysis (EDA) Using SQL</div>
                     <div class="entry-date">SQL Server · T-SQL</div>
@@ -449,40 +461,41 @@
         <section class="section experience-section">
             <div class="section-title">Professional Experience</div>
 
-            <div class="entry">
+            <div class="entry project-excel-sales">
                 <div class="entry-header">
                     <div class="entry-title">Freelance Real Estate Agent — Resale</div>
                     <div class="entry-date">2025 – 2026</div>
                 </div>
                 <div class="entry-subtitle">Self-Employed · Cairo, Egypt</div>
                 <ul class="bullets">
-                    <li>Built a client tracking system using Excel to monitor leads, follow-ups, and closed transactions</li>
-                    <li>Analyzed market trends and property price fluctuations across Cairo districts to advise clients on timing</li>
+                    <li>Built an Excel client tracking system to monitor leads, follow-ups, closed transactions, and client status</li>
+                    <li>Analyzed property price trends across Cairo districts to support client buying and selling decisions</li>
+                    <li>Prepared performance summaries for monthly activity, revenue, and pipeline follow-up</li>
                 </ul>
             </div>
 
-            <div class="entry">
+            <div class="entry project-adventureworks">
                 <div class="entry-header">
                     <div class="entry-title">Real Estate Agent — Resale Department</div>
                     <div class="entry-date">2023 – 2025</div>
                 </div>
                 <div class="entry-subtitle">Smart Step · Cairo, Egypt</div>
                 <ul class="bullets">
-                    <li>Cleaned, organized, and maintained property inventory data in Excel, ensuring accuracy across 200+ listings</li>
-                    <li>Built Excel-based KPI dashboards tracking sales performance, conversion rates, and revenue targets</li>
-                    <li>Analyzed inventory data to identify pricing trends, high-demand areas, and slow-moving listings for management</li>
+                    <li>Maintained and organized property inventory data in Excel, improving accuracy across 200+ listings</li>
+                    <li>Built Excel-based KPI reports to track sales performance, conversion rates, revenue targets, and active inventory</li>
+                    <li>Analyzed property inventory and pricing trends to identify high-demand areas and slow-moving listings</li>
                 </ul>
             </div>
 
-            <div class="entry">
+            <div class="entry project-sql-dwh">
                 <div class="entry-header">
                     <div class="entry-title">Real Estate Agent — Primary Sales</div>
                     <div class="entry-date">2022 – 2023</div>
                 </div>
                 <div class="entry-subtitle">MLS · Cairo, Egypt</div>
                 <ul class="bullets">
-                    <li>Tracked property pricing trends and sales performance across multiple projects using Excel</li>
-                    <li>Created weekly sales reports summarizing pipeline status, conversion rates, and revenue targets</li>
+                    <li>Tracked property availability, pricing, sales performance, and client pipeline activity using Excel</li>
+                    <li>Created weekly sales summaries covering pipeline status, conversion rates, and revenue targets</li>
                 </ul>
             </div>
         </section>
