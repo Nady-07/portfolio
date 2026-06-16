@@ -1,24 +1,45 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title">
-  <title id="title">IBM HR Attrition - Power BI</title>
-  <defs>
-    <radialGradient id="glow">
-      <stop stop-color="#3b82f6" stop-opacity=".34"/>
-      <stop offset=".45" stop-color="#3b82f6" stop-opacity=".1"/>
-      <stop offset="1" stop-color="#3b82f6" stop-opacity="0"/>
-    </radialGradient>
-    <filter id="logo-glow" x="-35%" y="-35%" width="170%" height="170%">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blur"/>
-      <feFlood flood-color="#3b82f6" flood-opacity=".28" result="color"/>
-      <feComposite in="color" in2="blur" operator="in" result="shadow"/>
-      <feMerge>
-        <feMergeNode in="shadow"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-  </defs>
-  <rect width="1600" height="900" fill="#0f172a"/>
-  <ellipse cx="800" cy="450" rx="340" ry="290" fill="url(#glow)"/>
-  <g transform="translate(632 282) scale(14)" fill="#F2C811" filter="url(#logo-glow)">
-    <path d="M10 12a1 1 0 0 1 1 1v11H4a1 1 0 0 1-1-1V13a1 1 0 0 1 1-1h6Zm-2-.5V7a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v17h-4.5V13a1.5 1.5 0 0 0-1.5-1.5H8Zm5-6V1a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v22a1 1 0 0 1-1 1h-3.5V7A1.5 1.5 0 0 0 15 5.5h-2Z"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+    <defs>
+        <!-- Background Radial Gradient -->
+        <radialGradient id="bg-glow" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+            <stop offset="0%" stop-color="#1e293b" />
+            <stop offset="100%" stop-color="#0f172a" />
+        </radialGradient>
+
+        <!-- Blue Aura Glow Behind Logo -->
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="45" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+
+        <!-- Power BI Brand Gradients -->
+        <linearGradient id="pbi-left" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#E6A100" />
+            <stop offset="100%" stop-color="#F2C811" />
+        </linearGradient>
+        <linearGradient id="pbi-middle" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#F2C811" />
+            <stop offset="100%" stop-color="#F9D949" />
+        </linearGradient>
+        <linearGradient id="pbi-right" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#F9D949" />
+            <stop offset="100%" stop-color="#FFE082" />
+        </linearGradient>
+    </defs>
+
+    <!-- Background -->
+    <rect width="800" height="450" fill="url(#bg-glow)" />
+
+    <!-- Glow Effect -->
+    <circle cx="400" cy="225" r="100" fill="#3b82f6" opacity="0.25" filter="url(#glow)" />
+
+    <!-- Power BI Logo (Centered) -->
+    <g transform="translate(0, 5)">
+        <!-- Left short bar -->
+        <rect x="335" y="220" width="34" height="60" rx="5" fill="url(#pbi-left)" />
+        <!-- Middle bar -->
+        <rect x="383" y="180" width="34" height="100" rx="5" fill="url(#pbi-middle)" />
+        <!-- Right tall bar -->
+        <rect x="431" y="140" width="34" height="140" rx="5" fill="url(#pbi-right)" />
+    </g>
 </svg>

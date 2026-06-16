@@ -1,24 +1,56 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title">
-  <title id="title">AdventureWorks Sales and Profit - Microsoft Excel</title>
-  <defs>
-    <radialGradient id="glow">
-      <stop stop-color="#3b82f6" stop-opacity=".34"/>
-      <stop offset=".45" stop-color="#3b82f6" stop-opacity=".1"/>
-      <stop offset="1" stop-color="#3b82f6" stop-opacity="0"/>
-    </radialGradient>
-    <filter id="logo-glow" x="-35%" y="-35%" width="170%" height="170%">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blur"/>
-      <feFlood flood-color="#3b82f6" flood-opacity=".28" result="color"/>
-      <feComposite in="color" in2="blur" operator="in" result="shadow"/>
-      <feMerge>
-        <feMergeNode in="shadow"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-  </defs>
-  <rect width="1600" height="900" fill="#0f172a"/>
-  <ellipse cx="800" cy="450" rx="340" ry="290" fill="url(#glow)"/>
-  <g transform="translate(632 282) scale(14)" fill="#217346" filter="url(#logo-glow)">
-    <path d="M23 1.5q.41 0 .7.3.3.29.3.7v19q0 .41-.3.7-.29.3-.7.3H7q-.41 0-.7-.3-.3-.29-.3-.7V18H1q-.41 0-.7-.3-.3-.29-.3-.7V7q0-.41.3-.7Q.58 6 1 6h5V2.5q0-.41.3-.7.29-.3.7-.3zM6 13.28l1.42 2.66h2.14l-2.38-3.87 2.34-3.8H7.46l-1.3 2.4-.05.08-.04.09-.64-1.28-.66-1.29H2.59l2.27 3.82-2.48 3.85h2.16zM14.25 21v-3H7.5v3zm0-4.5v-3.75H12v3.75zm0-5.25V7.5H12v3.75zm0-5.25V3H7.5v3zm8.25 15v-3h-6.75v3zm0-4.5v-3.75h-6.75v3.75zm0-5.25V7.5h-6.75v3.75zm0-5.25V3h-6.75v3Z"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+    <defs>
+        <!-- Background Radial Gradient -->
+        <radialGradient id="bg-glow" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+            <stop offset="0%" stop-color="#1e293b" />
+            <stop offset="100%" stop-color="#0f172a" />
+        </radialGradient>
+
+        <!-- Blue Aura Glow Behind Logo -->
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="45" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+
+        <!-- Drop Shadow for Front Plate -->
+        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="2" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.4" />
+        </filter>
+
+        <!-- Excel Brand Gradients -->
+        <linearGradient id="excel-back" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#107c41" />
+            <stop offset="100%" stop-color="#0b5930" />
+        </linearGradient>
+        <linearGradient id="excel-front" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#21a366" />
+            <stop offset="100%" stop-color="#107c41" />
+        </linearGradient>
+    </defs>
+
+    <!-- Background -->
+    <rect width="800" height="450" fill="url(#bg-glow)" />
+
+    <!-- Glow Effect -->
+    <circle cx="400" cy="225" r="100" fill="#3b82f6" opacity="0.25" filter="url(#glow)" />
+
+    <!-- Excel Logo (Centered) -->
+    <g>
+        <!-- Back plate (Sheet grid) -->
+        <rect x="390" y="165" width="100" height="120" rx="6" fill="url(#excel-back)" />
+        
+        <!-- Grid Cells -->
+        <rect x="410" y="180" width="22" height="20" rx="2" fill="#ffffff" opacity="0.2" />
+        <rect x="442" y="180" width="32" height="20" rx="2" fill="#ffffff" opacity="0.2" />
+        <rect x="410" y="210" width="22" height="20" rx="2" fill="#ffffff" opacity="0.2" />
+        <rect x="442" y="210" width="32" height="20" rx="2" fill="#ffffff" opacity="0.2" />
+        <rect x="410" y="240" width="22" height="20" rx="2" fill="#ffffff" opacity="0.2" />
+        <rect x="442" y="240" width="32" height="20" rx="2" fill="#ffffff" opacity="0.2" />
+
+        <!-- Front plate (X symbol) -->
+        <rect x="310" y="175" width="100" height="100" rx="8" fill="url(#excel-front)" filter="url(#shadow)" />
+        
+        <!-- X character paths -->
+        <path d="M335 195 L350 195 L360 215 L370 195 L385 195 L368 225 L385 255 L370 255 L360 235 L350 255 L335 255 L352 225 Z" fill="#ffffff" />
+    </g>
 </svg>
