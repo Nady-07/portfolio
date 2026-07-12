@@ -129,9 +129,52 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalContentArea = document.querySelector('.modal-content-area');
     
     const projectsData = {
+        'ev-market': `
+            <div class="modal-project-title">EV Market Overview Dashboard</div>
+            <div class="modal-project-tech">Power BI · DAX · Data Modeling · 478 EV Models</div>
+
+            <div class="modal-project-section">
+                <div class="slideshow-image-wrapper">
+                    <img src="assets/ev-market-overview.png" alt="EV Market Overview Dashboard" class="slideshow-img">
+                </div>
+            </div>
+
+            <div class="modal-project-section">
+                <h4>Project Overview</h4>
+                <p>Built an interactive dashboard to analyze the EV market across <strong>478 models and 59 brands</strong>. The report combines vehicle specifications, portfolio coverage, and market segments into a single decision-ready view.</p>
+                <div class="modal-project-grid">
+                    <div class="modal-metric-card">
+                        <span class="kpi-label">Average Range</span>
+                        <div class="modal-metric-val">393 km</div>
+                    </div>
+                    <div class="modal-metric-card">
+                        <span class="kpi-label">Avg. Battery Capacity</span>
+                        <div class="modal-metric-val">74.0 kWh</div>
+                    </div>
+                    <div class="modal-metric-card">
+                        <span class="kpi-label">Avg. Efficiency</span>
+                        <div class="modal-metric-val">163 Wh/km</div>
+                    </div>
+                    <div class="modal-metric-card">
+                        <span class="kpi-label">Most Common Segment</span>
+                        <div class="modal-metric-val">SUV (244)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-project-section">
+                <h4>Key Insights</h4>
+                <ul class="modal-bullets">
+                    <li><strong>Range leadership:</strong> Lucid leads the displayed brands at <strong>603 km</strong> average driving range, followed by Porsche (503 km) and Tesla (490 km).</li>
+                    <li><strong>Portfolio depth:</strong> Mercedes-Benz has the broadest EV portfolio in the report with <strong>42 models</strong>, followed by Audi (28) and Porsche (26).</li>
+                    <li><strong>Segment mix:</strong> SUVs dominate the dataset with <strong>244 models</strong>, far ahead of sedans (63) and hatchbacks (57).</li>
+                    <li><strong>Self-service analysis:</strong> Brand, body type, drivetrain, and seat filters let users compare vehicles without rebuilding the report.</li>
+                </ul>
+            </div>
+        `,
         'ibm-hr': `
             <div class="modal-project-title">IBM HR Employee Attrition Case Study</div>
-            <div class="modal-project-tech">Power BI · DAX · Excel · 1,470 Employee Records</div>
+            <div class="modal-project-tech">Power BI · DAX · 1,470 Employee Records</div>
             
             <!-- Dashboard Slideshow -->
             <div class="modal-slideshow">
