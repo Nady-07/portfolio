@@ -5,16 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Mohamed Al Nady — Professional Data Analyst Portfolio. Specializing in SQL, Power BI, Excel, ETL, and Data Modeling.">
     <title>Mohamed Al Nady — Data Analyst Portfolio</title>
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:title" content="Mohamed Al Nady — Data Analyst Portfolio">
+    <meta property="og:description" content="SQL, Power BI, Excel — Turning Raw Data Into Actionable Insights">
+    <meta property="og:image" content="assets/ev-market-overview.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
     
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- CSS Stylesheet -->
-    <link rel="stylesheet" href="style.css">
+    <!-- CSS Stylesheet (Includes local self-hosted Inter & Outfit fonts) -->
+    <link rel="stylesheet" href="style.css?v=12">
 </head>
 <body>
 
@@ -44,7 +46,7 @@
                         <path d="M12.3 22h-.1c-5.5 0-10-4.5-10-10 0-4.8 3.5-9 8.3-9.9.5-.1 1 .3.9.8-.1.4-.2.8-.2 1.2 0 4.4 3.6 8 8 8 .4 0 .8-.1 1.2-.2.5-.1.9.3.8.9-.9 4.8-5.1 8.2-9.9 8.2z"/>
                     </svg>
                 </button>
-                <a href="cv/Mohamed_Alnady_CV_ATS.html" target="_blank" class="btn btn-secondary nav-cta">Resume</a>
+                <a href="cv/Mohamed_Alnady_CV_ATS.html" target="_blank" rel="noopener noreferrer" class="btn btn-secondary nav-cta">Resume</a>
                 <a href="#contact" class="btn btn-primary nav-cta">Let's Talk</a>
             </div>
             
@@ -64,7 +66,7 @@
             <li><a href="#projects" class="mobile-link">Projects</a></li>
             <li><a href="#experience" class="mobile-link">Experience</a></li>
             <li><a href="#contact" class="mobile-link">Contact</a></li>
-            <li><a href="cv/Mohamed_Alnady_CV_ATS.html" target="_blank" class="mobile-link">View Resume</a></li>
+            <li><a href="cv/Mohamed_Alnady_CV_ATS.html" target="_blank" rel="noopener noreferrer" class="mobile-link">View Resume</a></li>
             <li><a href="#contact" class="mobile-link mobile-cta">Let's Talk</a></li>
         </ul>
     </div>
@@ -90,14 +92,14 @@
                             <path d="M16.01 11H4v2h12.01v3L20 12l-3.99-4v3z"/>
                         </svg>
                     </a>
-                    <a href="cv/Mohamed_Alnady_CV_ATS.html" target="_blank" class="btn btn-secondary">View CV / Resume</a>
+                    <a href="cv/Mohamed_Alnady_CV_ATS.html" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">View CV / Resume</a>
                     <a href="#contact" class="btn btn-secondary">Get in Touch</a>
                 </div>
                 <div class="hero-socials animate-fade-in-delayed">
-                    <a href="https://www.linkedin.com/in/mohamed-al-nady-52b87123b" target="_blank" aria-label="LinkedIn">
+                    <a href="https://www.linkedin.com/in/mohamed-al-nady-52b87123b" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                         <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
                     </a>
-                    <a href="https://github.com/Nady-07" target="_blank" aria-label="GitHub">
+                    <a href="https://github.com/Nady-07" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
                         <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
                     </a>
                 </div>
@@ -189,11 +191,11 @@
                             <span class="info-lbl">Years Sales Experience</span>
                         </div>
                         <div class="info-card">
-                            <span class="info-num">3+</span>
+                            <span class="info-num">7+</span>
                             <span class="info-lbl">End-to-End Projects</span>
                         </div>
                         <div class="info-card">
-                            <span class="info-num">1,470+</span>
+                            <span class="info-num">100K+</span>
                             <span class="info-lbl">Data Rows Analyzed</span>
                         </div>
                         <div class="info-card">
@@ -221,7 +223,7 @@
                             <li>
                                 <div class="journey-icon">🎨</div>
                                 <div>
-                                    <strong>Data Storytelling:</strong> Crafting multi-page interactive dashboards with drill-downs that explain the *why* behind the numbers.
+                                    <strong>Data Storytelling:</strong> Crafting multi-page interactive dashboards with drill-downs that explain the <em>why</em> behind the numbers.
                                 </div>
                             </li>
                         </ul>
@@ -393,10 +395,10 @@
                     </div>
                 </div>
 
-                <!-- Project 1: IBM HR Analytics -->
+                <!-- Project 2: IBM HR Analytics -->
                 <div class="project-card">
                     <div class="project-image-container">
-                        <img src="assets/cover-ibm-hr.svg" alt="IBM HR Analytics Dashboard" class="project-image">
+                        <img src="assets/cover-ibm-hr.svg" alt="IBM HR Analytics Dashboard" class="project-image" loading="lazy">
                     </div>
                     <div class="project-card-header">
                         <span class="project-meta">Power BI · DAX</span>
@@ -431,10 +433,10 @@
                     </div>
                 </div>
 
-                <!-- Project 2: Executive Sales Performance Dashboard -->
+                <!-- Project 3: Executive Sales Performance Dashboard -->
                 <div class="project-card">
                     <div class="project-image-container">
-                        <img src="assets/cover-excel-sales.svg" alt="Executive Sales Performance Dashboard" class="project-image">
+                        <img src="assets/cover-excel-sales.svg" alt="Executive Sales Performance Dashboard" class="project-image" loading="lazy">
                     </div>
                     <div class="project-card-header">
                         <span class="project-meta">Excel · Pivot Tables · Dashboards</span>
@@ -469,10 +471,10 @@
                     </div>
                 </div>
 
-                <!-- Project 3: AdventureWorks Sales & Profit Dashboard -->
+                <!-- Project 4: AdventureWorks Sales & Profit Dashboard -->
                 <div class="project-card">
                     <div class="project-image-container">
-                        <img src="assets/cover-excel-adventureworks.svg" alt="AdventureWorks Sales & Profit Dashboard" class="project-image">
+                        <img src="assets/cover-excel-adventureworks.svg" alt="AdventureWorks Sales &amp; Profit Dashboard" class="project-image" loading="lazy">
                     </div>
                     <div class="project-card-header">
                         <span class="project-meta">Excel · Power Pivot · Data Modeling</span>
@@ -507,10 +509,10 @@
                     </div>
                 </div>
 
-                <!-- Project 4: SQL Data Warehouse -->
+                <!-- Project 5: SQL Data Warehouse -->
                 <div class="project-card">
                     <div class="project-image-container">
-                        <img src="assets/cover-sql-dwh.svg" alt="SQL Data Warehouse Project" class="project-image">
+                        <img src="assets/cover-sql-dwh.svg" alt="SQL Data Warehouse Project" class="project-image" loading="lazy">
                     </div>
                     <div class="project-card-header">
                         <span class="project-meta">SQL Server · T-SQL · Data Modeling</span>
@@ -541,14 +543,15 @@
                         </ul>
                     </div>
                     <div class="project-card-footer">
-                        <a href="https://github.com/Nady-07/SQL_Data_Warehouse_Project" target="_blank" class="btn btn-primary btn-sm">View on GitHub</a>
+                        <button class="btn btn-primary btn-sm modal-trigger" data-project="sql-dwh">View Project Details</button>
+                        <a href="https://github.com/Nady-07/SQL_Data_Warehouse_Project" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">GitHub</a>
                     </div>
                 </div>
 
-                <!-- Project 5: SQL EDA -->
+                <!-- Project 6: SQL EDA -->
                 <div class="project-card">
                     <div class="project-image-container">
-                        <img src="assets/cover-sql-eda.svg" alt="SQL Exploratory Data Analysis Project" class="project-image">
+                        <img src="assets/cover-sql-eda.svg" alt="SQL Exploratory Data Analysis Project" class="project-image" loading="lazy">
                     </div>
                     <div class="project-card-header">
                         <span class="project-meta">SQL Server · T-SQL · Data Analysis</span>
@@ -579,17 +582,18 @@
                         </ul>
                     </div>
                     <div class="project-card-footer">
-                        <a href="https://github.com/Nady-07/EDA_Project" target="_blank" class="btn btn-primary btn-sm">View on GitHub</a>
+                        <button class="btn btn-primary btn-sm modal-trigger" data-project="sql-eda">View Project Details</button>
+                        <a href="https://github.com/Nady-07/EDA_Project" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">GitHub</a>
                     </div>
                 </div>
 
-                <!-- Project 6: Advanced SQL EDA -->
+                <!-- Project 7: Advanced SQL EDA -->
                 <div class="project-card">
                     <div class="project-image-container">
-                        <img src="assets/cover-sql-aeda.svg" alt="Advanced SQL Exploratory Data Analysis Project" class="project-image">
+                        <img src="assets/cover-sql-aeda.svg" alt="Advanced SQL Exploratory Data Analysis Project" class="project-image" loading="lazy">
                     </div>
                     <div class="project-card-header">
-                        <span class="project-meta">SQL Server &middot; Window Functions &middot; Reporting Views</span>
+                        <span class="project-meta">SQL Server · Window Functions · Reporting Views</span>
                         <h3>Advanced Exploratory Data Analysis</h3>
                     </div>
                     <div class="project-card-body">
@@ -617,7 +621,8 @@
                         </ul>
                     </div>
                     <div class="project-card-footer">
-                        <a href="https://github.com/Nady-07/Advanced_EDA_Project" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">View on GitHub</a>
+                        <button class="btn btn-primary btn-sm modal-trigger" data-project="sql-aeda">View Project Details</button>
+                        <a href="https://github.com/Nady-07/Advanced_EDA_Project" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">GitHub</a>
                     </div>
                 </div>
 
@@ -825,10 +830,10 @@
     <!-- FOOTER -->
     <footer class="footer">
         <div class="container footer-container">
-            <p>&copy; 2026 Mohamed Al Nady. All rights reserved.</p>
+            <p>&copy; <span id="copyright-year">2026</span> Mohamed Al Nady. All rights reserved.</p>
             <div class="footer-links">
-                <a href="https://www.linkedin.com/in/mohamed-al-nady-52b87123b" target="_blank">LinkedIn</a>
-                <a href="https://github.com/Nady-07" target="_blank">GitHub</a>
+                <a href="https://www.linkedin.com/in/mohamed-al-nady-52b87123b" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/Nady-07" target="_blank" rel="noopener noreferrer">GitHub</a>
                 <a href="mailto:mohamednady0@outlook.com">Email</a>
             </div>
         </div>
@@ -837,9 +842,7 @@
     <!-- Back to top btn -->
     <button id="back-to-top" aria-label="Back to top" class="back-to-top-btn">&uarr;</button>
 
-    <!-- EmailJS SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <!-- Javascript File -->
-    <script src="app.js"></script>
+    <script src="app.js?v=12"></script>
 </body>
 </html>

@@ -34,31 +34,44 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileLinks = document.querySelectorAll('.mobile-link');
     
     function toggleMobileMenu() {
-        mobileMenuToggle.classList.toggle('open');
-        mobileMenuOverlay.classList.toggle('open');
-        document.body.classList.toggle('no-scroll');
-        
-        // Animate hamburger bars to 'X'
-        const bars = mobileMenuToggle.querySelectorAll('.bar');
-        if (mobileMenuToggle.classList.contains('open')) {
-            bars[0].style.transform = 'rotate(45deg) translate(6px, 6px)';
-            bars[1].style.opacity = '0';
-            bars[2].style.transform = 'rotate(-45deg) translate(6px, -6px)';
+        const isOpen = mobileMenuOverlay.classList.contains('open');
+        if (isOpen) {
+            mobileMenuToggle.classList.remove('open');
+            mobileMenuOverlay.classList.remove('open');
+            document.body.classList.remove('no-scroll');
         } else {
-            bars[0].style.transform = 'none';
-            bars[1].style.opacity = '1';
-            bars[2].style.transform = 'none';
+            mobileMenuToggle.classList.add('open');
+            mobileMenuOverlay.classList.add('open');
+            document.body.classList.add('no-scroll');
         }
     }
     
-    mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+    }
     
     mobileLinks.forEach(link => {
-        link.addEventListener('click', () => {
+        link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
             if (mobileMenuOverlay.classList.contains('open')) {
                 toggleMobileMenu();
             }
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                const targetElement = document.querySelector(href);
+                if (targetElement) {
+                    setTimeout(() => {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }, 50);
+                }
+            }
         });
+    });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768 && mobileMenuOverlay.classList.contains('open')) {
+            toggleMobileMenu();
+        }
     });
 
     /* ==========================================================================
@@ -98,25 +111,18 @@ document.addEventListener('DOMContentLoaded', () => {
     
     tabButtons.forEach(btn => {
         btn.addEventListener('click', () => {
-            // Remove active from all buttons and contents
             tabButtons.forEach(b => b.classList.remove('active'));
             tabContents.forEach(c => {
                 c.classList.remove('active');
-                c.style.display = 'none';
             });
             
-            // Add active to current button
             btn.classList.add('active');
             
-            // Get Target ID and element
             const targetId = btn.getAttribute('data-target');
             const targetContent = document.getElementById(targetId);
-            
-            // Show target content with animation
-            targetContent.style.display = 'block';
-            setTimeout(() => {
+            if (targetContent) {
                 targetContent.classList.add('active');
-            }, 50);
+            }
         });
     });
 
@@ -302,6 +308,108 @@ document.addEventListener('DOMContentLoaded', () => {
                     <li><strong>Data Optimization:</strong> Transformed raw databases into clean dimension (Client, Geography, Product) and fact tables, reducing file processing size and query times.</li>
                 </ul>
             </div>
+        `,
+        'sql-dwh': `
+            <div class="modal-project-title">SQL Data Warehouse — ETL & Modeling</div>
+            <div class="modal-project-tech">SQL Server · T-SQL · Star Schema · Data Modeling</div>
+            
+            <div class="modal-project-section">
+                <div class="slideshow-image-wrapper">
+                    <img src="assets/sql-dwh.png" alt="SQL Data Warehouse Architecture" class="slideshow-img">
+                </div>
+            </div>
+            
+            <div class="modal-project-section">
+                <h4>Project Overview</h4>
+                <p>Designed and built a relational data warehouse using star schema architecture. Created dimensions, fact tables, and robust ETL pipelines to clean, transform, and load raw CSV inputs into clean data models optimized for BI applications.</p>
+                <div class="modal-project-grid">
+                    <div class="modal-metric-card">
+                        <span class="kpi-label">Architecture</span>
+                        <div class="modal-metric-val">Star Schema</div>
+                    </div>
+                    <div class="modal-metric-card">
+                        <span class="kpi-label">Pipeline Engine</span>
+                        <div class="modal-metric-val" style="color: #3b82f6;">T-SQL ETL</div>
+                    </div>
+                    <div class="modal-metric-card">
+                        <span class="kpi-label">Query Speed</span>
+                        <div class="modal-metric-val" style="color: #10b981;">Sub-second</div>
+                    </div>
+                    <div class="modal-metric-card">
+                        <span class="kpi-label">Data Quality</span>
+                        <div class="modal-metric-val">100% Clean</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-project-section">
+                <h4>Key Technical Implementation</h4>
+                <ul class="modal-bullets">
+                    <li><strong>Dimension & Fact Design:</strong> Constructed normalized Dimension tables (Client, Store, Product) and Fact tables (Sales) for optimized analytics querying.</li>
+                    <li><strong>ETL Automation:</strong> Developed T-SQL stored procedures and data cleansing scripts for type conversion, null handling, and surrogate key assignment.</li>
+                    <li><strong>Index Optimization:</strong> Applied clustered and non-clustered indexing on primary/foreign key relationships to guarantee fast aggregations.</li>
+                </ul>
+            </div>
+            
+            <div class="modal-project-section" style="text-align: center; margin-top: 1.5rem;">
+                <a href="https://github.com/Nady-07/SQL_Data_Warehouse_Project" target="_blank" rel="noopener noreferrer" class="btn btn-primary">View Source Code on GitHub</a>
+            </div>
+        `,
+        'sql-eda': `
+            <div class="modal-project-title">Exploratory Data Analysis Using SQL</div>
+            <div class="modal-project-tech">SQL Server · T-SQL · CTEs · Window Functions</div>
+            
+            <div class="modal-project-section">
+                <div class="slideshow-image-wrapper">
+                    <img src="assets/sql-eda.png" alt="Exploratory Data Analysis Using SQL" class="slideshow-img">
+                </div>
+            </div>
+            
+            <div class="modal-project-section">
+                <h4>Project Overview</h4>
+                <p>Conducted advanced exploratory data analysis on a transactional dataset. Applied complex queries, window functions, and subqueries to extract business insights, detect anomalies, and summarize historical revenue performance.</p>
+            </div>
+            
+            <div class="modal-project-section">
+                <h4>Key Analytical Discoveries</h4>
+                <ul class="modal-bullets">
+                    <li><strong>Advanced Analytics:</strong> Leveraged <code>RANK()</code>, <code>ROW_NUMBER()</code>, and <code>LAG/LEAD</code> window functions for cohort analysis.</li>
+                    <li><strong>Complex CTEs:</strong> Structured multi-stage Common Table Expressions to aggregate multi-year transactions efficiently.</li>
+                    <li><strong>Business Insights:</strong> Identified revenue concentration across client tiers and seasonal purchasing anomalies.</li>
+                </ul>
+            </div>
+            
+            <div class="modal-project-section" style="text-align: center; margin-top: 1.5rem;">
+                <a href="https://github.com/Nady-07/EDA_Project" target="_blank" rel="noopener noreferrer" class="btn btn-primary">View Source Code on GitHub</a>
+            </div>
+        `,
+        'sql-aeda': `
+            <div class="modal-project-title">Advanced Exploratory Data Analysis</div>
+            <div class="modal-project-tech">SQL Server · Window Functions · Reporting Views</div>
+            
+            <div class="modal-project-section">
+                <div class="slideshow-image-wrapper">
+                    <img src="assets/project-advanced-sql-eda.jpg" alt="Advanced Exploratory Data Analysis" class="slideshow-img">
+                </div>
+            </div>
+            
+            <div class="modal-project-section">
+                <h4>Project Overview</h4>
+                <p>Extended sales analysis with time-based trends, cumulative metrics, product performance comparisons, customer segmentation, and reusable reporting views for deeper business insight.</p>
+            </div>
+            
+            <div class="modal-project-section">
+                <h4>Key Analytical Discoveries</h4>
+                <ul class="modal-bullets">
+                    <li><strong>Trend & Cumulative Metrics:</strong> Tracked month-over-month revenue growth, cumulative running totals, and moving averages.</li>
+                    <li><strong>Year-over-Year Comparisons:</strong> Evaluated product category growth using LAG calculations and period-over-period variance metrics.</li>
+                    <li><strong>Reusable Reporting Views:</strong> Built parameterized views to serve downstream Power BI dashboards and executive reporting layers.</li>
+                </ul>
+            </div>
+            
+            <div class="modal-project-section" style="text-align: center; margin-top: 1.5rem;">
+                <a href="https://github.com/Nady-07/Advanced_EDA_Project" target="_blank" rel="noopener noreferrer" class="btn btn-primary">View Source Code on GitHub</a>
+            </div>
         `
     };
     
@@ -312,6 +420,10 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (projectHTML) {
                 modalContentArea.innerHTML = projectHTML;
+                const modalContainer = modalOverlay.querySelector('.modal-container');
+                if (modalContainer) {
+                    modalContainer.scrollTop = 0;
+                }
                 modalOverlay.classList.add('open');
                 document.body.classList.add('no-scroll');
                 
@@ -375,41 +487,38 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ==========================================================================
        6. SCROLL ENTRANCE ANIMATION (Intersection Observer)
        ========================================================================== */
-    // Add scroll animations class automatically
-    const animatedSections = [
-        document.querySelector('.about-section'),
-        document.querySelector('.skills-section'),
-        document.querySelector('.projects-section'),
-        document.querySelector('.experience-section'),
-        document.querySelector('.education-section'),
-        document.querySelector('.contact-section')
-    ];
-    
-    animatedSections.forEach(sec => {
-        if (sec) {
-            sec.classList.add('reveal');
-        }
+    // Observe individual child elements for staggered reveal animations
+    const revealElements = document.querySelectorAll(
+        '.about-text, .about-visual, ' +
+        '.skills-tabs-container, ' +
+        '.project-card, ' +
+        '.timeline-item, ' +
+        '.edu-col, .certs-col, ' +
+        '.contact-info, .contact-form-container, ' +
+        '.section-heading'
+    );
+
+    revealElements.forEach(el => {
+        el.classList.add('reveal');
     });
-    
+
     const observerOptions = {
         root: null,
-        threshold: 0.15,
-        rootMargin: '0px 0px -50px 0px'
+        threshold: 0.05,
+        rootMargin: '50px 0px 50px 0px'
     };
-    
+
     const scrollObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
-                observer.unobserve(entry.target); // Trigger only once
+                observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
-    
-    animatedSections.forEach(sec => {
-        if (sec) {
-            scrollObserver.observe(sec);
-        }
+
+    revealElements.forEach(el => {
+        scrollObserver.observe(el);
     });
 
     /* ==========================================================================
@@ -417,9 +526,6 @@ document.addEventListener('DOMContentLoaded', () => {
        ========================================================================== */
     const contactForm = document.getElementById('contact-form');
     const formResponse = document.getElementById('form-response');
-
-    // Initialize EmailJS with your public key
-    emailjs.init('su7tbpdo6ynL9DHiW');
 
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
@@ -442,9 +548,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 message:    document.getElementById('form-message').value,
             };
 
-            // Send via EmailJS
-            emailjs.send('service_qty1cef', 'template_69as8sp', templateParams)
-                .then(() => {
+            // Send via EmailJS REST API (no eval / no third-party SDK needed)
+            fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    service_id: 'service_qty1cef',
+                    template_id: 'template_69as8sp',
+                    user_id: 'su7tbpdo6ynL9DHiW',
+                    template_params: templateParams
+                })
+            })
+            .then((response) => {
+                if (response.ok) {
                     formResponse.textContent = '✅ Message sent! I will get back to you shortly.';
                     formResponse.classList.add('success');
                     contactForm.reset();
@@ -454,16 +572,27 @@ document.addEventListener('DOMContentLoaded', () => {
                         formResponse.textContent = '';
                         formResponse.className = 'form-response';
                     }, 5000);
-                })
-                .catch((error) => {
-                    console.error('EmailJS error:', error);
-                    formResponse.textContent = '❌ Something went wrong. Please try again or email me directly.';
-                    formResponse.classList.add('error');
-                })
-                .finally(() => {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalBtnHTML;
-                });
+                } else {
+                    throw new Error('EmailJS HTTP ' + response.status);
+                }
+            })
+            .catch((error) => {
+                console.error('EmailJS error:', error);
+                formResponse.textContent = '❌ Something went wrong. Please try again or email me directly.';
+                formResponse.classList.add('error');
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnHTML;
+            });
         });
+    }
+
+    /* ==========================================================================
+       8. DYNAMIC COPYRIGHT YEAR
+       ========================================================================== */
+    const copyrightYear = document.getElementById('copyright-year');
+    if (copyrightYear) {
+        copyrightYear.textContent = new Date().getFullYear();
     }
 });

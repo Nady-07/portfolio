@@ -1,11 +1,93 @@
 /* ==========================================================================
+   LOCAL FONTS (@font-face)
+   ========================================================================== */
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url('assets/fonts/Inter-300.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('assets/fonts/Inter-400.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('assets/fonts/Inter-500.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('assets/fonts/Inter-600.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('assets/fonts/Inter-700.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 800;
+    font-display: swap;
+    src: url('assets/fonts/Inter-800.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Outfit';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('assets/fonts/Outfit-400.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Outfit';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('assets/fonts/Outfit-500.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Outfit';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('assets/fonts/Outfit-600.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Outfit';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('assets/fonts/Outfit-700.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Outfit';
+    font-style: normal;
+    font-weight: 800;
+    font-display: swap;
+    src: url('assets/fonts/Outfit-800.ttf') format('truetype');
+}
+
+/* ==========================================================================
    DESIGN SYSTEM & VARIABLES
    ========================================================================== */
 
 :root {
     /* Fonts */
-    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-    --font-heading: 'Outfit', system-ui, -apple-system, sans-serif;
+    --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-heading: 'Outfit', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
 
     /* Common Transitions */
     --transition-fast: 0.2s ease;
@@ -106,6 +188,10 @@ body {
     transition: background-color var(--transition-slow), color var(--transition-slow);
 }
 
+body.no-scroll {
+    overflow: hidden;
+}
+
 img, svg {
     max-width: 100%;
     height: auto;
@@ -160,6 +246,10 @@ button {
     max-width: var(--container-width);
     margin: 0 auto;
     padding: 0 24px;
+}
+
+section[id] {
+    scroll-margin-top: calc(var(--header-height) + 24px);
 }
 
 .gradient-text {
@@ -399,6 +489,10 @@ html[data-theme="light"] .moon-icon { display: block; }
     flex-direction: column;
     gap: 6px;
     z-index: 1100;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
 }
 
 .mobile-nav-toggle .bar {
@@ -407,6 +501,18 @@ html[data-theme="light"] .moon-icon { display: block; }
     background-color: var(--text-primary);
     border-radius: 2px;
     transition: transform var(--transition-normal), opacity var(--transition-normal);
+}
+
+.mobile-nav-toggle.open .bar:nth-child(1) {
+    transform: translateY(8.5px) rotate(45deg);
+}
+
+.mobile-nav-toggle.open .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-nav-toggle.open .bar:nth-child(3) {
+    transform: translateY(-8.5px) rotate(-45deg);
 }
 
 /* Mobile Nav Overlay */
@@ -746,7 +852,7 @@ html[data-theme="light"] .moon-icon { display: block; }
 .percentage {
     fill: var(--text-primary);
     font-family: var(--font-heading);
-    font-size: 0.55rem;
+    font-size: 8px;
     font-weight: 700;
     text-anchor: middle;
 }
@@ -925,13 +1031,22 @@ html[data-theme="light"] .moon-icon { display: block; }
     display: none;
     opacity: 0;
     transform: translateY(15px);
-    transition: opacity var(--transition-slow), transform var(--transition-slow);
 }
 
 .skills-tab-content.active {
     display: block;
-    opacity: 1;
-    transform: translateY(0);
+    animation: tabFadeIn 0.4s ease forwards;
+}
+
+@keyframes tabFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .skills-grid-layout {
@@ -1162,6 +1277,9 @@ html[data-theme="light"] .moon-icon { display: block; }
 
 .project-card-footer {
     margin-top: 1.75rem;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
 /* ==========================================================================
@@ -1852,6 +1970,10 @@ html[data-theme="light"] .moon-icon { display: block; }
         flex-direction: column;
         gap: 16px;
         text-align: center;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
     }
 }
 
