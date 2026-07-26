@@ -16,7 +16,7 @@
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 
     <!-- CSS Stylesheet (Includes local self-hosted Inter & Outfit fonts) -->
-    <link rel="stylesheet" href="style.css?v=12">
+    <link rel="stylesheet" href="style.css?v=15">
 </head>
 <body>
 
@@ -106,63 +106,92 @@
             </div>
             
             <div class="hero-visual animate-scale-in">
-                <!-- Glowing Dashboard Mockup -->
-                <div class="dashboard-mockup">
+                <!-- General Data Analytics Hub Mockup -->
+                <div class="dashboard-mockup general-hub-mockup">
                     <div class="mockup-header">
-                        <span class="mockup-dot red"></span>
-                        <span class="mockup-dot yellow"></span>
-                        <span class="mockup-dot green"></span>
-                        <div class="mockup-search">IBM HR Attrition KPI Dashboard</div>
+                        <div class="mockup-dots">
+                            <span class="mockup-dot red"></span>
+                            <span class="mockup-dot yellow"></span>
+                            <span class="mockup-dot green"></span>
+                        </div>
+                        <div class="mockup-search">Data Analytics Engine &amp; Reporting Hub</div>
+                        <span class="mockup-status-pill">● System Active</span>
                     </div>
-                    <div class="mockup-body">
-                        <!-- KPI Row -->
-                        <div class="mockup-kpis">
-                            <div class="mockup-kpi-card">
-                                <div class="kpi-label">Retention Rate</div>
-                                <div class="kpi-val text-blue">83.9%</div>
-                                <div class="kpi-trend">+2.4% vs target</div>
+                    
+                    <div class="mockup-body hub-body">
+                        <!-- Top Row: Pipeline Steps Flow -->
+                        <div class="pipeline-flow-row">
+                            <div class="pipeline-step active">
+                                <span class="step-icon">🗄️</span>
+                                <div class="step-info">
+                                    <span class="step-name">Raw Data Sources</span>
+                                    <span class="step-sub">CSV · SQL · APIs</span>
+                                </div>
                             </div>
-                            <div class="mockup-kpi-card">
-                                <div class="kpi-label">Attrition Rate</div>
-                                <div class="kpi-val text-red">16.1%</div>
-                                <div class="kpi-trend text-down">-1.5% YoY</div>
+                            <div class="pipeline-arrow">➔</div>
+                            <div class="pipeline-step active">
+                                <span class="step-icon">⚙️</span>
+                                <div class="step-info">
+                                    <span class="step-name">ETL &amp; Modeling</span>
+                                    <span class="step-sub">T-SQL · Star Schema</span>
+                                </div>
                             </div>
-                            <div class="mockup-kpi-card">
-                                <div class="kpi-label">Records Analyzed</div>
-                                <div class="kpi-val">1,470</div>
-                                <div class="kpi-trend">35 Attributes</div>
+                            <div class="pipeline-arrow">➔</div>
+                            <div class="pipeline-step active">
+                                <span class="step-icon">📊</span>
+                                <div class="step-info">
+                                    <span class="step-name">BI Dashboards</span>
+                                    <span class="step-sub">Power BI · DAX</span>
+                                </div>
                             </div>
                         </div>
-                        <!-- Charts Section -->
-                        <div class="mockup-charts">
-                            <div class="mockup-chart-card double">
+
+                        <!-- Middle Row: Analytics Trend & Performance KPI Cards -->
+                        <div class="hub-analytics-grid">
+                            <!-- Trend Line Chart Widget -->
+                            <div class="hub-chart-card">
                                 <div class="chart-header">
-                                    <span>Attrition by Overtime Status</span>
-                                    <span class="chart-legend"><span class="legend-color red"></span>Overtime Workers</span>
+                                    <span>Analytics Growth Trend</span>
+                                    <span class="chart-badge">+34% Efficiency</span>
                                 </div>
-                                <div class="mockup-bars">
-                                    <div class="bar-row">
-                                        <span class="bar-label">Overtime (Yes)</span>
-                                        <div class="bar-bg"><div class="bar-fill red" style="width: 30.5%;"></div></div>
-                                        <span class="bar-pct">30.5%</span>
-                                    </div>
-                                    <div class="bar-row">
-                                        <span class="bar-label">No Overtime</span>
-                                        <div class="bar-bg"><div class="bar-fill blue" style="width: 10.4%;"></div></div>
-                                        <span class="bar-pct">10.4%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mockup-chart-card">
-                                <div class="chart-header">Satisfaction Score</div>
-                                <div class="mockup-radial">
-                                    <svg viewBox="0 0 36 36" class="circular-chart">
-                                        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                        <path class="circle" stroke-dasharray="78, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                        <text x="18" y="20.35" class="percentage">78%</text>
+                                <div class="svg-chart-container">
+                                    <svg viewBox="0 0 300 80" class="trend-svg">
+                                        <defs>
+                                            <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.4"/>
+                                                <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.0"/>
+                                            </linearGradient>
+                                        </defs>
+                                        <path d="M0,65 Q40,55 80,45 T160,30 T240,15 T300,5 L300,80 L0,80 Z" fill="url(#chartGrad)"/>
+                                        <path d="M0,65 Q40,55 80,45 T160,30 T240,15 T300,5" fill="none" stroke="#3b82f6" stroke-width="2.5"/>
+                                        <circle cx="300" cy="5" r="4" fill="#3b82f6"/>
                                     </svg>
                                 </div>
                             </div>
+
+                            <!-- Performance Stats -->
+                            <div class="hub-stats-column">
+                                <div class="hub-stat-item">
+                                    <div class="stat-meta">
+                                        <span class="stat-title">Query Performance</span>
+                                        <span class="stat-highlight">Sub-Second</span>
+                                    </div>
+                                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 95%;"></div></div>
+                                </div>
+                                <div class="hub-stat-item">
+                                    <div class="stat-meta">
+                                        <span class="stat-title">Data Accuracy</span>
+                                        <span class="stat-highlight">99.9%</span>
+                                    </div>
+                                    <div class="progress-bar-bg"><div class="progress-bar-fill green" style="width: 99%;"></div></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer Pill: Automated Data Sync -->
+                        <div class="hub-footer-status">
+                            <span>⚡ ETL Pipelines Cleaned &amp; Transformed</span>
+                            <span class="sync-time">Updated Real-Time</span>
                         </div>
                     </div>
                 </div>
@@ -191,7 +220,7 @@
                             <span class="info-lbl">Years Sales Experience</span>
                         </div>
                         <div class="info-card">
-                            <span class="info-num">7+</span>
+                            <span class="info-num">8+</span>
                             <span class="info-lbl">End-to-End Projects</span>
                         </div>
                         <div class="info-card">
@@ -357,7 +386,45 @@
             
             <div class="projects-grid">
                 
-                <!-- Project 1: EV Market Overview -->
+                <!-- Project 1: e& Telecom Customer Churn & Revenue Loss -->
+                <div class="project-card">
+                    <div class="project-image-container">
+                        <img src="assets/etisalat-churn-page1.png" alt="e& Telecom Customer Churn & Revenue Loss Dashboard" class="project-image">
+                    </div>
+                    <div class="project-card-header">
+                        <span class="project-meta">Power BI · DAX · Data Modeling</span>
+                        <h3>e& Telecom Customer Churn &amp; Revenue Loss</h3>
+                    </div>
+                    <div class="project-card-body">
+                        <p>
+                            Built an executive Power BI dashboard for <strong>e& (Etisalat &amp;)</strong> analyzing subscriber churn across <strong>7,043 accounts</strong> and isolating <strong>$2.86M in revenue loss</strong>.
+                        </p>
+                        <div class="project-key-stats">
+                            <div class="stat-bubble">
+                                <span class="stat-val">26.5%</span>
+                                <span class="stat-lbl">Churn Rate</span>
+                            </div>
+                            <div class="stat-bubble">
+                                <span class="stat-val">$2.86M</span>
+                                <span class="stat-lbl">Revenue Lost</span>
+                            </div>
+                            <div class="stat-bubble">
+                                <span class="stat-val">7,043</span>
+                                <span class="stat-lbl">Accounts</span>
+                            </div>
+                        </div>
+                        <ul class="project-bullets-preview">
+                            <li>Identified month-to-month contracts (42.7% churn) as driving $1.93M (67%) of total financial loss.</li>
+                            <li>Proved bundling 4+ add-ons slashes subscriber churn from 50.3% down to 5.3%.</li>
+                            <li>Engineered custom pop-out slicer panels for tenure, contract, add-on, and demographic filtering.</li>
+                        </ul>
+                    </div>
+                    <div class="project-card-footer">
+                        <button class="btn btn-primary btn-sm modal-trigger" data-project="etisalat-churn">View Dashboard Details</button>
+                    </div>
+                </div>
+
+                <!-- Project 2: EV Market Overview -->
                 <div class="project-card">
                     <div class="project-image-container">
                         <img src="assets/cover-ibm-hr.svg" alt="EV Market Overview dashboard" class="project-image">
@@ -843,6 +910,6 @@
     <button id="back-to-top" aria-label="Back to top" class="back-to-top-btn">&uarr;</button>
 
     <!-- Javascript File -->
-    <script src="app.js?v=12"></script>
+    <script src="app.js?v=15"></script>
 </body>
 </html>

@@ -135,6 +135,53 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalContentArea = document.querySelector('.modal-content-area');
     
     const projectsData = {
+        'etisalat-churn': `
+            <div class="modal-project-title">e& Telecom Customer Churn & Revenue Loss Dashboard</div>
+            <div class="modal-project-tech">Power BI · DAX · Data Modeling · 7,043 Subscriber Records</div>
+            
+            <!-- Dashboard Slideshow -->
+            <div class="modal-slideshow">
+                <div class="slideshow-image-wrapper">
+                    <img id="slideshow-img" src="assets/etisalat-churn-page1.png" alt="Account Profile Dashboard Page" class="slideshow-img">
+                </div>
+                <div class="slideshow-tabs">
+                    <button class="slide-tab-btn active" data-img="assets/etisalat-churn-page1.png" data-desc="Core Risk & Contract Analysis: Diagnoses 7,043 subscriber accounts ($16.06M total revenue). Discovers month-to-month contracts churn at 42.71% and 0-12 month tenure churns at 47.44%.">Page 1: Account Profile</button>
+                    <button class="slide-tab-btn" data-img="assets/etisalat-churn-page2.png" data-desc="Services & Add-ons Deep Dive: Proves bundling 4+ add-ons slashes churn from 50.31% to 5.29%. Single accounts churn at 34.24% vs 14.24% family accounts.">Page 2: Services & Add-ons</button>
+                    <button class="slide-tab-btn" data-img="assets/etisalat-churn-revenue.png" data-desc="Revenue & Financial Loss Executive View: Quantifies $2.86M total lost revenue. Identifies electronic checks ($1.57M lost) and $80-$100/mo accounts as top financial leaks.">Page 3: Financial Loss</button>
+                    <button class="slide-tab-btn" data-img="assets/etisalat-churn-slicers.png" data-desc="Interactive Pop-out Slicer Drawer: Multi-tab filter panel enabling dynamic analysis by Contract, Tenure Group, Paperless Billing, Household Segment, and Tech Support.">Page 4: Slicer Drawer</button>
+                </div>
+                <p id="slideshow-desc" class="slideshow-desc">Core Risk & Contract Analysis: Diagnoses 7,043 subscriber accounts ($16.06M total revenue). Discovers month-to-month contracts churn at 42.71% and 0-12 month tenure churns at 47.44%.</p>
+            </div>
+
+            <div class="modal-project-section">
+                <h4>Key Analytical Discoveries</h4>
+                <ul class="modal-bullets">
+                    <li><strong>Contract Type Impact:</strong> Month-to-month subscribers churn at <strong>42.71%</strong> (vs. 11.27% one-year & 2.83% two-year), driving over <strong>67% ($1.93M)</strong> of total revenue loss.</li>
+                    <li><strong>Early Tenure Vulnerability:</strong> <strong>47.44%</strong> of all churn occurs during the first 12 months of customer tenure.</li>
+                    <li><strong>Add-on Service Shield:</strong> Missing Tech Support and Online Security spikes churn to <strong>>41%</strong>. Subscribing to 4+ add-ons reduces churn to just <strong>5.29%</strong>.</li>
+                    <li><strong>Payment Method Financial Leak:</strong> Electronic check users represent <strong>$1.57M (54.8%)</strong> of total lost revenue with a 45.29% churn rate.</li>
+                </ul>
+            </div>
+
+            <div class="modal-project-section">
+                <h4>Calculated DAX Measures</h4>
+                <ul class="modal-bullets">
+                    <li><code>Total Revenue Lost = CALCULATE([Total Revenue], CustomerData[Churn] = "Yes")</code></li>
+                    <li><code>Churn Rate % = DIVIDE([Churned Customers], [Total Customers], 0)</code></li>
+                    <li><code>Bundling Churn Drop = [Churn Rate 0 Addons] - [Churn Rate 4+ Addons]</code></li>
+                    <li><code>Revenue at Risk = CALCULATE([Total Revenue], CustomerData[Contract] = "Month-to-month", CustomerData[InternetService] = "Fiber optic")</code></li>
+                </ul>
+            </div>
+
+            <div class="modal-project-section">
+                <h4>Strategic Business Recommendations</h4>
+                <ul class="modal-bullets">
+                    <li><strong>First-Year Retention Program:</strong> Deploy targeted onboarding incentives and proactive check-ins during months 0–12 to tackle the 47.4% churn peak.</li>
+                    <li><strong>Service Bundling Campaigns:</strong> Offer discounted Tech Support & Security add-ons to single-service accounts to push bundling into 3+ tier.</li>
+                    <li><strong>Auto-Pay Migration:</strong> Incentivize electronic check users with $5/mo auto-pay discount to transition away from 45.3% churn payment method.</li>
+                </ul>
+            </div>
+        `,
         'ev-market': `
             <div class="modal-project-title">EV Market Overview Dashboard</div>
             <div class="modal-project-tech">Power BI · DAX · Data Modeling · 478 EV Models</div>
@@ -427,8 +474,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalOverlay.classList.add('open');
                 document.body.classList.add('no-scroll');
                 
-                // Initialize slideshow if it's the Power BI project
-                if (projectKey === 'ibm-hr') {
+                // Initialize slideshow if it's a slideshow project
+                if (projectKey === 'ibm-hr' || projectKey === 'etisalat-churn') {
                     initSlideshow();
                 }
             }
@@ -446,15 +493,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.classList.add('active');
                 
                 const slideNum = btn.getAttribute('data-slide');
+                const dataImg = btn.getAttribute('data-img');
                 const desc = btn.getAttribute('data-desc');
                 
-                let imgSrc = 'assets/ibm-hr-overview.png';
-                if (slideNum === '2') imgSrc = 'assets/ibm-hr-page2.png';
-                else if (slideNum === '3') imgSrc = 'assets/ibm-hr-page3.png';
-                else if (slideNum === '4') imgSrc = 'assets/ibm-hr-page4.png';
+                let imgSrc = dataImg;
+                if (!imgSrc) {
+                    imgSrc = 'assets/ibm-hr-overview.png';
+                    if (slideNum === '2') imgSrc = 'assets/ibm-hr-page2.png';
+                    else if (slideNum === '3') imgSrc = 'assets/ibm-hr-page3.png';
+                    else if (slideNum === '4') imgSrc = 'assets/ibm-hr-page4.png';
+                }
                 
-                slideshowImg.src = imgSrc;
-                slideshowDesc.textContent = desc;
+                if (slideshowImg && imgSrc) slideshowImg.src = imgSrc;
+                if (slideshowDesc && desc) slideshowDesc.textContent = desc;
             });
         });
     }
