@@ -135,6 +135,86 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalContentArea = document.querySelector('.modal-content-area');
     
     const projectsData = {
+        'samsung-performance': `
+            <div class="modal-project-title">Samsung Global Performance & Supply Chain Analytics</div>
+            <div class="modal-project-tech">Power BI · DAX · Multi-Fact Constellation Schema · Supply Chain & Commercial Intelligence</div>
+            
+            <!-- Dashboard Slideshow -->
+            <div class="modal-slideshow">
+                <div class="slideshow-image-wrapper">
+                    <img id="slideshow-img" src="assets/samsung-executive-overview.png" alt="Samsung Executive Overview Dashboard" class="slideshow-img">
+                </div>
+                <div class="slideshow-tabs">
+                    <button class="slide-tab-btn active" data-img="assets/samsung-executive-overview.png" data-desc="Executive Overview & Value Chain: Connects 4 operational stages (Procurement $78.1M ➔ Manufacturing 3.83M ➔ Logistics 75.3% ➔ Omnichannel Sales 187K units). Visualizes $176.95M net revenue pacing, product category mix, channel distribution, and 459 stockout alert items.">Page 1: Executive Overview</button>
+                    <button class="slide-tab-btn" data-img="assets/samsung-commercial-sales.png" data-desc="Commercial Sales & Top Accounts: Breaks down $186.86M gross revenue, $9.92M discount leakage, and $48.56M net profit. Identifies Galaxy S24 Ultra ($34M) and Fold5 ($28M) as top products, USA ($73M) as leading market, and ranks tier-1 partner accounts.">Page 2: Commercial Sales</button>
+                    <button class="slide-tab-btn" data-img="assets/samsung-logistics.png" data-desc="Logistics & Carrier Optimization: Evaluates $19.42M freight spend across 7,500 shipments. Identifies 75.29% delivery reliability, carrier cost disparities ($2,410 to $2,861/shipment), and isolates Maersk Line as driving 87 delayed shipments.">Page 3: Logistics Optimization</button>
+                    <button class="slide-tab-btn" data-img="assets/samsung-data-model.png" data-desc="Enterprise Constellation Data Architecture: Robust multi-fact model connecting 5 conformed dimension tables (dim_customer, dim_date, dim_facility, dim_supplier, dim_product) to 5 fact tables (fact_sales, fact_shipment, fact_inventory, fact_production, fact_procurement) with 30+ centralized DAX measures.">Page 4: Data Model Architecture</button>
+                </div>
+                <p id="slideshow-desc" class="slideshow-desc">Executive Overview & Value Chain: Connects 4 operational stages (Procurement $78.1M ➔ Manufacturing 3.83M ➔ Logistics 75.3% ➔ Omnichannel Sales 187K units). Visualizes $176.95M net revenue pacing, product category mix, channel distribution, and 459 stockout alert items.</p>
+            </div>
+
+            <div class="modal-project-section">
+                <h4>Executive Snapshot</h4>
+                <div class="modal-project-grid">
+                    <div class="modal-metric-card">
+                        <span class="kpi-label">Net Revenue</span>
+                        <div class="modal-metric-val" style="color: #3b82f6;">$176.95M</div>
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">+10.6% vs $160M Target</span>
+                    </div>
+                    <div class="modal-metric-card">
+                        <span class="kpi-label">Net Profit</span>
+                        <div class="modal-metric-val" style="color: #10b981;">$48.56M</div>
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">27.44% Margin ($186.86M Gross)</span>
+                    </div>
+                    <div class="modal-metric-card">
+                        <span class="kpi-label">Total Shipments</span>
+                        <div class="modal-metric-val" style="color: #f59e0b;">7,500</div>
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">75.29% On-Time Delivery</span>
+                    </div>
+                    <div class="modal-metric-card">
+                        <span class="kpi-label">Value at Risk</span>
+                        <div class="modal-metric-val" style="color: #ef4444;">459 SKUs</div>
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">25 Near Out of Stock | 573 Delayed</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-project-section">
+                <h4>Key Analytical Discoveries</h4>
+                <ul class="modal-bullets">
+                    <li><strong>Value Chain Journey:</strong> Visualized cross-functional flow across 4 core business domains: Upstream Procurement ($78.13M silicon spend) ➔ Manufacturing (3.83M units: 66.1% Korea, 33.9% Vietnam) ➔ Logistics Fulfillment (75.29% on-time across 7,500 shipments) ➔ Omnichannel Commercial Sales (187K units / $176.95M net revenue).</li>
+                    <li><strong>Smartphone Revenue Hegemony:</strong> Smartphones drove over <strong>52.8% ($98.71M)</strong> of gross revenue, led by flagship launches: Galaxy S24 Ultra ($34M) and Galaxy Z Fold5 ($28M).</li>
+                    <li><strong>Omnichannel Channel Parity:</strong> Online channels ($73M) and Retailers ($72M) generated nearly identical top-line volumes, while Samsung Direct stores contributed $32M. Tier-1 partners (Amazon, Flipkart, Best Buy, MediaMarkt) achieved consistent 27–28% profit margins.</li>
+                    <li><strong>Logistics Bottleneck & Delay Concentration:</strong> Uncovered <strong>573 delayed shipments</strong> ($19.42M freight spend). Maersk Line was responsible for the highest delay volume (<strong>87 delays</strong>), whereas Kuehne+Nagel achieved top reliability (51 delays across 796 shipments).</li>
+                    <li><strong>Inventory Stockout Vulnerability:</strong> Flagged <strong>459 items running low on stock</strong>, with 25 critical SKUs almost fully depleted, posing an immediate $8M+ threat to peak retail fulfillment.</li>
+                </ul>
+            </div>
+
+            <div class="modal-project-section">
+                <h4>Core DAX Measures Engineered</h4>
+                <ul class="modal-bullets">
+                    <li><code>[Cumulative Net Revenue] = CALCULATE([Total Net Revenue], FILTER(ALLSELECTED(dim_date), dim_date[date] <= MAX(dim_date[date])))</code></li>
+                    <li><code>[Profit Margin %] = DIVIDE([Total Net Profit], [Total Net Revenue], 0)</code></li>
+                    <li><code>[On-Time Delivery %] = DIVIDE(CALCULATE(COUNTROWS(fact_shipment), fact_shipment[status] = "Delivered"), COUNTROWS(fact_shipment), 0)</code></li>
+                    <li><code>[Critical Stockout Products Count] = CALCULATE(DISTINCTCOUNT(fact_inventory[product_id]), fact_inventory[stock_level] <= fact_inventory[safety_stock_level])</code></li>
+                    <li><code>[Revenue YoY Growth %] = DIVIDE([Total Net Revenue] - [Revenue Prior Year], [Revenue Prior Year], 0)</code></li>
+                </ul>
+            </div>
+
+            <div class="modal-project-section">
+                <h4>Leadership Strategic Playbook</h4>
+                <ul class="modal-bullets">
+                    <li><strong>Inventory War Room & Replenishment Blitz:</strong> Execute an immediate 7-day replenishment transfer from Korean assembly hubs for the 25 near-depleted SKUs to prevent retail stockouts.</li>
+                    <li><strong>Carrier SLA Enforcement:</strong> Shift 25% of container volume away from Maersk Line to Kuehne+Nagel and DB Schenker ($2,410 avg cost), enforcing SLA delay penalties.</li>
+                    <li><strong>Commercial Discount Governance:</strong> Cap discretionary discounts at 5% to recover part of the $9.92M leakage, expanding net profits by +$1.98M without added overhead.</li>
+                </ul>
+            </div>
+
+            <div class="modal-project-section" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
+                <a href="https://github.com/Nady-07/Samsung-Performance-Dashboard" target="_blank" rel="noopener noreferrer" class="btn btn-primary">View Source Code & Docs on GitHub</a>
+                <a href="assets/Samsung_Dashboard.pbix" download class="btn btn-secondary">Download .PBIX File</a>
+            </div>
+        `,
         'etisalat-churn': `
             <div class="modal-project-title">e& Telecom Customer Churn & Revenue Loss Dashboard</div>
             <div class="modal-project-tech">Power BI · DAX · Data Modeling · 7,043 Subscriber Records</div>
@@ -475,7 +555,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.classList.add('no-scroll');
                 
                 // Initialize slideshow if it's a slideshow project
-                if (projectKey === 'ibm-hr' || projectKey === 'etisalat-churn') {
+                if (projectKey === 'ibm-hr' || projectKey === 'etisalat-churn' || projectKey === 'samsung-performance' || modalContentArea.querySelector('.modal-slideshow')) {
                     initSlideshow();
                 }
             }
