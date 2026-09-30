@@ -12,12 +12,10 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         @page {
             size: A4;
             margin: 0;
         }
-
         body {
             font-family: 'Inter', Arial, Helvetica, sans-serif;
             color: #1e293b;
@@ -26,7 +24,6 @@
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
         }
-
         .cv-page {
             width: 210mm;
             margin: 0 auto;
@@ -34,7 +31,6 @@
             padding: 16px 28px;
             box-shadow: 0 4px 24px rgba(0,0,0,0.1);
         }
-
         /* ===== HEADER ===== */
         .header {
             text-align: center;
@@ -42,7 +38,6 @@
             border-bottom: 2px solid #1e293b;
             margin-bottom: 8px;
         }
-
         .header h1 {
             font-size: 21px;
             font-weight: 800;
@@ -50,35 +45,29 @@
             letter-spacing: -0.5px;
             margin-bottom: 1px;
         }
-
         .header .role {
             font-size: 11.5px;
             font-weight: 600;
             color: #2563eb;
             margin-bottom: 3px;
         }
-
         .header .contact-line {
             font-size: 9px;
             color: #475569;
             line-height: 1.5;
         }
-
         .header .contact-line a {
             color: #2563eb;
             text-decoration: none;
         }
-
         .separator {
             margin: 0 5px;
             color: #94a3b8;
         }
-
         /* ===== SECTIONS ===== */
         .section {
             margin-bottom: 8px;
         }
-
         .section-title {
             font-size: 10px;
             font-weight: 800;
@@ -89,89 +78,73 @@
             border-bottom: 1.5px solid #1e293b;
             margin-bottom: 5px;
         }
-
         /* ===== SUMMARY ===== */
         .summary {
             font-size: 9px;
             color: #475569;
             line-height: 1.48;
         }
-
         /* ===== SKILLS ===== */
         .skills-grid {
             display: flex;
             flex-direction: column;
             gap: 1px;
         }
-
         .skills-row {
             font-size: 9px;
             line-height: 1.48;
         }
-
         .skills-label {
             font-weight: 700;
             color: #1e293b;
         }
-
         .skills-value {
             color: #475569;
         }
-
         /* ===== ENTRIES ===== */
         .entry {
             margin-bottom: 6px;
         }
-
         .entry.is-hidden {
             display: none;
         }
-
         .projects-section {
             display: flex;
             flex-direction: column;
         }
-
         .projects-section .section-title {
             order: 0;
         }
-
         .project-sql-dwh { order: 1; }
         .project-advanced-sql { order: 2; }
         .project-ibm-hr { order: 3; }
         .project-adventureworks { order: 4; }
         .project-excel-sales { order: 5; }
-
         .entry:last-child {
             margin-bottom: 0;
         }
-
         .entry-header {
             display: flex;
             justify-content: space-between;
             align-items: baseline;
         }
-
         .entry-title {
             font-size: 10.5px;
             font-weight: 700;
             color: #1e293b;
         }
-
         .entry-date {
             font-size: 9px;
             font-weight: 600;
             color: #475569;
             white-space: nowrap;
         }
-
         .entry-subtitle {
             font-size: 9.5px;
             font-weight: 600;
             color: #2563eb;
             margin-bottom: 2px;
         }
-
         .entry-tools {
             font-size: 9px;
             color: #64748b;
@@ -179,12 +152,10 @@
             margin-bottom: 2px;
             font-style: italic;
         }
-
         .bullets {
             list-style: none;
             padding: 0;
         }
-
         .bullets li {
             font-size: 8.8px;
             color: #475569;
@@ -193,7 +164,6 @@
             position: relative;
             margin-bottom: 0.5px;
         }
-
         .bullets li::before {
             content: '•';
             position: absolute;
@@ -201,7 +171,6 @@
             color: #1e293b;
             font-weight: 700;
         }
-
         .entry-link {
             font-size: 8.5px;
             color: #2563eb;
@@ -209,46 +178,38 @@
             display: inline-block;
             margin-top: 1px;
         }
-
         /* ===== EDUCATION & CERTS ===== */
         .edu-row {
             display: flex;
             justify-content: space-between;
             align-items: baseline;
         }
-
         .cert-item {
             margin-bottom: 5px;
         }
-
         .cert-item:last-child {
             margin-bottom: 0;
         }
-
         .cert-name {
             font-size: 9.5px;
             font-weight: 600;
             color: #1e293b;
         }
-
         .cert-issuer {
             font-size: 8.5px;
             color: #64748b;
         }
-
         /* Bottom row */
         .bottom-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
-
         .download-section {
             width: 210mm;
             margin: 22px auto 36px;
             text-align: center;
         }
-
         .download-button {
             display: inline-flex;
             align-items: center;
@@ -264,18 +225,15 @@
             box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
             transition: transform 0.2s ease, background 0.2s ease;
         }
-
         .download-button:hover {
             background: #1d4ed8;
             transform: translateY(-2px);
         }
-
         .download-button svg {
             width: 18px;
             height: 18px;
             fill: currentColor;
         }
-
         /* ===== PRINT ===== */
         @media print {
             body {
@@ -300,7 +258,6 @@
 </head>
 <body>
     <div class="cv-page">
-
         <!-- HEADER -->
         <header class="header">
             <h1 style="text-transform: uppercase; letter-spacing: 0.5px;">Mohamed Al Nady</h1>
@@ -319,7 +276,6 @@
                 <a href="https://nady-07.github.io/portfolio/" target="_blank">Portfolio</a>
             </div>
         </header>
-
         <!-- PROFESSIONAL SUMMARY -->
         <section class="section">
             <div class="section-title">Professional Summary</div>
@@ -327,7 +283,6 @@
                 Data Analyst with hands-on experience building end-to-end analytics solutions — SQL data warehouses, ETL pipelines, data modeling, and Power BI dashboards. Combines strong SQL and data visualization skills with 4 years of cross-functional stakeholder experience in a data rich business environment, where insights directly informed strategic decisions. Proven ability to translate complex datasets into clear, actionable recommendations for non-technical audiences. Detail-oriented, self-driven, and passionate about leveraging data to drive business performance.
             </p>
         </section>
-
         <!-- TECHNICAL SKILLS -->
         <section class="section">
             <div class="section-title">Technical Skills</div>
@@ -354,11 +309,9 @@
                 </div>
             </div>
         </section>
-
         <!-- PROJECTS -->
         <section class="section projects-section">
             <div class="section-title">Projects</div>
-
             <div class="entry">
                 <div class="entry-header">
                     <div class="entry-title"><a href="https://nady-07.github.io/portfolio/#projects" target="_blank" style="color: inherit; text-decoration: none;">Samsung Global Performance &amp; Supply Chain Analytics</a></div>
@@ -369,7 +322,6 @@
                     <li>Architected a multi-fact constellation schema (5 dims, 5 facts) with 30+ centralized DAX measures, isolating 573 delayed shipments and 459 value-at-risk inventory SKUs.</li>
                 </ul>
             </div>
-
             <div class="entry">
                 <div class="entry-header">
                     <div class="entry-title"><a href="https://nady-07.github.io/portfolio/#projects" target="_blank" style="color: inherit; text-decoration: none;">Telecom Customer Churn &amp; Revenue Loss Dashboard</a></div>
@@ -380,7 +332,6 @@
                     <li>Proved bundling 4+ add-ons slashes churn from 50.3% to 5.3% using advanced DAX measures; designed an interactive pop-out slicer panel for self-service stakeholder reporting.</li>
                 </ul>
             </div>
-
             <div class="entry">
                 <div class="entry-header">
                     <div class="entry-title"><a href="https://github.com/Nady-07/SQL_Data_Warehouse_Project" target="_blank" style="color: inherit; text-decoration: none;">SQL Data Warehouse — End-to-End ETL &amp; Data Modeling</a></div>
@@ -391,7 +342,6 @@
                     <li>Built reusable reporting views and standardized KPI calculations using advanced T-SQL window functions (LAG, running totals, moving averages) to ensure enterprise data integrity.</li>
                 </ul>
             </div>
-
             <div class="entry">
                 <div class="entry-header">
                     <div class="entry-title"><a href="https://github.com/Nady-07/Advanced_EDA_Project" target="_blank" style="color: inherit; text-decoration: none;">Advanced Exploratory Data Analysis &amp; Business Reporting</a></div>
@@ -402,7 +352,6 @@
                     <li>Translated statistical patterns into actionable executive reporting summaries, establishing standard data cleaning protocols and KPI calculation benchmarks.</li>
                 </ul>
             </div>
-
             <div class="entry">
                 <div class="entry-header">
                     <div class="entry-title"><a href="https://nady-07.github.io/portfolio/#projects" target="_blank" style="color: inherit; text-decoration: none;">Executive Sales Performance Dashboards</a></div>
@@ -414,22 +363,9 @@
                 </ul>
             </div>
         </section>
-
         <!-- PROFESSIONAL EXPERIENCE -->
         <section class="section experience-section">
             <div class="section-title">Professional Experience</div>
-
-            <div class="entry">
-                <div class="entry-header">
-                    <div class="entry-title">Freelance Real Estate Data Analyst <span style="font-weight: normal; color: #475569;">|</span> <span style="color: #2563eb;">Self-Employed</span> — <span style="font-weight: normal; color: #475569;">Cairo, Egypt</span></div>
-                    <div class="entry-date">2025 – 2026</div>
-                </div>
-                <ul class="bullets">
-                    <li>Analyzed property price and market data across Cairo districts, producing structured advisory reports — mirroring the ad-hoc analysis and stakeholder reporting cadence of a BI analyst role.</li>
-                    <li>Built Excel KPI dashboards tracking conversion rates, pipeline status, revenue targets, and transaction activity, providing data-informed performance summaries for monthly reviews.</li>
-                </ul>
-            </div>
-
             <div class="entry">
                 <div class="entry-header">
                     <div class="entry-title">Real Estate Agent — Resale Department <span style="font-weight: normal; color: #475569;">|</span> <span style="color: #2563eb;">Smart Step</span> — <span style="font-weight: normal; color: #475569;">Cairo, Egypt</span></div>
@@ -440,7 +376,6 @@
                     <li>Built Excel-based performance reports covering sales conversion rates, revenue targets, and active inventory, enabling data-driven decisions on pricing and inventory prioritization.</li>
                 </ul>
             </div>
-
             <div class="entry">
                 <div class="entry-header">
                     <div class="entry-title">Real Estate Agent — Primary Sales <span style="font-weight: normal; color: #475569;">|</span> <span style="color: #2563eb;">MLS</span> — <span style="font-weight: normal; color: #475569;">Cairo, Egypt</span></div>
@@ -451,7 +386,6 @@
                 </ul>
             </div>
         </section>
-
         <!-- BOTTOM ROW: Education + Certifications side by side -->
         <div class="bottom-row">
             <section class="section">
@@ -461,7 +395,6 @@
                     <div style="font-size: 9px; color: #475569; font-style: italic; margin-top: 2px;">2018 – 2022</div>
                 </div>
             </section>
-
             <section class="section">
                 <div class="section-title">Certifications</div>
                 <div class="cert-item">
@@ -475,9 +408,7 @@
                 </div>
             </section>
         </div>
-
     </div>
-
     <div class="download-section" data-html-only>
         <a class="download-button" href="Mohamed_Alnady_CV_ATS.pdf" download="Mohamed_Alnady_CV_ATS.pdf">
             <svg viewBox="0 0 24 24" aria-hidden="true">
