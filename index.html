@@ -1,934 +1,1178 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Mohamed Al Nady — Professional Data Analyst Portfolio. Specializing in SQL, Power BI, Excel, ETL, and Data Modeling.">
-    <title>Mohamed Al Nady — Data Analyst Portfolio</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mohamed Al Nady | Junior Data Analyst Portfolio</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 
-    <!-- Open Graph / Social Sharing -->
-    <meta property="og:title" content="Mohamed Al Nady — Data Analyst Portfolio">
-    <meta property="og:description" content="SQL, Power BI, Excel — Turning Raw Data Into Actionable Insights">
-    <meta property="og:image" content="assets/ev-market-overview.png">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    
-    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
-    <!-- CSS Stylesheet (Includes local self-hosted Inter & Outfit fonts) -->
-    <link rel="stylesheet" href="style.css?v=18">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        obsidian: '#050811',
+                        slateDark: '#0B1120',
+                        cyanGlow: '#06B6D4',
+                        indigoGlow: '#6366F1',
+                        emeraldGlow: '#10B981',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        :root {
+            color-scheme: dark;
+        }
+        body {
+            background-color: #050811;
+            color: #F8FAFC;
+            overflow-x: hidden;
+        }
+        #webgl-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: auto;
+            cursor: grab;
+        }
+        #webgl-canvas:active {
+            cursor: grabbing;
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.68);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+        }
+        .glass-card {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.48) 0%, rgba(15, 23, 42, 0.72) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(148, 163, 184, 0.14);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(6, 182, 212, 0.45);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px -12px rgba(6, 182, 212, 0.22);
+        }
+        .hud-card-active {
+            border-color: rgba(16, 185, 129, 0.7) !important;
+            background: linear-gradient(145deg, rgba(16, 185, 129, 0.16) 0%, rgba(15, 23, 42, 0.85) 100%) !important;
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.25);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #22D3EE 0%, #818CF8 55%, #10B981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .grid-overlay {
+            background-size: 48px 48px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050811;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1E293B;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06B6D4;
+        }
+    </style>
 </head>
-<body>
+<body class="antialiased selection:bg-cyan-500/30 selection:text-cyan-200 grid-overlay">
 
-    <!-- NAV BAR -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="#" class="logo">
-                <span class="logo-accent">&lt;</span>Mohamed.Nady<span class="logo-accent"> /&gt;</span>
+    <!-- Interactive Three.js Background Canvas -->
+    <canvas id="webgl-canvas" title="Click and drag to rotate the 3D Data Model"></canvas>
+
+    <!-- Live Toast Notification -->
+    <div id="scene-toast" class="fixed bottom-5 right-5 z-50 glass-panel px-4 py-2.5 rounded-xl border border-cyan-500/40 text-xs font-mono text-cyan-300 flex items-center gap-2.5 opacity-0 pointer-events-none transition-all duration-300 translate-y-2">
+        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+        <span id="scene-toast-text">3D Mode: Star Schema</span>
+    </div>
+
+    <!-- Floating Navigation -->
+    <header class="fixed top-4 inset-x-0 z-50 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pointer-events-auto">
+        <nav class="glass-panel rounded-2xl px-5 py-3.5 flex items-center justify-between">
+            <a href="#" class="font-mono text-lg font-semibold tracking-tight flex items-center gap-1 group">
+                <span class="text-cyan-400 group-hover:-translate-x-0.5 transition-transform">&lt;</span>
+                <span class="font-display text-white">Mohamed.Nady</span>
+                <span class="text-indigo-400 group-hover:translate-x-0.5 transition-transform">/&gt;</span>
             </a>
-            
-            <ul class="nav-links">
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#skills" class="nav-link">Skills</a></li>
-                <li><a href="#projects" class="nav-link">Projects</a></li>
-                <li><a href="#experience" class="nav-link">Experience</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
+
+            <!-- Desktop Links -->
+            <ul class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-300">
+                <li><a href="#about" class="hover:text-cyan-400 transition-colors">About</a></li>
+                <li><a href="#skills" class="hover:text-cyan-400 transition-colors">Skills</a></li>
+                <li><a href="#projects" class="hover:text-cyan-400 transition-colors">Projects</a></li>
+                <li><a href="#experience" class="hover:text-cyan-400 transition-colors">Experience</a></li>
+                <li><a href="#contact" class="hover:text-cyan-400 transition-colors">Contact</a></li>
             </ul>
 
-            <div class="nav-actions">
-                <button id="theme-toggle" aria-label="Toggle theme" class="theme-btn">
-                    <!-- Sun Icon (for dark mode to switch to light) -->
-                    <svg class="sun-icon" viewBox="0 0 24 24">
-                        <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
-                    </svg>
-                    <!-- Moon Icon (for light mode to switch to dark) -->
-                    <svg class="moon-icon" viewBox="0 0 24 24">
-                        <path d="M12.3 22h-.1c-5.5 0-10-4.5-10-10 0-4.8 3.5-9 8.3-9.9.5-.1 1 .3.9.8-.1.4-.2.8-.2 1.2 0 4.4 3.6 8 8 8 .4 0 .8-.1 1.2-.2.5-.1.9.3.8.9-.9 4.8-5.1 8.2-9.9 8.2z"/>
-                    </svg>
+            <!-- Right Actions -->
+            <div class="hidden md:flex items-center gap-3">
+                <button id="toggle-3d-mode" onclick="cycleSceneMode()" title="Switch 3D Visualization Mode" class="px-3 py-1.5 rounded-lg text-xs font-mono text-cyan-300 bg-cyan-500/10 border border-cyan-500/25 hover:bg-cyan-500/20 transition">
+                    3D: Star Schema
                 </button>
-                <a href="cv/Mohamed_Alnady_CV_ATS.html" target="_blank" rel="noopener noreferrer" class="btn btn-secondary nav-cta">Resume</a>
-                <a href="#contact" class="btn btn-primary nav-cta">Let's Talk</a>
+                <a href="cv/Mohamed_Alnady_CV_ATS.html" target="_blank" rel="noopener noreferrer"
+                   class="px-4 py-2 rounded-xl text-sm font-medium text-slate-200 hover:text-white border border-slate-700/80 hover:border-slate-500 transition">
+                    Resume / CV
+                </a>
+                <a href="#contact"
+                   class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-950 bg-gradient-to-r from-cyan-400 to-indigo-400 hover:opacity-95 transition shadow-lg shadow-cyan-500/20">
+                    Let's Talk
+                </a>
             </div>
-            
-            <button class="mobile-nav-toggle" aria-label="Toggle menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/50">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
             </button>
+        </nav>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden mt-2 glass-panel rounded-2xl p-4">
+            <ul class="flex flex-col gap-3 text-sm font-medium text-slate-300">
+                <li><a href="#about" class="block py-1.5 hover:text-cyan-400">About</a></li>
+                <li><a href="#skills" class="block py-1.5 hover:text-cyan-400">Skills</a></li>
+                <li><a href="#projects" class="block py-1.5 hover:text-cyan-400">Projects</a></li>
+                <li><a href="#experience" class="block py-1.5 hover:text-cyan-400">Experience</a></li>
+                <li><a href="#contact" class="block py-1.5 hover:text-cyan-400">Contact</a></li>
+                <li class="pt-2 border-t border-slate-800 flex gap-3">
+                    <a href="cv/Mohamed_Alnady_CV_ATS.html" target="_blank" rel="noopener noreferrer" class="flex-1 text-center py-2 rounded-xl border border-slate-700 text-white">Resume</a>
+                    <a href="#contact" class="flex-1 text-center py-2 rounded-xl bg-cyan-400 text-slate-950 font-semibold">Contact</a>
+                </li>
+            </ul>
         </div>
-    </nav>
+    </header>
 
-    <!-- MOBILE NAVIGATION OVERLAY -->
-    <div class="mobile-nav-overlay">
-        <ul class="mobile-nav-links">
-            <li><a href="#about" class="mobile-link">About</a></li>
-            <li><a href="#skills" class="mobile-link">Skills</a></li>
-            <li><a href="#projects" class="mobile-link">Projects</a></li>
-            <li><a href="#experience" class="mobile-link">Experience</a></li>
-            <li><a href="#contact" class="mobile-link">Contact</a></li>
-            <li><a href="cv/Mohamed_Alnady_CV_ATS.html" target="_blank" rel="noopener noreferrer" class="mobile-link">View Resume</a></li>
-            <li><a href="#contact" class="mobile-link mobile-cta">Let's Talk</a></li>
-        </ul>
-    </div>
+    <!-- Main Content Container -->
+    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 sm:pt-36 pb-24 space-y-32 pointer-events-none">
 
-    <!-- HERO SECTION -->
-    <section class="hero-section">
-        <div class="hero-bg-glow"></div>
-        <div class="container hero-container">
-            <div class="hero-content">
-                <div class="hero-badge animate-fade-in">
-                    <span class="badge-dot"></span> Open for Data Analyst Roles
-                </div>
-                <h1 class="hero-title animate-slide-up">
-                    Turning Raw Data Into <span class="gradient-text">Actionable Insights</span>
-                </h1>
-                <p class="hero-subtitle animate-slide-up-delayed">
-                    Hi, I'm <strong>Mohamed Al Nady</strong>, a Data Analyst combining a strong technical toolkit (SQL, Power BI, Excel) with client-facing real estate experience. I bridge the gap between numbers and strategic decisions.
-                </p>
-                <div class="hero-buttons animate-fade-in-delayed">
-                    <a href="#projects" class="btn btn-primary">
-                        View My Work
-                        <svg class="btn-icon" viewBox="0 0 24 24">
-                            <path d="M16.01 11H4v2h12.01v3L20 12l-3.99-4v3z"/>
-                        </svg>
-                    </a>
-                    <a href="cv/Mohamed_Alnady_CV_ATS.html" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">View CV / Resume</a>
-                    <a href="#contact" class="btn btn-secondary">Get in Touch</a>
-                </div>
-                <div class="hero-socials animate-fade-in-delayed">
-                    <a href="https://www.linkedin.com/in/mohamed-alnady-52b87123b" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                        <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-                    </a>
-                    <a href="https://github.com/Nady-07" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                        <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="hero-visual animate-scale-in">
-                <!-- General Data Analytics Hub Mockup -->
-                <div class="dashboard-mockup general-hub-mockup">
-                    <div class="mockup-header">
-                        <div class="mockup-dots">
-                            <span class="mockup-dot red"></span>
-                            <span class="mockup-dot yellow"></span>
-                            <span class="mockup-dot green"></span>
-                        </div>
-                        <div class="mockup-search">Data Analytics Engine &amp; Reporting Hub</div>
-                        <span class="mockup-status-pill">● System Active</span>
+        <!-- HERO SECTION -->
+        <section class="min-h-[82vh] flex items-center pointer-events-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
+                
+                <!-- Left Column: Intro & CTAs -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-xs font-mono">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                        <span>Junior Data Analyst • Maadi, Cairo • Open to Growth &amp; BI Roles</span>
                     </div>
-                    
-                    <div class="mockup-body hub-body">
-                        <!-- Top Row: Pipeline Steps Flow -->
-                        <div class="pipeline-flow-row">
-                            <div class="pipeline-step active">
-                                <span class="step-icon">🗄️</span>
-                                <div class="step-info">
-                                    <span class="step-name">Raw Data Sources</span>
-                                    <span class="step-sub">CSV · SQL · APIs</span>
-                                </div>
-                            </div>
-                            <div class="pipeline-arrow">➔</div>
-                            <div class="pipeline-step active">
-                                <span class="step-icon">⚙️</span>
-                                <div class="step-info">
-                                    <span class="step-name">ETL &amp; Modeling</span>
-                                    <span class="step-sub">T-SQL · Star Schema</span>
-                                </div>
-                            </div>
-                            <div class="pipeline-arrow">➔</div>
-                            <div class="pipeline-step active">
-                                <span class="step-icon">📊</span>
-                                <div class="step-info">
-                                    <span class="step-name">BI Dashboards</span>
-                                    <span class="step-sub">Power BI · DAX</span>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Middle Row: Analytics Trend & Performance KPI Cards -->
-                        <div class="hub-analytics-grid">
-                            <!-- Trend Line Chart Widget -->
-                            <div class="hub-chart-card">
-                                <div class="chart-header">
-                                    <span>Analytics Growth Trend</span>
-                                    <span class="chart-badge">+34% Efficiency</span>
-                                </div>
-                                <div class="svg-chart-container">
-                                    <svg viewBox="0 0 300 80" class="trend-svg">
-                                        <defs>
-                                            <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.4"/>
-                                                <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.0"/>
-                                            </linearGradient>
-                                        </defs>
-                                        <path d="M0,65 Q40,55 80,45 T160,30 T240,15 T300,5 L300,80 L0,80 Z" fill="url(#chartGrad)"/>
-                                        <path d="M0,65 Q40,55 80,45 T160,30 T240,15 T300,5" fill="none" stroke="#3b82f6" stroke-width="2.5"/>
-                                        <circle cx="300" cy="5" r="4" fill="#3b82f6"/>
-                                    </svg>
-                                </div>
-                            </div>
+                    <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.08]">
+                        Turning Customer &amp; Business Data Into <span class="text-gradient">Clear Actions</span>
+                    </h1>
 
-                            <!-- Performance Stats -->
-                            <div class="hub-stats-column">
-                                <div class="hub-stat-item">
-                                    <div class="stat-meta">
-                                        <span class="stat-title">Query Performance</span>
-                                        <span class="stat-highlight">Sub-Second</span>
-                                    </div>
-                                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 95%;"></div></div>
-                                </div>
-                                <div class="hub-stat-item">
-                                    <div class="stat-meta">
-                                        <span class="stat-title">Data Accuracy</span>
-                                        <span class="stat-highlight">99.9%</span>
-                                    </div>
-                                    <div class="progress-bar-bg"><div class="progress-bar-fill green" style="width: 99%;"></div></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Footer Pill: Automated Data Sync -->
-                        <div class="hub-footer-status">
-                            <span>⚡ ETL Pipelines Cleaned &amp; Transformed</span>
-                            <span class="sync-time">Updated Real-Time</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ABOUT SECTION -->
-    <section id="about" class="about-section">
-        <div class="container">
-            <h2 class="section-heading" data-subtitle="My background">About Me</h2>
-            <div class="about-grid">
-                <div class="about-text">
-                    <p class="lead-text">
-                        Data Analyst with hands-on experience building end-to-end analytics solutions — SQL data warehouses, ETL pipelines, data modeling, and Power BI dashboards.
+                    <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl">
+                        Hi, I'm <strong class="text-white font-semibold">Mohamed Al Nady</strong> — a Junior Data Analyst with hands-on manufacturing analytics experience and a background in customer-facing sales. I prepare clean datasets, write analytical <span class="font-mono text-cyan-300 text-sm">SQL</span>, and build desktop &amp; mobile <span class="font-mono text-cyan-300 text-sm">Power BI</span> and <span class="font-mono text-cyan-300 text-sm">Excel</span> reports directly for senior management.
                     </p>
-                    <p>
-                        Combines strong SQL and data visualization skills with cross-functional stakeholder experience in a data-rich business environment, where insights directly informed strategic decisions.
-                    </p>
-                    <p>
-                        Proven ability to translate complex datasets into clear, actionable recommendations for non-technical audiences. Detail-oriented, self-driven, and passionate about leveraging data to drive business performance.
-                    </p>
-                    <div class="about-info-grid">
-                        <div class="info-card">
-                            <span class="info-num">Real Estate</span>
-                            <span class="info-lbl">Business Background</span>
-                        </div>
-                        <div class="info-card">
-                            <span class="info-num">8+</span>
-                            <span class="info-lbl">End-to-End Projects</span>
-                        </div>
-                        <div class="info-card">
-                            <span class="info-num">100K+</span>
-                            <span class="info-lbl">Data Rows Analyzed</span>
-                        </div>
-                        <div class="info-card">
-                            <span class="info-num">100%</span>
-                            <span class="info-lbl">Data-Driven Approach</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="about-visual">
-                    <div class="journey-box">
-                        <h3>My Value Proposition</h3>
-                        <ul class="journey-list">
-                            <li>
-                                <div class="journey-icon">💼</div>
-                                <div>
-                                    <strong>Business Acumen:</strong> B.Com degree combined with years of client negotiation and pipeline reporting.
-                                </div>
-                            </li>
-                            <li>
-                                <div class="journey-icon">📊</div>
-                                <div>
-                                    <strong>Analytics Toolkit:</strong> Advanced SQL, T-SQL modeling, star schemas, ETL pipeline design.
-                                </div>
-                            </li>
-                            <li>
-                                <div class="journey-icon">🎨</div>
-                                <div>
-                                    <strong>Data Storytelling:</strong> Crafting multi-page interactive dashboards with drill-downs that explain the <em>why</em> behind the numbers.
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- SKILLS SECTION -->
-    <section id="skills" class="skills-section">
-        <div class="container">
-            <h2 class="section-heading" data-subtitle="My Arsenal">Technical Expertise</h2>
-            
-            <div class="skills-tabs-container">
-                <div class="skills-categories">
-                    <button class="skill-tab-btn active" data-target="data-analysis">Data & Analytics</button>
-                    <button class="skill-tab-btn" data-target="visualization">BI & Visualization</button>
-                    <button class="skill-tab-btn" data-target="data-eng">Data Engineering</button>
-                    <button class="skill-tab-btn" data-target="learning">Learning Next</button>
-                </div>
-                
-                <div class="skills-content-wrapper">
-                    <!-- Data & Analytics -->
-                    <div class="skills-tab-content active" id="data-analysis">
-                        <div class="skills-grid-layout">
-                            <div class="skill-item-card">
-                                <div class="skill-card-icon">⚡</div>
-                                <h4>SQL & T-SQL</h4>
-                                <p>Aggregations, GROUP BY, window functions (RANK, ROW_NUMBER, LAG/LEAD), subqueries, and CTEs for complex data extraction.</p>
-                            </div>
-                            <div class="skill-item-card">
-                                <div class="skill-card-icon">📈</div>
-                                <h4>Advanced Excel</h4>
-                                <p>Mastery of Pivot Tables, VLOOKUP, INDEX/MATCH, and complex nested formulas for lead logs and client analysis.</p>
-                            </div>
-                            <div class="skill-item-card">
-                                <div class="skill-card-icon">🧹</div>
-                                <h4>Data Cleaning</h4>
-                                <p>Handling missing values, deduplication, formatting, and data transformation to ensure clean analytical inputs.</p>
-                            </div>
-                            <div class="skill-item-card">
-                                <div class="skill-card-icon">🔍</div>
-                                <h4>EDA</h4>
-                                <p>Exploratory Data Analysis to uncover correlations, trends, anomalies, and underlying patterns within raw datasets.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- BI & Visualization -->
-                    <div class="skills-tab-content" id="visualization">
-                        <div class="skills-grid-layout">
-                            <div class="skill-item-card">
-                                <div class="skill-card-icon">📊</div>
-                                <h4>Power BI</h4>
-                                <p>Designing interactive, multi-page reports with seamless page navigation, drill-throughs, and dynamic filtering.</p>
-                            </div>
-                            <div class="skill-item-card">
-                                <div class="skill-card-icon">🧮</div>
-                                <h4>DAX</h4>
-                                <p>Creating complex measures, calculated columns, time-intelligence functions, and KPI indicators.</p>
-                            </div>
-                            <div class="skill-item-card">
-                                <div class="skill-card-icon">🎯</div>
-                                <h4>KPI Design</h4>
-                                <p>Developing visual dashboards that focus on strategic business metrics such as Attrition, Retention, and conversion rates.</p>
-                            </div>
-                            <div class="skill-item-card">
-                                <div class="skill-card-icon">📖</div>
-                                <h4>Data Storytelling</h4>
-                                <p>Translating complex visual patterns into text-based recommendations and business insights for stakeholders.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Data Engineering -->
-                    <div class="skills-tab-content" id="data-eng">
-                        <div class="skills-grid-layout">
-                            <div class="skill-item-card">
-                                <div class="skill-card-icon">⚙️</div>
-                                <h4>ETL Pipelines</h4>
-                                <p>Building Extract, Transform, Load processes using T-SQL scripts to load raw files into structured analytics tables.</p>
-                            </div>
-                            <div class="skill-item-card">
-                                <div class="skill-card-icon">📐</div>
-                                <h4>Data Modeling</h4>
-                                <p>Designing logical schemas that support high-speed query execution and scalable reporting layers.</p>
-                            </div>
-                            <div class="skill-item-card">
-                                <div class="skill-card-icon">⭐</div>
-                                <h4>Star Schema</h4>
-                                <p>Designing dimensional tables (Dimensions) and fact tables (Facts) for structured data warehousing.</p>
-                            </div>
-                            <div class="skill-item-card">
-                                <div class="skill-card-icon">💾</div>
-                                <h4>Data Warehousing</h4>
-                                <p>Implementing central data structures optimized for BI applications, analytics, and historical reporting.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Learning Next -->
-                    <div class="skills-tab-content" id="learning">
-                        <div class="skills-grid-layout">
-                            <div class="skill-item-card learning-card">
-                                <div class="skill-card-icon">🐍</div>
-                                <h4>Python</h4>
-                                <p>Learning Pandas, Matplotlib, and Seaborn for advanced statistical computation and custom visualizations.</p>
-                            </div>
-                            <div class="skill-item-card learning-card">
-                                <div class="skill-card-icon">☁️</div>
-                                <h4>Azure Cloud</h4>
-                                <p>Studying Azure Data Factory, Synapse Analytics, and SQL database management for cloud data engineering.</p>
-                            </div>
-                            <div class="skill-item-card learning-card">
-                                <div class="skill-card-icon">🧡</div>
-                                <h4>AWS</h4>
-                                <p>Exploring cloud analytics fundamentals, Redshift, S3 bucket storage, and RDS relational database setup.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- PROJECTS SECTION -->
-    <section id="projects" class="projects-section">
-        <div class="container">
-            <h2 class="section-heading" data-subtitle="My Portfolio">Featured Projects</h2>
-            
-            <div class="projects-grid">
-                
-                <!-- Project 0: Samsung Global Performance & Supply Chain -->
-                <div class="project-card">
-                    <div class="project-image-container">
-                        <img src="assets/cover-ibm-hr.svg" alt="Samsung Global Performance & Supply Chain Dashboard" class="project-image" loading="lazy">
-                    </div>
-                    <div class="project-card-header">
-                        <span class="project-meta">Power BI · DAX · Constellation Schema</span>
-                        <h3>Samsung Global Performance &amp; Supply Chain</h3>
-                    </div>
-                    <div class="project-card-body">
-                        <p>
-                            Enterprise Power BI solution diagnosing <strong>4 integrated business domains</strong> across Samsung's global operations, delivering visibility into <strong>$176.95M in net revenue</strong> and optimizing <strong>$19.42M in freight spend</strong>.
-                        </p>
-                        <div class="project-key-stats">
-                            <div class="stat-bubble">
-                                <span class="stat-val">$176.95M</span>
-                                <span class="stat-lbl">Net Revenue</span>
-                            </div>
-                            <div class="stat-bubble">
-                                <span class="stat-val">27.4%</span>
-                                <span class="stat-lbl">Profit Margin</span>
-                            </div>
-                            <div class="stat-bubble">
-                                <span class="stat-val">7,500</span>
-                                <span class="stat-lbl">Shipments</span>
-                            </div>
-                        </div>
-                        <ul class="project-bullets-preview">
-                            <li>Diagnosed end-to-end value chain flow from procurement ($78.1M) to omnichannel sales (187K units).</li>
-                            <li>Surpassed annual revenue target by +10.6% ($16.95M beat), led by smartphones ($98.71M) and Galaxy S24 Ultra ($34M).</li>
-                            <li>Isolated logistics bottlenecks: 573 delayed shipments (Maersk Line) and 459 value-at-risk inventory SKUs.</li>
-                            <li>Architected a multi-fact constellation schema (5 dimensions, 5 facts, 30+ centralized DAX measures).</li>
-                        </ul>
-                    </div>
-                    <div class="project-card-footer">
-                        <button class="btn btn-primary btn-sm modal-trigger" data-project="samsung-performance">View Dashboard Details</button>
-                    </div>
-                </div>
-
-                <!-- Project 1: e& Telecom Customer Churn & Revenue Loss -->
-                <div class="project-card">
-                    <div class="project-image-container">
-                        <img src="assets/cover-ibm-hr.svg" alt="e& Telecom Customer Churn & Revenue Loss Dashboard" class="project-image">
-                    </div>
-                    <div class="project-card-header">
-                        <span class="project-meta">Power BI · DAX · Data Modeling</span>
-                        <h3>e& Telecom Customer Churn &amp; Revenue Loss</h3>
-                    </div>
-                    <div class="project-card-body">
-                        <p>
-                            Built an executive Power BI dashboard for <strong>e& (Etisalat &amp;)</strong> analyzing subscriber churn across <strong>7,043 accounts</strong> and isolating <strong>$2.86M in revenue loss</strong>.
-                        </p>
-                        <div class="project-key-stats">
-                            <div class="stat-bubble">
-                                <span class="stat-val">26.5%</span>
-                                <span class="stat-lbl">Churn Rate</span>
-                            </div>
-                            <div class="stat-bubble">
-                                <span class="stat-val">$2.86M</span>
-                                <span class="stat-lbl">Revenue Lost</span>
-                            </div>
-                            <div class="stat-bubble">
-                                <span class="stat-val">7,043</span>
-                                <span class="stat-lbl">Accounts</span>
-                            </div>
-                        </div>
-                        <ul class="project-bullets-preview">
-                            <li>Identified month-to-month contracts (42.7% churn) as driving $1.93M (67%) of total financial loss.</li>
-                            <li>Proved bundling 4+ add-ons slashes subscriber churn from 50.3% down to 5.3%.</li>
-                            <li>Engineered custom pop-out slicer panels for tenure, contract, add-on, and demographic filtering.</li>
-                        </ul>
-                    </div>
-                    <div class="project-card-footer">
-                        <button class="btn btn-primary btn-sm modal-trigger" data-project="etisalat-churn">View Dashboard Details</button>
-                    </div>
-                </div>
-
-                <!-- Project 2: EV Market Overview -->
-                <div class="project-card">
-                    <div class="project-image-container">
-                        <img src="assets/cover-ibm-hr.svg" alt="EV Market Overview dashboard" class="project-image">
-                    </div>
-                    <div class="project-card-header">
-                        <span class="project-meta">Power BI · DAX · Data Modeling</span>
-                        <h3>EV Market Overview Dashboard</h3>
-                    </div>
-                    <div class="project-card-body">
-                        <p>
-                            Built an interactive EV market dashboard to compare <strong>478 electric vehicle models across 59 brands</strong>, turning model-level specifications into clear market and product insights.
-                        </p>
-                        <div class="project-key-stats">
-                            <div class="stat-bubble">
-                                <span class="stat-val">478</span>
-                                <span class="stat-lbl">EV Models</span>
-                            </div>
-                            <div class="stat-bubble">
-                                <span class="stat-val">59</span>
-                                <span class="stat-lbl">Brands</span>
-                            </div>
-                            <div class="stat-bubble">
-                                <span class="stat-val">393 km</span>
-                                <span class="stat-lbl">Avg. Range</span>
-                            </div>
-                        </div>
-                        <ul class="project-bullets-preview">
-                            <li>Created KPI measures for range, battery capacity, efficiency, charging speed, acceleration, and top speed.</li>
-                            <li>Highlighted leading range brands, including Lucid (603 km), Porsche (503 km), and Tesla (490 km).</li>
-                            <li>Added interactive filters for brand, body type, drivetrain, and seats to support focused comparisons.</li>
-                        </ul>
-                    </div>
-                    <div class="project-card-footer">
-                        <button class="btn btn-primary btn-sm modal-trigger" data-project="ev-market">View Dashboard Details</button>
-                    </div>
-                </div>
-
-                <!-- Project 2: IBM HR Analytics -->
-                <div class="project-card">
-                    <div class="project-image-container">
-                        <img src="assets/cover-ibm-hr.svg" alt="IBM HR Analytics Dashboard" class="project-image" loading="lazy">
-                    </div>
-                    <div class="project-card-header">
-                        <span class="project-meta">Power BI · DAX</span>
-                        <h3>IBM HR Attrition Analytics Dashboard</h3>
-                    </div>
-                    <div class="project-card-body">
-                        <p>
-                            An end-to-end interactive dashboard analyzing employee attrition drivers across <strong>1,470 records and 35 attributes</strong>. Designed to help HR directors spot patterns and implement data-backed retention strategies.
-                        </p>
-                        <div class="project-key-stats">
-                            <div class="stat-bubble">
-                                <span class="stat-val">16.1%</span>
-                                <span class="stat-lbl">Attrition Rate</span>
-                            </div>
-                            <div class="stat-bubble">
-                                <span class="stat-val">30.5%</span>
-                                <span class="stat-lbl">OT Attrition</span>
-                            </div>
-                            <div class="stat-bubble">
-                                <span class="stat-val">4 Pages</span>
-                                <span class="stat-lbl">Deep-dive Insights</span>
-                            </div>
-                        </div>
-                        <ul class="project-bullets-preview">
-                            <li>Found key attrition drivers: overtime employees leave at 3x the rate of standard staff.</li>
-                            <li>Employees under 25 represent the highest attrition cohort (39.18%).</li>
-                            <li>Created custom DAX calculations, page filters, and drill-down metrics.</li>
-                        </ul>
-                    </div>
-                    <div class="project-card-footer">
-                        <button class="btn btn-primary btn-sm modal-trigger" data-project="ibm-hr">View Insights & Slides</button>
-                    </div>
-                </div>
-
-                <!-- Project 3: Executive Sales Performance Dashboard -->
-                <div class="project-card">
-                    <div class="project-image-container">
-                        <img src="assets/cover-excel-sales.svg" alt="Executive Sales Performance Dashboard" class="project-image" loading="lazy">
-                    </div>
-                    <div class="project-card-header">
-                        <span class="project-meta">Excel · Pivot Tables · Dashboards</span>
-                        <h3>Executive Sales Performance Dashboard</h3>
-                    </div>
-                    <div class="project-card-body">
-                        <p>
-                            Designed an executive sales performance dashboard for tracking sales KPIs across multiple regions, product lines, and years, analyzing <strong>$14.54M in total revenue</strong>.
-                        </p>
-                        <div class="project-key-stats">
-                            <div class="stat-bubble">
-                                <span class="stat-val">$14.54M</span>
-                                <span class="stat-lbl">Total Revenue</span>
-                            </div>
-                            <div class="stat-bubble">
-                                <span class="stat-val">+14.6%</span>
-                                <span class="stat-lbl">YoY Growth</span>
-                            </div>
-                            <div class="stat-bubble">
-                                <span class="stat-val">28.7K</span>
-                                <span class="stat-lbl">Units Sold</span>
-                            </div>
-                        </div>
-                        <ul class="project-bullets-preview">
-                            <li>Built dynamic slicers for East/North/South/West regions and Clothing/Electronics/Groceries product lines.</li>
-                            <li>Identified key revenue drivers, showing peak seasonal sales in December ($885.4K).</li>
-                            <li>Designed visualizations for sales contribution by gender (64.6% Female) and Top-5 customers.</li>
-                        </ul>
-                    </div>
-                    <div class="project-card-footer">
-                        <button class="btn btn-primary btn-sm modal-trigger" data-project="excel-sales">View Dashboard Details</button>
-                    </div>
-                </div>
-
-                <!-- Project 4: AdventureWorks Sales & Profit Dashboard -->
-                <div class="project-card">
-                    <div class="project-image-container">
-                        <img src="assets/cover-excel-adventureworks.svg" alt="AdventureWorks Sales &amp; Profit Dashboard" class="project-image" loading="lazy">
-                    </div>
-                    <div class="project-card-header">
-                        <span class="project-meta">Excel · Power Pivot · Data Modeling</span>
-                        <h3>AdventureWorks Sales & Profit Dashboard</h3>
-                    </div>
-                    <div class="project-card-body">
-                        <p>
-                            Constructed a sales and profitability tracking dashboard using Excel Power Pivot and Data Modeling. Implemented a star schema with dimension and fact tables to analyze <strong>$307.09M in revenue</strong>.
-                        </p>
-                        <div class="project-key-stats">
-                            <div class="stat-bubble">
-                                <span class="stat-val">$307.09M</span>
-                                <span class="stat-lbl">Total Revenue</span>
-                            </div>
-                            <div class="stat-bubble">
-                                <span class="stat-val">$126.29M</span>
-                                <span class="stat-lbl">Total Profit</span>
-                            </div>
-                            <div class="stat-bubble">
-                                <span class="stat-val">41.1%</span>
-                                <span class="stat-lbl">Profit Margin</span>
-                            </div>
-                        </div>
-                        <ul class="project-bullets-preview">
-                            <li>Designed a star schema data model with relationships between sales fact and geography/product dimension tables.</li>
-                            <li>Analyzed regional profitability, mapping the United States (~$50M profit) as the top performer.</li>
-                            <li>Identified high-margin products (e.g. Mountain-200 Black series at ~$5.2M profit).</li>
-                        </ul>
-                    </div>
-                    <div class="project-card-footer">
-                        <button class="btn btn-primary btn-sm modal-trigger" data-project="excel-adventureworks">View Dashboard Details</button>
-                    </div>
-                </div>
-
-                <!-- Project 5: SQL Data Warehouse -->
-                <div class="project-card">
-                    <div class="project-image-container">
-                        <img src="assets/cover-sql-dwh.svg" alt="SQL Data Warehouse Project" class="project-image" loading="lazy">
-                    </div>
-                    <div class="project-card-header">
-                        <span class="project-meta">SQL Server · T-SQL · Data Modeling</span>
-                        <h3>SQL Data Warehouse — ETL & Modeling</h3>
-                    </div>
-                    <div class="project-card-body">
-                        <p>
-                            Designed and built a relational data warehouse using star schema architecture. Created dimensions, fact tables, and robust ETL pipelines to clean, transform, and load raw CSV inputs into clean data models optimized for BI applications.
-                        </p>
-                        <div class="project-key-stats">
-                            <div class="stat-bubble">
-                                <span class="stat-val">Star</span>
-                                <span class="stat-lbl">Schema Design</span>
-                            </div>
-                            <div class="stat-bubble">
-                                <span class="stat-val">T-SQL</span>
-                                <span class="stat-lbl">Pipeline Scripts</span>
-                            </div>
-                            <div class="stat-bubble">
-                                <span class="stat-val">100%</span>
-                                <span class="stat-lbl">Optimized Queries</span>
-                            </div>
-                        </div>
-                        <ul class="project-bullets-preview">
-                            <li>Constructed Dimension tables (client, store, product) and Fact tables (sales metrics).</li>
-                            <li>Implemented data extraction scripts with data type conversions and null handling.</li>
-                            <li>Structured indexes and keys to support sub-second query execution times.</li>
-                        </ul>
-                    </div>
-                    <div class="project-card-footer">
-                        <button class="btn btn-primary btn-sm modal-trigger" data-project="sql-dwh">View Project Details</button>
-                        <a href="https://github.com/Nady-07/SQL_Data_Warehouse_Project" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">GitHub</a>
-                    </div>
-                </div>
-
-                <!-- Project 6: SQL EDA -->
-                <div class="project-card">
-                    <div class="project-image-container">
-                        <img src="assets/cover-sql-eda.svg" alt="SQL Exploratory Data Analysis Project" class="project-image" loading="lazy">
-                    </div>
-                    <div class="project-card-header">
-                        <span class="project-meta">SQL Server · T-SQL · Data Analysis</span>
-                        <h3>Exploratory Data Analysis Using SQL</h3>
-                    </div>
-                    <div class="project-card-body">
-                        <p>
-                            Conducted advanced exploratory data analysis on a transactional dataset. Applied complex queries, window functions, and subqueries to extract business insights, detect anomalies, and summarize historical revenue performance.
-                        </p>
-                        <div class="project-key-stats">
-                            <div class="stat-bubble">
-                                <span class="stat-val">CTE</span>
-                                <span class="stat-lbl">Expressions</span>
-                            </div>
-                            <div class="stat-bubble">
-                                <span class="stat-val">Rank</span>
-                                <span class="stat-lbl">Window Functions</span>
-                            </div>
-                            <div class="stat-bubble">
-                                <span class="stat-val">Action</span>
-                                <span class="stat-lbl">Recommendations</span>
-                            </div>
-                        </div>
-                        <ul class="project-bullets-preview">
-                            <li>Used RANK(), ROW_NUMBER(), LAG/LEAD to calculate cohort trends and growth margins.</li>
-                            <li>Wrote optimized query structures involving multiple CTEs, self-joins, and aggregations.</li>
-                            <li>Identified top-performing client segments and anomalies in historical sales data.</li>
-                        </ul>
-                    </div>
-                    <div class="project-card-footer">
-                        <button class="btn btn-primary btn-sm modal-trigger" data-project="sql-eda">View Project Details</button>
-                        <a href="https://github.com/Nady-07/EDA_Project" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">GitHub</a>
-                    </div>
-                </div>
-
-                <!-- Project 7: Advanced SQL EDA -->
-                <div class="project-card">
-                    <div class="project-image-container">
-                        <img src="assets/cover-sql-aeda.svg" alt="Advanced SQL Exploratory Data Analysis Project" class="project-image" loading="lazy">
-                    </div>
-                    <div class="project-card-header">
-                        <span class="project-meta">SQL Server · Window Functions · Reporting Views</span>
-                        <h3>Advanced Exploratory Data Analysis</h3>
-                    </div>
-                    <div class="project-card-body">
-                        <p>
-                            Extended sales analysis with time-based trends, cumulative metrics, product performance comparisons, customer segmentation, and reusable reporting views for deeper business insight.
-                        </p>
-                        <div class="project-key-stats">
-                            <div class="stat-bubble">
-                                <span class="stat-val">6</span>
-                                <span class="stat-lbl">Analyses</span>
-                            </div>
-                            <div class="stat-bubble">
-                                <span class="stat-val">2</span>
-                                <span class="stat-lbl">Report Views</span>
-                            </div>
-                            <div class="stat-bubble">
-                                <span class="stat-val">YoY</span>
-                                <span class="stat-lbl">Performance</span>
-                            </div>
-                        </div>
-                        <ul class="project-bullets-preview">
-                            <li>Tracked revenue changes, monthly cumulative sales, and running averages.</li>
-                            <li>Compared product performance year over year using LAG and window averages.</li>
-                            <li>Built customer and product reporting views with segmentation and recency metrics.</li>
-                        </ul>
-                    </div>
-                    <div class="project-card-footer">
-                        <button class="btn btn-primary btn-sm modal-trigger" data-project="sql-aeda">View Project Details</button>
-                        <a href="https://github.com/Nady-07/Advanced_EDA_Project" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">GitHub</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- PROJECT MODALS (PORTFOLIO SLIDES/DETAILS) -->
-    <div class="modal-overlay" id="project-modal">
-        <div class="modal-container">
-            <button class="modal-close-btn">&times;</button>
-            <div class="modal-content-area">
-                <!-- Content injected by JS -->
-            </div>
-        </div>
-    </div>
-
-    <!-- EXPERIENCE SECTION (TIMELINE) -->
-    <section id="experience" class="experience-section">
-        <div class="container">
-            <h2 class="section-heading" data-subtitle="My Career">Professional Experience</h2>
-            
-            <div class="timeline">
-                
-                <!-- Exp 1 -->
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-date">2023 – 2025</div>
-                    <div class="timeline-content">
-                        <span class="timeline-badge">Data-Driven Role</span>
-                        <h3>Real Estate Agent — Resale Department</h3>
-                        <h4 class="timeline-company">Smart Step · Cairo, Egypt</h4>
-                        <ul class="timeline-bullets">
-                            <li>Maintained and analyzed 200+ property listings in Excel — tracked pricing trends, availability, and sales velocity to identify high-demand areas; delivered weekly KPI reports to management.</li>
-                            <li>Built Excel-based performance reports covering sales conversion rates, revenue targets, and active inventory, enabling data-driven decisions on pricing and inventory prioritization.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Exp 2 -->
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-date">2022 – 2023</div>
-                    <div class="timeline-content">
-                        <span class="timeline-badge">Primary Sales</span>
-                        <h3>Real Estate Agent — Primary Sales</h3>
-                        <h4 class="timeline-company">MLS · Cairo, Egypt</h4>
-                        <ul class="timeline-bullets">
-                            <li>Tracked client pipeline activity, pricing benchmarks, and weekly sales performance in Excel; prepared structured weekly summaries of pipeline status, conversion rates, and revenue targets.</li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- CERTIFICATIONS & EDUCATION SECTION -->
-    <section class="education-section">
-        <div class="container">
-            <div class="edu-certs-grid">
-                
-                <!-- Education Column -->
-                <div class="edu-col">
-                    <h3 class="subsection-title">Education</h3>
-                    <div class="edu-card">
-                        <span class="edu-icon">🎓</span>
-                        <div class="edu-details">
-                            <h4>Bachelor of Commerce</h4>
-                            <p class="edu-school">Helwan University — Cairo, Egypt</p>
-                            <span class="edu-date">2018 - 2022</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Certifications Column -->
-                <div class="certs-col">
-                    <h3 class="subsection-title">Certifications</h3>
-                    
-                    <div class="cert-card">
-                        <span class="cert-icon">📜</span>
-                        <div class="cert-details">
-                            <h4>Data Analysis Diploma</h4>
-                            <p class="cert-issuer">EraaSoft Academy</p>
-                            <span class="cert-date">Apr 2026</span>
-                        </div>
-                    </div>
-
-                    <div class="cert-card">
-                        <span class="cert-icon">📜</span>
-                        <div class="cert-details">
-                            <h4>Building a Modern Data Warehouse — Data Engineering</h4>
-                            <p class="cert-issuer">Udemy</p>
-                            <span class="cert-date">Jun 2026</span>
-                        </div>
-                    </div>
-
-                    <div class="cert-card">
-                        <span class="cert-icon">📜</span>
-                        <div class="cert-details">
-                            <h4>The Complete SQL Bootcamp (30 Hours)</h4>
-                            <p class="cert-issuer">Udemy</p>
-                            <span class="cert-date">2026</span>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- CONTACT SECTION -->
-    <section id="contact" class="contact-section">
-        <div class="container">
-            <h2 class="section-heading" data-subtitle="Let's connect">Get In Touch</h2>
-            
-            <div class="contact-grid">
-                
-                <!-- Contact info cards -->
-                <div class="contact-info">
-                    <h3>Contact Information</h3>
-                    <p>Feel free to reach out for job opportunities, project collaborations, or analytical consulting.</p>
-                    
-                    <div class="contact-methods">
-                        <div class="contact-method-card">
-                            <div class="icon-box">📧</div>
-                            <div>
-                                <h5>Email</h5>
-                                <a href="mailto:mohamednady0@outlook.com">mohamednady0@outlook.com</a>
-                            </div>
-                        </div>
-                        <div class="contact-method-card">
-                            <div class="icon-box">📞</div>
-                            <div>
-                                <h5>Phone</h5>
-                                <a href="tel:+201005705460">+20 100 570 5460</a>
-                            </div>
-                        </div>
-                        <div class="contact-method-card">
-                            <div class="icon-box">📍</div>
-                            <div>
-                                <h5>Location</h5>
-                                <p>Cairo, Egypt (Open to Remote / Relocation)</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Contact form -->
-                <div class="contact-form-container">
-                    <form id="contact-form" class="contact-form">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="form-name">Name</label>
-                                <input type="text" id="form-name" placeholder="Your Name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="form-email">Email</label>
-                                <input type="email" id="form-email" placeholder="email@example.com" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="form-subject">Subject</label>
-                            <input type="text" id="form-subject" placeholder="What is this about?" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="form-message">Message</label>
-                            <textarea id="form-message" rows="5" placeholder="Write your message here..." required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">
-                            Send Message
-                            <svg class="btn-icon" viewBox="0 0 24 24">
-                                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    <!-- Action Buttons -->
+                    <div class="flex flex-wrap items-center gap-3.5 pt-2">
+                        <a href="#projects"
+                           class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-slate-950 bg-gradient-to-r from-cyan-400 via-cyan-300 to-indigo-400 hover:brightness-110 transition shadow-xl shadow-cyan-500/20">
+                            <span>Explore Portfolio Projects</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
                             </svg>
-                        </button>
-                        <div id="form-response" class="form-response"></div>
-                    </form>
+                        </a>
+                        <a href="cv/Mohamed_Alnady_CV_ATS.html" target="_blank" rel="noopener noreferrer"
+                           class="px-5 py-3.5 rounded-xl font-medium text-white glass-card hover:border-cyan-400/50">
+                            View 1-Page ATS CV
+                        </a>
+                        <a href="#contact"
+                           class="px-5 py-3.5 rounded-xl font-medium text-slate-300 hover:text-white border border-slate-800 hover:border-slate-600 transition">
+                            Contact Me
+                        </a>
+                    </div>
+
+                    <!-- Direct Contact & Social Bar -->
+                    <div class="flex flex-wrap items-center gap-3 pt-3 text-xs font-mono text-slate-300">
+                        <a href="https://www.linkedin.com/in/mohamed-alnady-52b87123b" target="_blank" rel="noopener noreferrer"
+                           class="px-3.5 py-2.5 rounded-xl glass-card hover:text-cyan-400 flex items-center gap-2">
+                            <span>LinkedIn ↗</span>
+                        </a>
+                        <a href="https://github.com/Nady-07" target="_blank" rel="noopener noreferrer"
+                           class="px-3.5 py-2.5 rounded-xl glass-card hover:text-cyan-400 flex items-center gap-2">
+                            <span>GitHub ↗</span>
+                        </a>
+                        <a href="mailto:mohamednady0@outlook.com"
+                           class="px-3.5 py-2.5 rounded-xl glass-card hover:text-cyan-400 flex items-center gap-2">
+                            <span>mohamednady0@outlook.com</span>
+                        </a>
+                        <a href="tel:+201005705460"
+                           class="px-3.5 py-2.5 rounded-xl glass-card hover:text-cyan-400 flex items-center gap-2">
+                            <span>+20 100 570 5460</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive Analytics Engine HUD -->
+                <div class="lg:col-span-5">
+                    <div class="glass-panel rounded-3xl p-6 border border-cyan-500/20 relative overflow-hidden">
+                        <div class="absolute -top-24 -right-24 w-48 h-48 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                        
+                        <!-- Window Header -->
+                        <div class="flex items-center justify-between pb-4 mb-5 border-b border-slate-800">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-400/80"></span>
+                                <span class="w-3 h-3 rounded-full bg-emerald-400/80"></span>
+                            </div>
+                            <div class="text-xs font-mono text-slate-400">Interactive 3D Analytics Hub</div>
+                            <span id="hud-mode-badge" class="text-xs font-mono text-cyan-400 flex items-center gap-1">
+                                <span>●</span> Star Schema
+                            </span>
+                        </div>
+
+                        <!-- 3 Interactive Morph Cards -->
+                        <div class="grid grid-cols-3 gap-2.5 items-stretch mb-6">
+                            <div id="hud-card-raw" class="glass-card p-3 rounded-xl text-center cursor-pointer" onclick="setSceneMode('raw')">
+                                <div class="text-xl mb-1">🧹</div>
+                                <div class="text-xs font-semibold text-white">Data Quality</div>
+                                <div class="text-[10px] font-mono text-cyan-300 mt-0.5">Cleaning · Validation</div>
+                            </div>
+
+                            <div id="hud-card-etl" class="glass-card hud-card-active p-3 rounded-xl text-center cursor-pointer" onclick="setSceneMode('etl')">
+                                <div class="text-xl mb-1">🗄️</div>
+                                <div class="text-xs font-semibold text-white">SQL &amp; Modeling</div>
+                                <div class="text-[10px] font-mono text-indigo-300 mt-0.5">T-SQL · Star Schema</div>
+                            </div>
+
+                            <div id="hud-card-bi" class="glass-card p-3 rounded-xl text-center cursor-pointer" onclick="setSceneMode('bi')">
+                                <div class="text-xl mb-1">📊</div>
+                                <div class="text-xs font-semibold text-white">BI Dashboards</div>
+                                <div class="text-[10px] font-mono text-emerald-300 mt-0.5">Power BI · Excel</div>
+                            </div>
+                        </div>
+
+                        <!-- Live Sparkline Box -->
+                        <div class="bg-slate-950/70 rounded-2xl p-4 border border-slate-800/80 mb-5">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-mono text-slate-400">Executive Reporting &amp; YoY Trends</span>
+                                <span class="text-xs font-mono font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+                                    Desktop &amp; Mobile BI
+                                </span>
+                            </div>
+                            <svg class="w-full h-20 overflow-visible" viewBox="0 0 300 70">
+                                <defs>
+                                    <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="#06B6D4" stop-opacity="0.45"/>
+                                        <stop offset="100%" stop-color="#06B6D4" stop-opacity="0.0"/>
+                                    </linearGradient>
+                                </defs>
+                                <path d="M0,58 Q40,52 75,38 T150,28 T225,16 T300,6 L300,70 L0,70 Z" fill="url(#chartGrad)" />
+                                <path d="M0,58 Q40,52 75,38 T150,28 T225,16 T300,6" fill="none" stroke="#22D3EE" stroke-width="2.5" stroke-linecap="round"/>
+                                <circle cx="75" cy="38" r="3.5" fill="#22D3EE" />
+                                <circle cx="150" cy="28" r="3.5" fill="#22D3EE" />
+                                <circle cx="225" cy="16" r="3.5" fill="#22D3EE" />
+                                <circle cx="300" cy="6" r="4.5" fill="#10B981" class="animate-ping" />
+                                <circle cx="300" cy="6" r="4.5" fill="#10B981" />
+                            </svg>
+                        </div>
+
+                        <!-- Core Focus Areas -->
+                        <div class="space-y-3 mb-5">
+                            <div>
+                                <div class="flex justify-between text-xs font-mono mb-1">
+                                    <span class="text-slate-400">Source Data Validation &amp; Cleaning</span>
+                                    <span class="text-cyan-300">Standardized &amp; Audited</span>
+                                </div>
+                                <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                                    <div class="h-full w-[96%] bg-gradient-to-r from-cyan-400 to-indigo-400 rounded-full"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs font-mono mb-1">
+                                    <span class="text-slate-400">Executive Stakeholder Reporting</span>
+                                    <span class="text-emerald-400">Direct to CEO &amp; Management</span>
+                                </div>
+                                <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                                    <div class="h-full w-[100%] bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Interactive 3D Morph Button -->
+                        <div class="flex items-center justify-between pt-3 border-t border-slate-800/80 text-xs font-mono">
+                            <span class="text-slate-400">Click any stage above to morph 3D scene</span>
+                            <button onclick="setSceneMode('bi')" class="text-emerald-400 hover:underline font-semibold">
+                                Morph to 3D Bar Chart 📊
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container footer-container">
-            <p>&copy; <span id="copyright-year">2026</span> Mohamed Al Nady. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="https://www.linkedin.com/in/mohamed-alnady-52b87123b" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                <a href="https://github.com/Nady-07" target="_blank" rel="noopener noreferrer">GitHub</a>
-                <a href="mailto:mohamednady0@outlook.com">Email</a>
+        <!-- ABOUT ME SECTION -->
+        <section id="about" class="scroll-mt-28 space-y-12 pointer-events-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <span class="text-xs font-mono uppercase tracking-widest text-cyan-400">01 // Profile &amp; Background</span>
+                    <h2 class="font-display text-3xl sm:text-4xl font-bold mt-1">About Me</h2>
+                </div>
+                <p class="text-sm font-mono text-slate-400">Manufacturing Analytics &amp; Commercial Sales Experience</p>
             </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Bio & 4 Bento Highlight Cards -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="glass-panel rounded-3xl p-7 space-y-4 text-slate-300 leading-relaxed">
+                        <p>
+                            I am a <strong class="text-white">Junior Data Analyst</strong> with eight months of hands-on manufacturing analytics experience and a strong background in customer-facing sales. As the sole Data Analyst at <strong class="text-white">Arab Company for Calcium Carbonate</strong>, I handled end-to-end data preparation, cleaned and validated Excel source data, built <strong class="text-white">Power BI reports with both desktop and mobile layouts</strong>, and communicated directly with the CEO and factory owner.
+                        </p>
+                        <p>
+                            Prior to transitioning into dedicated analytics, I worked in Cairo's real estate sector at <strong class="text-white">Smart Step</strong> and <strong class="text-white">MLS</strong>, maintaining property listings, customer follow-up trackers, and Excel sales performance summaries.
+                        </p>
+                        <p>
+                            My portfolio work covers <strong class="text-white">SQL Server analysis, customer segmentation, multi-year sales trends, and customer churn</strong>. I am focused on helping a Growth or BI team turn customer and business data into clear, measurable actions.
+                        </p>
+                    </div>
+
+                    <!-- 4 Key Highlights Grid -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div class="glass-card rounded-2xl p-5 text-center">
+                            <div class="font-display text-2xl font-bold text-cyan-400">Sole Analyst</div>
+                            <div class="text-xs text-slate-400 mt-1">Direct CEO Reporting</div>
+                        </div>
+                        <div class="glass-card rounded-2xl p-5 text-center">
+                            <div class="font-display text-2xl font-bold text-indigo-400">8 Months</div>
+                            <div class="text-xs text-slate-400 mt-1">Manufacturing Analytics</div>
+                        </div>
+                        <div class="glass-card rounded-2xl p-5 text-center">
+                            <div class="font-display text-2xl font-bold text-emerald-400">Desktop+Mobile</div>
+                            <div class="text-xs text-slate-400 mt-1">Power BI Layouts</div>
+                        </div>
+                        <div class="glass-card rounded-2xl p-5 text-center">
+                            <div class="font-display text-2xl font-bold text-purple-400">3+ Years</div>
+                            <div class="text-xs text-slate-400 mt-1">Commercial Sales Logs</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Value Proposition Card -->
+                <div class="lg:col-span-5">
+                    <div class="glass-panel rounded-3xl p-7 h-full flex flex-col justify-between border border-indigo-500/20">
+                        <div>
+                            <h3 class="font-display text-xl font-bold text-white mb-6 flex items-center gap-2">
+                                <span class="w-2 h-6 rounded-full bg-gradient-to-b from-cyan-400 to-indigo-500"></span>
+                                How I Add Value to a Team
+                            </h3>
+                            <ul class="space-y-6">
+                                <li class="flex items-start gap-4">
+                                    <div class="w-11 h-11 rounded-xl bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-center text-xl shrink-0">
+                                        🧹
+                                    </div>
+                                    <div class="text-sm text-slate-300 leading-relaxed">
+                                        <strong class="text-white block text-base mb-0.5">Reliable Source Data &amp; Quality</strong>
+                                        Cleaning messy spreadsheets, standardizing formats, and checking missing or incorrect entries before any metric reaches management.
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <div class="w-11 h-11 rounded-xl bg-indigo-500/10 border border-indigo-500/25 flex items-center justify-center text-xl shrink-0">
+                                        📊
+                                    </div>
+                                    <div class="text-sm text-slate-300 leading-relaxed">
+                                        <strong class="text-white block text-base mb-0.5">Executive-Ready Reporting</strong>
+                                        Building clear Excel dashboards and interactive Power BI reports optimized for both desktop monitors and executive mobile phones.
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-xl shrink-0">
+                                        🎯
+                                    </div>
+                                    <div class="text-sm text-slate-300 leading-relaxed">
+                                        <strong class="text-white block text-base mb-0.5">Growth &amp; Customer Focus</strong>
+                                        Combining B.Com business foundations and real-world sales experience to analyze customer churn, retention, and regional profitability.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="mt-8 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-400">
+                            <span>Location: Maadi, Cairo</span>
+                            <span class="text-cyan-400">Available Immediately</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TECHNICAL SKILLS SECTION -->
+        <section id="skills" class="scroll-mt-28 space-y-10 pointer-events-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <span class="text-xs font-mono uppercase tracking-widest text-cyan-400">02 // Technical Toolkit</span>
+                    <h2 class="font-display text-3xl sm:text-4xl font-bold mt-1">Technical Skills</h2>
+                </div>
+
+                <!-- Interactive Category Tabs -->
+                <div class="flex flex-wrap gap-2 bg-slate-900/80 p-1.5 rounded-2xl border border-slate-800">
+                    <button onclick="switchSkillTab('sql', 'etl')" id="tab-sql"
+                            class="skill-tab px-4 py-2 rounded-xl text-xs font-mono font-semibold bg-cyan-500 text-slate-950 transition">
+                        SQL &amp; Databases
+                    </button>
+                    <button onclick="switchSkillTab('bi', 'bi')" id="tab-bi"
+                            class="skill-tab px-4 py-2 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:text-white transition">
+                        Excel &amp; Power BI
+                    </button>
+                    <button onclick="switchSkillTab('analysis', 'bi')" id="tab-analysis"
+                            class="skill-tab px-4 py-2 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:text-white transition">
+                        Growth &amp; Business Analysis
+                    </button>
+                    <button onclick="switchSkillTab('quality', 'raw')" id="tab-quality"
+                            class="skill-tab px-4 py-2 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:text-white transition">
+                        Data Quality &amp; Python
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab 1: SQL & Databases -->
+            <div id="panel-sql" class="skill-panel grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="text-2xl">🗄️</div>
+                    <h4 class="font-display text-lg font-bold text-white">SQL Server &amp; T-SQL</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Writing clean, structured queries across relational databases for operational and commercial reporting.
+                    </p>
+                </div>
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="text-2xl">⚡</div>
+                    <h4 class="font-display text-lg font-bold text-white">Window Functions</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Analyzing cumulative revenue, rankings, recency metrics, and year-over-year (YoY) comparisons.
+                    </p>
+                </div>
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="text-2xl">🔗</div>
+                    <h4 class="font-display text-lg font-bold text-white">Joins, CTEs &amp; Subqueries</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Combining multi-table datasets using complex joins, aggregations, common table expressions, and nested queries.
+                    </p>
+                </div>
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="text-2xl">📐</div>
+                    <h4 class="font-display text-lg font-bold text-white">Reporting Views</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Building reusable customer and product SQL reporting views to streamline downstream BI dashboards.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tab 2: Excel & Power BI -->
+            <div id="panel-bi" class="skill-panel hidden grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="text-2xl">📊</div>
+                    <h4 class="font-display text-lg font-bold text-white">Power BI Desktop</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Building interactive management reports with dedicated desktop and mobile layouts and dynamic slicers.
+                    </p>
+                </div>
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="text-2xl">🧮</div>
+                    <h4 class="font-display text-lg font-bold text-white">DAX Measures</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Authoring custom DAX calculations to track churn rates, revenue trends, and retention KPIs.
+                    </p>
+                </div>
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="text-2xl">📈</div>
+                    <h4 class="font-display text-lg font-bold text-white">Excel &amp; PivotTables</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Preparing recurring management reports, interactive Excel dashboards, and regional sales comparisons.
+                    </p>
+                </div>
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="text-2xl">⚙️</div>
+                    <h4 class="font-display text-lg font-bold text-white">Power Query &amp; Power Pivot</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Transforming source sheets and building Power Pivot data models to evaluate product and channel profitability.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tab 3: Growth & Business Analysis -->
+            <div id="panel-analysis" class="skill-panel hidden grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="text-2xl">👥</div>
+                    <h4 class="font-display text-lg font-bold text-white">Customer Segmentation</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Grouping customers by purchasing behavior, recency, and value to guide targeted growth initiatives.
+                    </p>
+                </div>
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="text-2xl">🔄</div>
+                    <h4 class="font-display text-lg font-bold text-white">Churn Analysis</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Comparing customer attrition across contract types and subscribed services to pinpoint retention risks.
+                    </p>
+                </div>
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="text-2xl">📅</div>
+                    <h4 class="font-display text-lg font-bold text-white">Sales Trends &amp; YoY</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Tracking multi-period revenue velocity, seasonality, and year-over-year performance shifts.
+                    </p>
+                </div>
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="text-2xl">🎯</div>
+                    <h4 class="font-display text-lg font-bold text-white">KPI Reporting</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Translating operational and sales metrics into clear executive summaries for C-level decision-making.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tab 4: Data Quality & Python -->
+            <div id="panel-quality" class="skill-panel hidden grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="text-2xl">🧹</div>
+                    <h4 class="font-display text-lg font-bold text-white">Data Cleaning &amp; Validation</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Organizing raw source data, standardizing formats, and checking missing or incorrect values before reporting.
+                    </p>
+                </div>
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="text-2xl">⭐</div>
+                    <h4 class="font-display text-lg font-bold text-white">Star Schema Modeling</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Structuring clean Fact and Dimension tables to ensure accurate aggregations and fast BI filtering.
+                    </p>
+                </div>
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="text-2xl">🛡️</div>
+                    <h4 class="font-display text-lg font-bold text-white">Source Data Auditing</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Reviewing incoming operational entries continuously to keep source datasets consistent and reliable.
+                    </p>
+                </div>
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="text-2xl">🐍</div>
+                    <h4 class="font-display text-lg font-bold text-white">Python (Pandas &amp; NumPy)</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Foundational Python scripting; actively expanding proficiency in Pandas and NumPy for data analysis.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SELECTED PORTFOLIO PROJECTS SECTION -->
+        <section id="projects" class="scroll-mt-28 space-y-10 pointer-events-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <span class="text-xs font-mono uppercase tracking-widest text-cyan-400">03 // Case Studies</span>
+                    <h2 class="font-display text-3xl sm:text-4xl font-bold mt-1">Selected Portfolio Projects</h2>
+                </div>
+                <a href="https://github.com/Nady-07" target="_blank" rel="noopener noreferrer"
+                   class="text-sm font-mono text-cyan-400 hover:text-cyan-300 flex items-center gap-1.5">
+                    <span>View All Repositories on GitHub</span>
+                    <span>↗</span>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Project 1: Telecom Customer Churn -->
+                <article class="glass-card rounded-3xl p-6 flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 rounded-full text-xs font-mono bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+                                Power BI &amp; DAX
+                            </span>
+                            <span class="font-mono text-xs text-slate-400">Retention Analytics</span>
+                        </div>
+                        <h3 class="font-display text-xl font-bold text-white group-hover:text-emerald-400 transition-colors">
+                            Telecom Customer Churn
+                        </h3>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            Built an interactive Power BI report comparing customer churn across contract types and services used, leveraging custom DAX measures and dynamic slicers to explore customer groups relevant to retention.
+                        </p>
+                    </div>
+                    <div class="pt-6 mt-6 border-t border-slate-800/80 flex items-center justify-between">
+                        <div class="flex gap-2 text-[11px] font-mono text-slate-400">
+                            <span>#PowerBI</span>
+                            <span>#DAX</span>
+                            <span>#Churn</span>
+                        </div>
+                        <a href="https://github.com/Nady-07" target="_blank" rel="noopener noreferrer"
+                           class="text-xs font-mono text-emerald-400 hover:underline">Explore Project →</a>
+                    </div>
+                </article>
+
+                <!-- Project 2: Customer Segmentation and Sales Analysis -->
+                <article class="glass-card rounded-3xl p-6 flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 rounded-full text-xs font-mono bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                                SQL Server &amp; T-SQL
+                            </span>
+                            <span class="font-mono text-xs text-slate-400">Growth &amp; Cohort SQL</span>
+                        </div>
+                        <h3 class="font-display text-xl font-bold text-white group-hover:text-cyan-400 transition-colors">
+                            Customer Segmentation &amp; Sales Analysis
+                        </h3>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            Analyzed sales trends, cumulative revenue, and product performance using window functions and year-over-year comparisons. Built reusable customer and product reporting views with segmentation and recency metrics.
+                        </p>
+                    </div>
+                    <div class="pt-6 mt-6 border-t border-slate-800/80 flex items-center justify-between">
+                        <div class="flex gap-2 text-[11px] font-mono text-slate-400">
+                            <span>#SQLServer</span>
+                            <span>#T-SQL</span>
+                            <span>#Segmentation</span>
+                        </div>
+                        <a href="https://github.com/Nady-07" target="_blank" rel="noopener noreferrer"
+                           class="text-xs font-mono text-cyan-400 hover:underline">Explore SQL Code →</a>
+                    </div>
+                </article>
+
+                <!-- Project 3: Sales Performance Reporting -->
+                <article class="glass-card rounded-3xl p-6 flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 rounded-full text-xs font-mono bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
+                                Excel &amp; Power Pivot
+                            </span>
+                            <span class="font-mono text-xs text-slate-400">Profitability Modeling</span>
+                        </div>
+                        <h3 class="font-display text-xl font-bold text-white group-hover:text-indigo-400 transition-colors">
+                            Sales Performance Reporting
+                        </h3>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            Built interactive Excel dashboards with PivotTables and slicers to compare sales across regions; used Power Pivot data modeling to analyze product and channel profitability.
+                        </p>
+                    </div>
+                    <div class="pt-6 mt-6 border-t border-slate-800/80 flex items-center justify-between">
+                        <div class="flex gap-2 text-[11px] font-mono text-slate-400">
+                            <span>#Excel</span>
+                            <span>#PowerPivot</span>
+                            <span>#KPIs</span>
+                        </div>
+                        <a href="https://github.com/Nady-07" target="_blank" rel="noopener noreferrer"
+                           class="text-xs font-mono text-indigo-400 hover:underline">Explore Dashboard →</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- PROFESSIONAL EXPERIENCE & EDUCATION SECTION -->
+        <section id="experience" class="scroll-mt-28 space-y-10 pointer-events-auto">
+            <div>
+                <span class="text-xs font-mono uppercase tracking-widest text-cyan-400">04 // Career &amp; Academic Journey</span>
+                <h2 class="font-display text-3xl sm:text-4xl font-bold mt-1">Experience &amp; Education</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Left 7 Cols: Professional Experience -->
+                <div class="lg:col-span-7 space-y-5">
+                    <h3 class="font-mono text-xs uppercase tracking-wider text-slate-400">Professional Experience</h3>
+
+                    <!-- Role 1 -->
+                    <div class="glass-panel rounded-3xl p-6 border-l-4 border-l-cyan-400 space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <h4 class="font-display text-xl font-bold text-white">Data Analyst</h4>
+                            <span class="text-xs font-mono px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                                Feb – Oct 2026
+                            </span>
+                        </div>
+                        <div class="text-sm font-medium text-cyan-300">Arab Company for Calcium Carbonate</div>
+                        <ul class="text-sm text-slate-300 space-y-2 list-disc list-inside leading-relaxed">
+                            <li>Handled data preparation and reporting as the company's only data analyst, communicating directly with the CEO and factory owner.</li>
+                            <li>Cleaned and organized Excel source data, standardized formats, and checked missing or incorrect values before reporting.</li>
+                            <li>Prepared Excel reports and built Power BI reports with desktop and mobile layouts for management review.</li>
+                            <li>Reviewed new data entries continuously to keep the source data consistent and reliable.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Role 2 & 3 Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div class="glass-panel rounded-3xl p-6 border-l-4 border-l-indigo-400 space-y-2.5">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-mono text-indigo-300">2023 – 2025</span>
+                                <span class="text-xs font-mono text-slate-400">Smart Step, Cairo</span>
+                            </div>
+                            <h4 class="font-display text-lg font-bold text-white">Real Estate Agent – Resale</h4>
+                            <p class="text-sm text-slate-300 leading-relaxed">
+                                Maintained property listings and Excel reports covering pricing, availability, and sales performance.
+                            </p>
+                        </div>
+
+                        <div class="glass-panel rounded-3xl p-6 border-l-4 border-l-purple-400 space-y-2.5">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-mono text-purple-300">2022 – 2023</span>
+                                <span class="text-xs font-mono text-slate-400">MLS, Cairo</span>
+                            </div>
+                            <h4 class="font-display text-lg font-bold text-white">Real Estate Agent – Primary Sales</h4>
+                            <p class="text-sm text-slate-300 leading-relaxed">
+                                Tracked customer follow-ups and property prices in Excel and prepared regular sales summaries.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right 5 Cols: Education & Training -->
+                <div class="lg:col-span-5 space-y-5">
+                    <h3 class="font-mono text-xs uppercase tracking-wider text-slate-400">Education &amp; Training</h3>
+
+                    <div class="glass-panel rounded-3xl p-6 space-y-5 border border-emerald-500/20">
+                        <div class="pb-4 border-b border-slate-800">
+                            <div class="flex items-center justify-between text-xs font-mono text-emerald-400 mb-1">
+                                <span>University Degree</span>
+                                <span>2018 – 2022</span>
+                            </div>
+                            <h4 class="font-display text-lg font-bold text-white">Bachelor of Commerce (B.Com)</h4>
+                            <p class="text-sm text-slate-300">Helwan University, Cairo</p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="flex items-start justify-between gap-4">
+                                <div>
+                                    <h5 class="font-semibold text-white text-sm">Modern Data Warehouse – Data Engineering</h5>
+                                    <p class="text-xs text-slate-400">Udemy</p>
+                                </div>
+                                <span class="text-xs font-mono text-cyan-300 shrink-0">Jun 2026</span>
+                            </div>
+
+                            <div class="flex items-start justify-between gap-4">
+                                <div>
+                                    <h5 class="font-semibold text-white text-sm">Data Analysis Diploma</h5>
+                                    <p class="text-xs text-slate-400">EraaSoft Academy</p>
+                                </div>
+                                <span class="text-xs font-mono text-cyan-300 shrink-0">Apr 2026</span>
+                            </div>
+
+                            <div class="flex items-start justify-between gap-4">
+                                <div>
+                                    <h5 class="font-semibold text-white text-sm">Complete SQL Bootcamp</h5>
+                                    <p class="text-xs text-slate-400">Udemy</p>
+                                </div>
+                                <span class="text-xs font-mono text-cyan-300 shrink-0">2026</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section id="contact" class="scroll-mt-28 pointer-events-auto">
+            <div class="glass-panel rounded-3xl p-8 sm:p-12 border border-cyan-500/25 relative overflow-hidden">
+                <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                    <div class="lg:col-span-7 space-y-4">
+                        <span class="text-xs font-mono uppercase tracking-widest text-cyan-400">05 // Get In Touch</span>
+                        <h2 class="font-display text-3xl sm:text-5xl font-bold text-white">
+                            Ready to Help Your Team Turn Data Into <span class="text-gradient">Clear Actions</span>
+                        </h2>
+                        <p class="text-slate-300 max-w-xl leading-relaxed">
+                            Based in Maadi, Cairo and open to Junior Data Analyst, Growth Analyst, and BI Analyst roles. Reach out directly via email, phone, or LinkedIn.
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-sm font-mono">
+                            <a href="mailto:mohamednady0@outlook.com" class="glass-card p-3.5 rounded-xl text-cyan-300 hover:text-white flex items-center gap-2.5">
+                                <span>✉️</span>
+                                <span>mohamednady0@outlook.com</span>
+                            </a>
+                            <a href="tel:+201005705460" class="glass-card p-3.5 rounded-xl text-emerald-300 hover:text-white flex items-center gap-2.5">
+                                <span>📞</span>
+                                <span>+20 100 570 5460</span>
+                            </a>
+                        </div>
+
+                        <div class="flex flex-wrap gap-3.5 pt-3">
+                            <a href="https://www.linkedin.com/in/mohamed-alnady-52b87123b" target="_blank" rel="noopener noreferrer"
+                               class="px-6 py-3.5 rounded-xl font-semibold text-slate-950 bg-gradient-to-r from-cyan-400 to-indigo-400 hover:brightness-110 transition">
+                                Connect on LinkedIn
+                            </a>
+                            <a href="cv/Mohamed_Alnady_CV_ATS.html" target="_blank" rel="noopener noreferrer"
+                               class="px-6 py-3.5 rounded-xl font-medium text-white glass-card">
+                                View / Download 1-Page CV
+                            </a>
+                            <a href="https://github.com/Nady-07" target="_blank" rel="noopener noreferrer"
+                               class="px-6 py-3.5 rounded-xl font-medium text-slate-300 hover:text-white border border-slate-700">
+                                GitHub Profile
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Direct Email Trigger Form -->
+                    <div class="lg:col-span-5">
+                        <form onsubmit="handleContactSubmit(event)"
+                              class="bg-slate-950/80 p-6 rounded-2xl border border-slate-800 space-y-4">
+                            <div class="text-xs font-mono text-cyan-400">// Send Direct Email</div>
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1">Your Name</label>
+                                <input id="contact-name" type="text" required placeholder="Hiring Manager / Recruiter"
+                                       class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-sm text-white focus:outline-none focus:border-cyan-400"/>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1">Your Email</label>
+                                <input id="contact-email" type="email" required placeholder="name@company.com"
+                                       class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-sm text-white focus:outline-none focus:border-cyan-400"/>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1">Message</label>
+                                <textarea id="contact-msg" rows="3" required placeholder="Hi Mohamed, we'd love to schedule an interview for our Data Analyst role..."
+                                          class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-sm text-white focus:outline-none focus:border-cyan-400"></textarea>
+                            </div>
+                            <button type="submit"
+                                    class="w-full py-3 rounded-xl font-semibold text-sm text-slate-950 bg-cyan-400 hover:bg-cyan-300 transition">
+                                Compose Email to Mohamed
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 border-t border-slate-800/80 py-8 text-center text-xs font-mono text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>&lt;Mohamed.Nady /&gt; — Maadi, Cairo • +20 100 570 5460 • mohamednady0@outlook.com</div>
+            <div>© 2026 Mohamed Al Nady. All rights reserved.</div>
         </div>
     </footer>
 
-    <!-- Back to top btn -->
-    <button id="back-to-top" aria-label="Back to top" class="back-to-top-btn">&uarr;</button>
+    <!-- UI + THREE.JS MORPHING ENGINE -->
+    <script>
+        // 1. Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
 
-    <!-- Javascript File -->
-    <script src="app.js?v=18"></script>
+        // 2. Contact Form mailto handler
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('contact-name').value;
+            const email = document.getElementById('contact-email').value;
+            const msg = document.getElementById('contact-msg').value;
+            const subject = encodeURIComponent(`Data Analyst Opportunity — from ${name}`);
+            const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${msg}`);
+            window.location.href = `mailto:mohamednady0@outlook.com?subject=${subject}&body=${body}`;
+        }
+
+        // 3. Skill Tabs Switcher + 3D Morph Sync
+        function switchSkillTab(tabName, target3DMode) {
+            document.querySelectorAll('.skill-panel').forEach(panel => {
+                panel.classList.add('hidden');
+                panel.classList.remove('grid');
+            });
+            const activePanel = document.getElementById('panel-' + tabName);
+            activePanel.classList.remove('hidden');
+            activePanel.classList.add('grid');
+
+            document.querySelectorAll('.skill-tab').forEach(btn => {
+                btn.className = 'skill-tab px-4 py-2 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:text-white transition';
+            });
+            const activeBtn = document.getElementById('tab-' + tabName);
+            activeBtn.className = 'skill-tab px-4 py-2 rounded-xl text-xs font-mono font-semibold bg-cyan-500 text-slate-950 transition';
+
+            if (target3DMode) setSceneMode(target3DMode);
+        }
+
+        // 4. Three.js 3-State Morphing Scene (Star Schema <-> 3D Bar Chart <-> Raw Data Vortex)
+        const canvas = document.getElementById('webgl-canvas');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x050811, 0.035);
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(0, 1.5, 11);
+
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Lights for 3D Bars
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+        scene.add(ambientLight);
+        const dirLight = new THREE.DirectionalLight(0x22d3ee, 1.4);
+        dirLight.position.set(5, 10, 7);
+        scene.add(dirLight);
+
+        const schemaGroup = new THREE.Group();
+        schemaGroup.position.set(window.innerWidth < 1024 ? 0 : 2.8, 0.2, 0);
+        scene.add(schemaGroup);
+
+        // Fact Core (Morphs into Base Platform in BI Bar Chart mode)
+        const coreGeo = new THREE.IcosahedronGeometry(1.45, 1);
+        const coreMat = new THREE.MeshBasicMaterial({
+            color: 0x06B6D4,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.55
+        });
+        const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+        schemaGroup.add(coreMesh);
+
+        // 8 Nodes (Dimension Nodes in ETL mode -> 3D Vertical Bars in BI mode)
+        const barHeights = [1.4, 2.2, 1.8, 2.9, 2.4, 3.5, 3.1, 4.1];
+        const nodes = [];
+        const nodeCount = 8;
+        const boxGeo = new THREE.BoxGeometry(0.42, 1, 0.42);
+        const spokeMat = new THREE.LineBasicMaterial({ color: 0x22D3EE, transparent: true, opacity: 0.3 });
+
+        for (let i = 0; i < nodeCount; i++) {
+            const angle = (i / nodeCount) * Math.PI * 2;
+            const radius = 3.2 + (i % 2) * 0.6;
+            const yOffset = Math.sin(i * 1.7) * 1.3;
+
+            const mat = new THREE.MeshStandardMaterial({
+                color: i % 2 === 0 ? 0x06B6D4 : 0x6366F1,
+                emissive: i % 2 === 0 ? 0x06B6D4 : 0x6366F1,
+                emissiveIntensity: 0.35,
+                roughness: 0.25,
+                metalness: 0.7,
+                wireframe: false
+            });
+
+            const mesh = new THREE.Mesh(boxGeo, mat);
+            mesh.position.set(Math.cos(angle) * radius, yOffset, Math.sin(angle) * radius);
+            mesh.scale.set(0.85, 0.42, 0.85);
+            schemaGroup.add(mesh);
+
+            // Star Schema Spoke Line
+            const pts = [new THREE.Vector3(0, 0, 0), mesh.position.clone()];
+            const lineGeo = new THREE.BufferGeometry().setFromPoints(pts);
+            const line = new THREE.Line(lineGeo, spokeMat);
+            schemaGroup.add(line);
+
+            nodes.push({
+                mesh,
+                line,
+                baseAngle: angle,
+                radius,
+                yOffset,
+                speed: 0.25 + i * 0.03,
+                barX: (i - 3.5) * 0.72,
+                barHeight: barHeights[i]
+            });
+        }
+
+        // 3D KPI Trendline above Bar Chart (Visible in BI mode)
+        const trendPoints = nodes.map(n => new THREE.Vector3(n.barX, 0, 0));
+        const trendGeo = new THREE.BufferGeometry().setFromPoints(trendPoints);
+        const trendMat = new THREE.LineBasicMaterial({ color: 0x10B981, transparent: true, opacity: 0 });
+        const trendLine = new THREE.Line(trendGeo, trendMat);
+        schemaGroup.add(trendLine);
+
+        // Background Particle Cloud
+        const particleCount = 1500;
+        const posArray = new Float32Array(particleCount * 3);
+        for (let i = 0; i < particleCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 32;
+        }
+        const particlesGeo = new THREE.BufferGeometry();
+        particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMat = new THREE.PointsMaterial({
+            size: 0.045,
+            color: 0x38BDF8,
+            transparent: true,
+            opacity: 0.5
+        });
+        const particleMesh = new THREE.Points(particlesGeo, particlesMat);
+        scene.add(particleMesh);
+
+        // Scene Mode State ('etl' | 'bi' | 'raw')
+        let currentMode = 'etl';
+        let toastTimer = null;
+
+        function showToast(text) {
+            const toast = document.getElementById('scene-toast');
+            const toastText = document.getElementById('scene-toast-text');
+            toastText.textContent = text;
+            toast.classList.remove('opacity-0', 'translate-y-2');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+            }, 2600);
+        }
+
+        window.setSceneMode = function(mode) {
+            currentMode = mode;
+            ['raw', 'etl', 'bi'].forEach(m => {
+                const el = document.getElementById('hud-card-' + m);
+                if (el) el.classList.toggle('hud-card-active', m === mode);
+            });
+
+            const badge = document.getElementById('hud-mode-badge');
+            const navBtn = document.getElementById('toggle-3d-mode');
+
+            if (mode === 'bi') {
+                coreMat.color.set('#10B981');
+                particlesMat.color.set('#10B981');
+                if (badge) badge.innerHTML = '<span>●</span> 3D Bar Chart';
+                if (navBtn) navBtn.textContent = '3D: Bar Chart';
+                showToast('Morphed into 3D BI Bar Chart & KPI Trendline');
+            } else if (mode === 'raw') {
+                coreMat.color.set('#38BDF8');
+                particlesMat.color.set('#38BDF8');
+                if (badge) badge.innerHTML = '<span>●</span> Raw Data Vortex';
+                if (navBtn) navBtn.textContent = '3D: Data Vortex';
+                showToast('Morphed into Raw Source Data Vortex');
+            } else {
+                coreMat.color.set('#06B6D4');
+                particlesMat.color.set('#06B6D4');
+                if (badge) badge.innerHTML = '<span>●</span> Star Schema';
+                if (navBtn) navBtn.textContent = '3D: Star Schema';
+                showToast('Morphed into 3D Star Schema Model');
+            }
+        };
+
+        window.cycleSceneMode = function() {
+            const order = ['etl', 'bi', 'raw'];
+            const next = order[(order.indexOf(currentMode) + 1) % order.length];
+            setSceneMode(next);
+        };
+
+        // Drag-to-rotate interaction
+        let isDragging = false;
+        let prevX = 0, prevY = 0;
+        let userRotY = 0, userRotX = 0;
+
+        canvas.addEventListener('pointerdown', (e) => {
+            isDragging = true;
+            prevX = e.clientX;
+            prevY = e.clientY;
+        });
+        window.addEventListener('pointermove', (e) => {
+            if (!isDragging) return;
+            userRotY += (e.clientX - prevX) * 0.007;
+            userRotX += (e.clientY - prevY) * 0.007;
+            prevX = e.clientX;
+            prevY = e.clientY;
+        });
+        window.addEventListener('pointerup', () => { isDragging = false; });
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            schemaGroup.position.x = window.innerWidth < 1024 ? 0 : 2.8;
+        });
+
+        // Animation Loop
+        const clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const elapsed = clock.getElapsedTime();
+
+            // Morph Core Mesh
+            if (currentMode === 'bi') {
+                // Flatten core into a 3D chart base platform
+                coreMesh.scale.lerp(new THREE.Vector3(2.4, 0.08, 0.8), 0.06);
+                coreMesh.position.lerp(new THREE.Vector3(0, -1.65, 0), 0.06);
+                coreMesh.rotation.x += (0 - coreMesh.rotation.x) * 0.08;
+                coreMesh.rotation.y += (userRotY - coreMesh.rotation.y) * 0.08;
+                spokeMat.opacity += (0.04 - spokeMat.opacity) * 0.08;
+                trendMat.opacity += (0.95 - trendMat.opacity) * 0.08;
+            } else {
+                const targetScale = currentMode === 'raw' ? 0.65 : 1.0;
+                coreMesh.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.06);
+                coreMesh.position.lerp(new THREE.Vector3(0, 0, 0), 0.06);
+                coreMesh.rotation.y = elapsed * 0.25 + userRotY;
+                coreMesh.rotation.x = elapsed * 0.15 + userRotX;
+                spokeMat.opacity += ((currentMode === 'etl' ? 0.32 : 0.08) - spokeMat.opacity) * 0.08;
+                trendMat.opacity += (0 - trendMat.opacity) * 0.1;
+            }
+
+            // Morph Nodes between Orbiting Dimensions, 3D Bars, and Vortex
+            const trendArr = trendLine.geometry.attributes.position.array;
+
+            nodes.forEach((n, idx) => {
+                if (currentMode === 'bi') {
+                    const liveHeight = n.barHeight + Math.sin(elapsed * 2.2 + idx * 0.6) * 0.32;
+                    const targetPos = new THREE.Vector3(n.barX, -1.6 + liveHeight / 2, 0);
+                    n.mesh.position.lerp(targetPos, 0.07);
+                    n.mesh.scale.lerp(new THREE.Vector3(1, liveHeight, 1), 0.07);
+                    n.mesh.rotation.x += (0 - n.mesh.rotation.x) * 0.1;
+                    n.mesh.rotation.y += (0 - n.mesh.rotation.y) * 0.1;
+                    n.mesh.rotation.z += (0 - n.mesh.rotation.z) * 0.1;
+
+                    trendArr[idx * 3] = n.mesh.position.x;
+                    trendArr[idx * 3 + 1] = -1.6 + liveHeight + 0.22;
+                    trendArr[idx * 3 + 2] = n.mesh.position.z;
+                } else if (currentMode === 'raw') {
+                    const a = n.baseAngle + elapsed * (n.speed * 2.2);
+                    const r = 1.6 + (idx % 3) * 1.3;
+                    const targetPos = new THREE.Vector3(
+                        Math.cos(a) * r,
+                        Math.sin(elapsed * 2 + idx) * 2.1,
+                        Math.sin(a) * r
+                    );
+                    n.mesh.position.lerp(targetPos, 0.06);
+                    n.mesh.scale.lerp(new THREE.Vector3(0.55, 0.35, 0.55), 0.06);
+                    n.mesh.rotation.x += 0.03;
+                    n.mesh.rotation.y += 0.03;
+                } else {
+                    const a = n.baseAngle + elapsed * n.speed;
+                    const targetPos = new THREE.Vector3(
+                        Math.cos(a) * n.radius,
+                        n.yOffset + Math.sin(elapsed * 1.5 + idx) * 0.25,
+                        Math.sin(a) * n.radius
+                    );
+                    n.mesh.position.lerp(targetPos, 0.06);
+                    n.mesh.scale.lerp(new THREE.Vector3(0.85, 0.42, 0.85), 0.06);
+                    n.mesh.rotation.x += 0.015;
+                    n.mesh.rotation.y += 0.015;
+                }
+
+                // Update Spoke Line
+                const linePos = n.line.geometry.attributes.position.array;
+                linePos[0] = coreMesh.position.x;
+                linePos[1] = coreMesh.position.y;
+                linePos[2] = coreMesh.position.z;
+                linePos[3] = n.mesh.position.x;
+                linePos[4] = n.mesh.position.y;
+                linePos[5] = n.mesh.position.z;
+                n.line.geometry.attributes.position.needsUpdate = true;
+            });
+
+            trendLine.geometry.attributes.position.needsUpdate = true;
+            schemaGroup.rotation.y = userRotY * 0.6;
+            schemaGroup.rotation.x = userRotX * 0.4;
+
+            particleMesh.rotation.y = elapsed * 0.025;
+            renderer.render(scene, camera);
+        }
+
+        animate();
+    </script>
 </body>
 </html>
