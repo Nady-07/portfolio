@@ -1,432 +1,1731 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth dark">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mohamed Al Nady — Junior Data Analyst</title>
+    <title>Mohamed Al Nady — Data Analyst &amp; BI Specialist</title>
+    <meta name="description" content="Portfolio of Mohamed Al Nady — Data Analyst specializing in Power BI, SQL Server, DAX modeling, and business intelligence." />
+    
+    <!-- SVG Favicon with file link & inline data URI fallback -->
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 
-    <!-- Fonts -->
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
+                    colors: {
+                        obsidian: {
+                            DEFAULT: '#08090E',
+                            surface: '#11141E',
+                            card: '#161B28',
+                            hover: '#1E2335'
+                        },
+                        accent: {
+                            cyan: '#38BDF8',
+                            indigo: '#6366F1',
+                            amber: '#F59E0B',
+                            emerald: '#10B981'
+                        }
+                    },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace']
                     }
                 }
             }
         }
     </script>
 
-    <!-- Three.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
     <style>
+        /* ==========================================================================
+           DESIGN TOKENS — OKLCH COLOR ARCHITECTURE WITH HEX FALLBACKS
+           ========================================================================== */
+        :root {
+            --c-bg: #08090E;
+            --c-surface: #11141E;
+            --c-surface-elevated: #161B28;
+            --c-text: #F8FAFC;
+            --c-muted: #94A3B8;
+            --c-primary: #38BDF8;
+            --c-indigo: #6366F1;
+            --c-accent: #10B981;
+            --c-amber: #F59E0B;
+            --c-border: rgba(255, 255, 255, 0.08);
+            --c-border-hover: rgba(56, 189, 248, 0.38);
+
+            /* OKLCH Overrides for modern gamut displays */
+            --c-bg: oklch(14% 0.015 265);
+            --c-surface: oklch(19% 0.02 265);
+            --c-surface-elevated: oklch(23% 0.025 265);
+            --c-text: oklch(98% 0.005 250);
+            --c-muted: oklch(68% 0.02 255);
+            --c-primary: oklch(75% 0.14 230);
+            --c-accent: oklch(72% 0.16 160);
+            --c-border: oklch(100% 0 0 / 0.08);
+        }
+
         body {
-            background-color: #090A0F;
-            color: #F8FAFC;
+            background-color: var(--c-bg);
+            color: var(--c-text);
+            font-feature-settings: "cv02", "cv03", "cv04", "cv11";
             overflow-x: hidden;
         }
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0.55;
+
+        /* Typography discipline */
+        h1, h2, h3, h4 {
+            text-wrap: balance;
         }
-        .surface {
-            background: rgba(18, 20, 28, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+        p, li {
+            text-wrap: pretty;
+        }
+        .tabular-nums {
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Precision Coordinate Grid Backdrop */
+        .ambient-grid {
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 15%, black 35%, transparent 90%);
+            -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 15%, black 35%, transparent 90%);
+        }
+
+        /* Precision Glass & Specular Surface Cards */
+        .glass-card {
+            background: linear-gradient(180deg, rgba(22, 27, 40, 0.78) 0%, rgba(17, 20, 30, 0.85) 100%);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--c-border);
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.07);
+            transition: border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card-interactive:hover {
+            border-color: var(--c-border-hover);
+            transform: translateY(-2px);
+            box-shadow: inset 0 1px 0 0 rgba(56, 189, 248, 0.2),
+                        0 18px 40px -14px rgba(0, 0, 0, 0.75);
+        }
+
+        /* Exposed Hairline Bento Grid Container */
+        .hairline-grid {
+            background-color: var(--c-border);
+            border: 1px solid var(--c-border);
+        }
+        .hairline-cell {
+            background-color: #0B0E17;
+            transition: background-color 0.2s ease;
+        }
+        .hairline-cell:hover {
+            background-color: #111522;
+        }
+
+        /* Filter Pill Active State */
+        .filter-btn.active {
+            background-color: #38BDF8;
+            color: #08090E;
+            border-color: #38BDF8;
+            font-weight: 700;
+            box-shadow: 0 0 20px -4px rgba(56, 189, 248, 0.45);
+        }
+
+        /* View Mode & Telemetry Tabs Active */
+        .view-btn.active,
+        .telemetry-tab.active,
+        .modal-tab.active {
+            background: rgba(56, 189, 248, 0.14);
+            color: #38BDF8;
+            border-color: rgba(56, 189, 248, 0.35);
+        }
+
+        /* Modal Backdrop */
+        .modal-backdrop {
+            background: rgba(4, 5, 9, 0.86);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        /* Code Block Scroll & Syntax Styling */
+        .code-surface {
+            background: #06070B;
             border: 1px solid rgba(255, 255, 255, 0.07);
-            transition: border-color 0.2s ease, transform 0.2s ease;
         }
-        .surface:hover {
-            border-color: rgba(56, 189, 248, 0.3);
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #08090E;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1E2335;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #38BDF8;
         }
     </style>
 </head>
-<body class="antialiased selection:bg-sky-500/20 selection:text-sky-300">
+<body class="antialiased selection:bg-sky-500/25 selection:text-sky-200 min-h-screen flex flex-col justify-between">
 
-    <!-- Subtle Three.js Background -->
-    <canvas id="bg-canvas"></canvas>
+    <!-- Ambient Coordinate Grid & Subtle Top Radial Spotlight -->
+    <div class="fixed inset-0 ambient-grid pointer-events-none z-0"></div>
+    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[900px] h-[380px] bg-sky-500/[0.05] blur-[130px] rounded-full pointer-events-none z-0"></div>
 
-    <!-- Minimal Header -->
-    <header class="fixed top-0 inset-x-0 z-50 border-b border-white/[0.06] bg-[#090A0F]/80 backdrop-blur-md">
-        <nav class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-            <a href="#" class="font-semibold tracking-tight text-white text-sm">
-                Mohamed Al Nady
+    <!-- ==========================================================================
+         TOP NAVIGATION HEADER (Desktop + Mobile Drawer)
+         ========================================================================== -->
+    <header class="fixed top-0 inset-x-0 z-40 border-b border-white/[0.07] bg-[#08090E]/85 backdrop-blur-xl">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between" aria-label="Main Navigation">
+            <!-- Brand Identity -->
+            <a href="#" class="flex items-center gap-3 group focus:outline-none">
+                <div class="w-8 h-8 rounded-lg bg-[#0B0E17] border border-sky-400/30 flex items-center justify-center shadow-sm group-hover:border-sky-400 transition overflow-hidden">
+                    <img src="assets/favicon.svg" alt="Mohamed Al Nady Logo" class="w-6 h-6 object-contain" />
+                </div>
+                <div class="flex items-center gap-2.5">
+                    <span class="font-bold tracking-tight text-white text-sm sm:text-base group-hover:text-sky-300 transition-colors">
+                        Mohamed Al Nady
+                    </span>
+                    <span class="hidden sm:inline-flex items-center gap-1.5 text-[11px] font-mono text-slate-400 pl-2.5 border-l border-white/10">
+                        <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                        <span>Data Analyst &amp; BI</span>
+                    </span>
+                </div>
             </a>
 
-            <div class="flex items-center gap-6 text-sm text-slate-400">
-                <a href="#projects" class="hover:text-white transition-colors hidden sm:inline">Projects</a>
-                <a href="#experience" class="hover:text-white transition-colors hidden sm:inline">Experience</a>
-                <a href="#skills" class="hover:text-white transition-colors hidden sm:inline">Skills</a>
-                <a href="#contact" class="hover:text-white transition-colors hidden sm:inline">Contact</a>
-                <a href="cv/Mohamed_Alnady_CV_ATS.html" target="_blank" rel="noopener noreferrer"
-                   class="px-3.5 py-1.5 rounded-lg text-xs font-medium text-white bg-white/[0.07] hover:bg-white/[0.12] border border-white/10 transition">
-                    Resume
+            <!-- Desktop Navigation Links -->
+            <div class="hidden md:flex items-center gap-1 lg:gap-2 text-xs font-medium text-slate-400">
+                <a href="#projects" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/[0.04] transition-colors">Projects <span class="font-mono text-[10px] text-sky-400 ml-0.5">11</span></a>
+                <a href="#impact" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/[0.04] transition-colors">Impact</a>
+                <a href="#experience" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/[0.04] transition-colors">Experience</a>
+                <a href="#skills" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/[0.04] transition-colors">Skills &amp; Credentials</a>
+                <a href="#contact" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/[0.04] transition-colors">Contact</a>
+
+                <a href="cv/Mohamed_Alnady_CV.html" target="_blank" rel="noopener noreferrer"
+                   class="ml-1 px-3.5 py-1.5 rounded-lg text-xs font-semibold text-sky-300 bg-sky-400/10 hover:bg-sky-400/20 border border-sky-400/25 transition flex items-center gap-1.5">
+                    <span>Resume</span>
+                    <span class="font-mono text-[10px]">↗</span>
                 </a>
+            </div>
+
+            <!-- Mobile Controls -->
+            <div class="flex items-center gap-2 md:hidden">
+                <a href="cv/Mohamed_Alnady_CV.html" target="_blank" rel="noopener noreferrer"
+                   class="px-3 py-1.5 rounded-lg text-xs font-semibold text-sky-300 bg-sky-400/10 border border-sky-400/25 flex items-center gap-1">
+                    <span>Resume</span>
+                    <span class="font-mono text-[10px]">↗</span>
+                </a>
+                <button id="mobile-menu-btn" aria-label="Toggle Navigation Menu" class="p-2 rounded-lg text-slate-300 hover:text-white bg-white/[0.04] border border-white/[0.08]">
+                    <svg id="mobile-menu-icon-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    <svg id="mobile-menu-icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
             </div>
         </nav>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobile-menu-drawer" class="hidden md:hidden border-t border-white/[0.08] bg-[#0B0E17]/95 backdrop-blur-xl px-4 pt-3 pb-5 space-y-2">
+            <a href="#projects" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-slate-200 hover:bg-white/[0.05]">
+                <span>Enterprise &amp; Technical Projects</span>
+                <span class="font-mono text-xs text-sky-400">11 Cases →</span>
+            </a>
+            <a href="#impact" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-slate-200 hover:bg-white/[0.05]">
+                <span>Executive Impact Telemetry</span>
+                <span class="font-mono text-xs text-slate-500">KPIs →</span>
+            </a>
+            <a href="#experience" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-slate-200 hover:bg-white/[0.05]">
+                <span>Work Experience</span>
+                <span class="font-mono text-xs text-slate-500">3 Roles →</span>
+            </a>
+            <a href="#skills" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-slate-200 hover:bg-white/[0.05]">
+                <span>Technical Arsenal &amp; Diplomas</span>
+                <span class="font-mono text-xs text-slate-500">Stack →</span>
+            </a>
+            <a href="#contact" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-slate-200 hover:bg-white/[0.05]">
+                <span>Direct Contact Channel</span>
+                <span class="font-mono text-xs text-emerald-400">Available →</span>
+            </a>
+        </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="relative z-10 max-w-5xl mx-auto px-6 pt-32 pb-24 space-y-28">
+    <!-- ==========================================================================
+         MAIN CONTENT CONTAINER
+         ========================================================================== -->
+    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 pb-24 space-y-24 sm:space-y-28">
 
-        <!-- HERO -->
-        <section class="max-w-3xl space-y-6">
-            <div class="inline-flex items-center gap-2 text-xs font-mono text-sky-400">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
-                <span>Junior Data Analyst · Maadi, Cairo</span>
-            </div>
-
-            <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-white leading-[1.15]">
-                Turning operational and customer data into clear business actions.
-            </h1>
-
-            <p class="text-slate-400 text-base sm:text-lg leading-relaxed">
-                Junior Data Analyst with eight months of manufacturing analytics experience and a background in customer-facing sales. Experienced in preparing clean Excel reports, building desktop and mobile Power BI dashboards, writing analytical SQL, and communicating directly with senior management.
-            </p>
-
-            <div class="flex flex-wrap items-center gap-3 pt-2">
-                <a href="#projects"
-                   class="px-5 py-2.5 rounded-lg text-sm font-medium bg-white text-slate-950 hover:bg-slate-200 transition">
-                    Selected Projects
-                </a>
-                <a href="cv/Mohamed_Alnady_CV_ATS.html" target="_blank" rel="noopener noreferrer"
-                   class="px-5 py-2.5 rounded-lg text-sm font-medium text-slate-200 surface hover:text-white">
-                    Resume
-                </a>
-                <a href="https://github.com/Nady-07" target="_blank" rel="noopener noreferrer"
-                   class="px-4 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-white transition">
-                    GitHub ↗
-                </a>
-                <a href="https://www.linkedin.com/in/mohamed-alnady-52b87123b" target="_blank" rel="noopener noreferrer"
-                   class="px-4 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-white transition">
-                    LinkedIn ↗
-                </a>
-            </div>
-        </section>
-
-        <!-- SELECTED PROJECTS -->
-        <section id="projects" class="scroll-mt-24 space-y-8">
-            <div class="flex items-baseline justify-between border-b border-white/[0.07] pb-4">
-                <h2 class="text-xl font-semibold text-white tracking-tight">Selected Projects</h2>
-                <a href="https://github.com/Nady-07" target="_blank" rel="noopener noreferrer"
-                   class="text-xs font-mono text-slate-400 hover:text-sky-400 transition">
-                    All Repositories ↗
-                </a>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                <!-- Project 1 -->
-                <article class="surface rounded-xl p-6 flex flex-col justify-between">
-                    <div class="space-y-3">
-                        <div class="text-xs font-mono text-sky-400">Power BI · DAX</div>
-                        <h3 class="text-base font-semibold text-white">
-                            Telecom Customer Churn
-                        </h3>
-                        <p class="text-sm text-slate-400 leading-relaxed">
-                            Built an interactive Power BI report comparing churn across contract types and services used, using DAX measures and slicers to explore customer groups relevant to retention.
-                        </p>
-                    </div>
-                    <div class="pt-6 mt-6 border-t border-white/[0.06]">
-                        <a href="https://github.com/Nady-07" target="_blank" rel="noopener noreferrer"
-                           class="text-xs font-mono text-slate-300 hover:text-sky-400 transition">
-                            View Project →
-                        </a>
-                    </div>
-                </article>
-
-                <!-- Project 2 -->
-                <article class="surface rounded-xl p-6 flex flex-col justify-between">
-                    <div class="space-y-3">
-                        <div class="text-xs font-mono text-sky-400">SQL Server · T-SQL</div>
-                        <h3 class="text-base font-semibold text-white">
-                            Customer Segmentation &amp; Sales Analysis
-                        </h3>
-                        <p class="text-sm text-slate-400 leading-relaxed">
-                            Analyzed sales trends, cumulative revenue, and product performance using window functions and year-over-year comparisons. Built reusable customer and product reporting views with segmentation and recency metrics.
-                        </p>
-                    </div>
-                    <div class="pt-6 mt-6 border-t border-white/[0.06]">
-                        <a href="https://github.com/Nady-07" target="_blank" rel="noopener noreferrer"
-                           class="text-xs font-mono text-slate-300 hover:text-sky-400 transition">
-                            View SQL Scripts →
-                        </a>
-                    </div>
-                </article>
-
-                <!-- Project 3 -->
-                <article class="surface rounded-xl p-6 flex flex-col justify-between">
-                    <div class="space-y-3">
-                        <div class="text-xs font-mono text-sky-400">Excel · Power Pivot</div>
-                        <h3 class="text-base font-semibold text-white">
-                            Sales Performance Reporting
-                        </h3>
-                        <p class="text-sm text-slate-400 leading-relaxed">
-                            Built Excel dashboards with PivotTables and slicers to compare sales across regions; used Power Pivot data modeling to analyze product and channel profitability.
-                        </p>
-                    </div>
-                    <div class="pt-6 mt-6 border-t border-white/[0.06]">
-                        <a href="https://github.com/Nady-07" target="_blank" rel="noopener noreferrer"
-                           class="text-xs font-mono text-slate-300 hover:text-sky-400 transition">
-                            View Workbook →
-                        </a>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <!-- EXPERIENCE -->
-        <section id="experience" class="scroll-mt-24 space-y-8">
-            <div class="border-b border-white/[0.07] pb-4">
-                <h2 class="text-xl font-semibold text-white tracking-tight">Experience</h2>
-            </div>
-
-            <div class="space-y-6">
-                <!-- Role 1 -->
-                <div class="surface rounded-xl p-6 space-y-3">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                        <div>
-                            <h3 class="text-base font-semibold text-white">Data Analyst</h3>
-                            <div class="text-sm text-sky-400">Arab Company for Calcium Carbonate</div>
-                        </div>
-                        <span class="text-xs font-mono text-slate-400">Feb 2026 – Oct 2026</span>
-                    </div>
-                    <ul class="text-sm text-slate-400 space-y-1.5 list-disc list-inside leading-relaxed pt-1">
-                        <li>Handled data preparation and reporting as the company's only data analyst, communicating directly with the CEO and factory owner.</li>
-                        <li>Cleaned and organized Excel source data, standardized formats, and checked missing or incorrect values before reporting.</li>
-                        <li>Prepared Excel reports and built Power BI reports with desktop and mobile layouts for management review.</li>
-                        <li>Reviewed new data entries continuously to keep the source data consistent and reliable.</li>
-                    </ul>
-                </div>
-
-                <!-- Role 2 & 3 -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div class="surface rounded-xl p-6 space-y-2">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-base font-semibold text-white">Real Estate Agent – Resale</h3>
-                            <span class="text-xs font-mono text-slate-400">2023 – 2025</span>
-                        </div>
-                        <div class="text-xs font-mono text-slate-400">Smart Step, Cairo</div>
-                        <p class="text-sm text-slate-400 leading-relaxed pt-1">
-                            Maintained property listings and Excel reports covering pricing, availability, and sales performance.
-                        </p>
-                    </div>
-
-                    <div class="surface rounded-xl p-6 space-y-2">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-base font-semibold text-white">Real Estate Agent – Primary Sales</h3>
-                            <span class="text-xs font-mono text-slate-400">2022 – 2023</span>
-                        </div>
-                        <div class="text-xs font-mono text-slate-400">MLS, Cairo</div>
-                        <p class="text-sm text-slate-400 leading-relaxed pt-1">
-                            Tracked customer follow-ups and property prices in Excel and prepared sales summaries.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- TECHNICAL SKILLS & EDUCATION -->
-        <section id="skills" class="scroll-mt-24 grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <!-- ==========================================================================
+             1. ASYMMETRIC 12-COLUMN HERO WITH INTERACTIVE BI TELEMETRY CONSOLE
+             ========================================================================== -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center pt-2">
             
-            <!-- Skills (7 cols) -->
+            <!-- Left 7 Columns: Value Proposition & Primary Actions -->
             <div class="lg:col-span-7 space-y-6">
-                <div class="border-b border-white/[0.07] pb-4">
-                    <h2 class="text-xl font-semibold text-white tracking-tight">Technical Skills</h2>
+                <!-- Live Status Badge -->
+                <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full text-xs font-mono text-sky-300 bg-sky-400/[0.08] border border-sky-400/25 shadow-sm">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    <span>Junior Data Analyst · Cairo, Egypt · Available for Hire</span>
                 </div>
 
-                <div class="surface rounded-xl divide-y divide-white/[0.06]">
-                    <div class="p-4 sm:px-6 flex flex-col sm:flex-row sm:items-baseline gap-2">
-                        <span class="text-xs font-mono text-sky-400 w-36 shrink-0">SQL &amp; Databases</span>
-                        <span class="text-sm text-slate-300">SQL Server, T-SQL, Joins, Aggregations, CTEs, Subqueries, Window Functions, Reporting Views</span>
+                <!-- Display Headline -->
+                <h1 class="text-3xl sm:text-5xl lg:text-[3.35rem] font-extrabold tracking-tight text-white leading-[1.09]">
+                    Turning complex operational &amp; customer data into <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-sky-300 to-indigo-400">clear business growth.</span>
+                </h1>
+
+                <!-- Lead Paragraph -->
+                <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl">
+                    Data Analyst with hands-on manufacturing industry analytics experience and a background in consultative sales. Skilled in building enterprise Power BI dashboards with DAX &amp; star schemas, writing analytical SQL queries (CTEs, Window Functions), and communicating actionable insights directly to C-level executives.
+                </p>
+
+                <!-- Action CTAs -->
+                <div class="flex flex-wrap items-center gap-3 pt-1">
+                    <a href="#projects" class="px-5 py-3 rounded-xl text-xs font-bold bg-sky-400 text-slate-950 hover:bg-sky-300 transition shadow-lg shadow-sky-400/15 flex items-center gap-2">
+                        <span>Explore All 11 Projects</span>
+                        <span class="font-mono">↓</span>
+                    </a>
+                    <a href="cv/Mohamed_Alnady_CV.html" target="_blank" rel="noopener noreferrer"
+                       class="px-5 py-3 rounded-xl text-xs font-semibold text-white glass-card glass-card-interactive hover:text-sky-300 flex items-center gap-2">
+                        <span>View Resume</span>
+                        <span class="font-mono text-sky-400">↗</span>
+                    </a>
+                    <a href="https://github.com/Nady-07" target="_blank" rel="noopener noreferrer"
+                       class="px-4 py-3 rounded-xl text-xs font-mono text-slate-300 hover:text-white bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] transition flex items-center gap-1.5">
+                        <span>GitHub</span>
+                        <span class="text-slate-500">↗</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/mohamed-alnady-52b87123b" target="_blank" rel="noopener noreferrer"
+                       class="px-4 py-3 rounded-xl text-xs font-mono text-slate-300 hover:text-white bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] transition flex items-center gap-1.5">
+                        <span>LinkedIn</span>
+                        <span class="text-slate-500">↗</span>
+                    </a>
+                </div>
+
+                <!-- Micro Architecture Capabilities Bar -->
+                <div class="pt-3 border-t border-white/[0.07] grid grid-cols-3 gap-4 max-w-xl text-xs font-mono">
+                    <div>
+                        <div class="text-slate-500 text-[10px] uppercase tracking-wider">BI &amp; Semantic Layer</div>
+                        <div class="text-slate-200 font-medium mt-0.5">Power BI · DAX · Star Schema</div>
                     </div>
-                    <div class="p-4 sm:px-6 flex flex-col sm:flex-row sm:items-baseline gap-2">
-                        <span class="text-xs font-mono text-sky-400 w-36 shrink-0">Excel &amp; BI</span>
-                        <span class="text-sm text-slate-300">Excel, PivotTables, Power Pivot, Power Query, Power BI Desktop, DAX, Interactive Reports</span>
+                    <div>
+                        <div class="text-slate-500 text-[10px] uppercase tracking-wider">Database &amp; ETL</div>
+                        <div class="text-slate-200 font-medium mt-0.5">SQL Server · T-SQL · Medallion</div>
                     </div>
-                    <div class="p-4 sm:px-6 flex flex-col sm:flex-row sm:items-baseline gap-2">
-                        <span class="text-xs font-mono text-sky-400 w-36 shrink-0">Analysis</span>
-                        <span class="text-sm text-slate-300">Customer Segmentation, Churn Analysis, Sales Trends, Year-over-Year Comparisons, KPI Reporting</span>
-                    </div>
-                    <div class="p-4 sm:px-6 flex flex-col sm:flex-row sm:items-baseline gap-2">
-                        <span class="text-xs font-mono text-sky-400 w-36 shrink-0">Data Quality</span>
-                        <span class="text-sm text-slate-300">Data Cleaning, Validation, Consistent Formats, Missing-Value Checks, Star Schema Modeling</span>
-                    </div>
-                    <div class="p-4 sm:px-6 flex flex-col sm:flex-row sm:items-baseline gap-2">
-                        <span class="text-xs font-mono text-sky-400 w-36 shrink-0">Python</span>
-                        <span class="text-sm text-slate-300">Basic Python; currently learning Pandas and NumPy</span>
+                    <div>
+                        <div class="text-slate-500 text-[10px] uppercase tracking-wider">Spreadsheet Modeling</div>
+                        <div class="text-slate-200 font-medium mt-0.5">Excel · Power Pivot · Power Query</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Education & Training (5 cols) -->
-            <div class="lg:col-span-5 space-y-6">
-                <div class="border-b border-white/[0.07] pb-4">
-                    <h2 class="text-xl font-semibold text-white tracking-tight">Education &amp; Training</h2>
-                </div>
+            <!-- Right 5 Columns: Interactive "Executive BI Telemetry & Code Inspector" -->
+            <div class="lg:col-span-5">
+                <div class="glass-card rounded-2xl overflow-hidden border border-white/[0.1] shadow-2xl">
+                    
+                    <!-- Console Top Bar -->
+                    <div class="px-4 py-3 bg-[#090B11] border-b border-white/[0.07] flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-rose-500/70"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-amber-500/70"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/70"></span>
+                            <span class="text-[11px] font-mono text-slate-400 ml-1.5">analytics_engine.pbix</span>
+                        </div>
 
-                <div class="surface rounded-xl divide-y divide-white/[0.06]">
-                    <div class="p-4 sm:px-6 flex items-baseline justify-between gap-4">
-                        <div>
-                            <div class="text-sm font-medium text-white">Bachelor of Commerce</div>
-                            <div class="text-xs text-slate-400">Helwan University, Cairo</div>
+                        <!-- Interactive Console Mode Switcher -->
+                        <div class="flex items-center gap-1 bg-white/[0.04] p-0.5 rounded-lg border border-white/[0.07] text-[10px] font-mono">
+                            <button onclick="switchTelemetryTab('visual')" id="tab-btn-visual" class="telemetry-tab active px-2.5 py-1 rounded-md transition">
+                                BI Telemetry
+                            </button>
+                            <button onclick="switchTelemetryTab('dax')" id="tab-btn-dax" class="telemetry-tab px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition">
+                                DAX Engine
+                            </button>
+                            <button onclick="switchTelemetryTab('sql')" id="tab-btn-sql" class="telemetry-tab px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition">
+                                T-SQL / DWH
+                            </button>
                         </div>
-                        <span class="text-xs font-mono text-slate-400 shrink-0">2018 – 2022</span>
                     </div>
-                    <div class="p-4 sm:px-6 flex items-baseline justify-between gap-4">
-                        <div>
-                            <div class="text-sm font-medium text-white">Modern Data Warehouse</div>
-                            <div class="text-xs text-slate-400">Data Engineering · Udemy</div>
+
+                    <!-- TAB 1: Live BI Telemetry Preview -->
+                    <div id="telemetry-panel-visual" class="p-5 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="text-[10px] font-mono uppercase tracking-wider text-slate-400">Flagship Model · Constellation Schema</div>
+                                <div class="text-sm font-bold text-white">Samsung Global Operations &amp; Churn</div>
+                            </div>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
+                                ● VERIFIED DATA
+                            </span>
                         </div>
-                        <span class="text-xs font-mono text-slate-400 shrink-0">Jun 2026</span>
-                    </div>
-                    <div class="p-4 sm:px-6 flex items-baseline justify-between gap-4">
-                        <div>
-                            <div class="text-sm font-medium text-white">Data Analysis Diploma</div>
-                            <div class="text-xs text-slate-400">EraaSoft Academy</div>
+
+                        <!-- Mini KPI Cards Grid -->
+                        <div class="grid grid-cols-2 gap-3 tabular-nums">
+                            <div class="p-3.5 rounded-xl bg-[#090B12] border border-white/[0.06] space-y-1 cursor-pointer hover:border-sky-400/40 transition" onclick="openModal('samsung')">
+                                <div class="flex items-center justify-between text-[10px] font-mono text-slate-400">
+                                    <span>SAMSUNG NET REV</span>
+                                    <span class="text-sky-400">↗ PBIX</span>
+                                </div>
+                                <div class="text-xl font-extrabold font-mono text-white">$1.95M+</div>
+                                <div class="text-[10px] font-mono text-emerald-400">4 Operational Domains</div>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-[#090B12] border border-white/[0.06] space-y-1 cursor-pointer hover:border-sky-400/40 transition" onclick="openModal('telecom')">
+                                <div class="flex items-center justify-between text-[10px] font-mono text-slate-400">
+                                    <span>CHURN EXPOSURE</span>
+                                    <span class="text-amber-400">7,043 Accts</span>
+                                </div>
+                                <div class="text-xl font-extrabold font-mono text-white">$2.86M</div>
+                                <div class="text-[10px] font-mono text-sky-400">Cohort Risk Identified</div>
+                            </div>
                         </div>
-                        <span class="text-xs font-mono text-slate-400 shrink-0">Apr 2026</span>
-                    </div>
-                    <div class="p-4 sm:px-6 flex items-baseline justify-between gap-4">
-                        <div>
-                            <div class="text-sm font-medium text-white">Complete SQL Bootcamp</div>
-                            <div class="text-xs text-slate-400">Udemy</div>
+
+                        <!-- Interactive SVG Data Visualization Chart -->
+                        <div class="p-4 rounded-xl bg-[#090B12] border border-white/[0.06] space-y-2.5">
+                            <div class="flex items-center justify-between text-[11px] font-mono">
+                                <span class="text-slate-300">Cross-Project Revenue &amp; Retention Telemetry</span>
+                                <span class="text-sky-400 tabular-nums">30+ DAX Measures</span>
+                            </div>
+                            <svg class="w-full h-28 overflow-visible" viewBox="0 0 360 100" fill="none">
+                                <defs>
+                                    <linearGradient id="telemetryArea" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.32"/>
+                                        <stop offset="100%" stop-color="#38BDF8" stop-opacity="0.0"/>
+                                    </linearGradient>
+                                </defs>
+                                <!-- Horizontal Grid Lines -->
+                                <line x1="0" y1="20" x2="360" y2="20" stroke="rgba(255,255,255,0.05)" stroke-dasharray="3 3"/>
+                                <line x1="0" y1="50" x2="360" y2="50" stroke="rgba(255,255,255,0.05)" stroke-dasharray="3 3"/>
+                                <line x1="0" y1="80" x2="360" y2="80" stroke="rgba(255,255,255,0.05)" stroke-dasharray="3 3"/>
+
+                                <!-- Comparative Bars -->
+                                <rect x="18" y="52" width="22" height="38" rx="3" fill="#1E293B" />
+                                <rect x="68" y="42" width="22" height="48" rx="3" fill="#1E293B" />
+                                <rect x="118" y="34" width="22" height="56" rx="3" fill="#38BDF8" fill-opacity="0.3" />
+                                <rect x="168" y="25" width="22" height="65" rx="3" fill="#38BDF8" fill-opacity="0.5" />
+                                <rect x="218" y="30" width="22" height="60" rx="3" fill="#6366F1" fill-opacity="0.6" />
+                                <rect x="268" y="18" width="22" height="72" rx="3" fill="#38BDF8" fill-opacity="0.8" />
+                                <rect x="318" y="10" width="22" height="80" rx="3" fill="#10B981" />
+
+                                <!-- Trend Line + Area -->
+                                <path d="M29 50 L79 39 L129 32 L179 22 L229 27 L279 15 L329 8 L329 90 L29 90 Z" fill="url(#telemetryArea)" />
+                                <path d="M29 50 L79 39 L129 32 L179 22 L229 27 L279 15 L329 8" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                                
+                                <!-- Data Points -->
+                                <circle cx="179" cy="22" r="3.5" fill="#08090E" stroke="#38BDF8" stroke-width="2" />
+                                <circle cx="279" cy="15" r="3.5" fill="#08090E" stroke="#38BDF8" stroke-width="2" />
+                                <circle cx="329" cy="8" r="4" fill="#10B981" stroke="#08090E" stroke-width="1.5" />
+                            </svg>
+                            <div class="flex items-center justify-between text-[10px] font-mono text-slate-500 pt-1">
+                                <span>STAR &amp; CONSTELLATION SCHEMAS</span>
+                                <button onclick="openModal('samsung')" class="text-sky-400 hover:underline">Inspect Flagship Case →</button>
+                            </div>
                         </div>
-                        <span class="text-xs font-mono text-slate-400 shrink-0">2026</span>
                     </div>
+
+                    <!-- TAB 2: Production DAX Engine Preview -->
+                    <div id="telemetry-panel-dax" class="p-5 space-y-3 hidden">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] font-mono text-sky-400">Samsung_Operations.pbix · DAX Measure</span>
+                            <button onclick="copyCodeSnippet('dax-hero-code')" class="px-2 py-1 rounded text-[10px] font-mono bg-white/[0.05] hover:bg-white/[0.1] text-slate-300 border border-white/10 transition">
+                                Copy DAX
+                            </button>
+                        </div>
+                        <pre id="dax-hero-code" class="code-surface rounded-xl p-3.5 text-[11px] font-mono leading-relaxed text-slate-300 overflow-x-auto"><code><span class="text-slate-500">// Dynamic YoY Net Revenue &amp; Margin Telemetry</span>
+<span class="text-sky-400 font-semibold">Net Revenue YoY %</span> = 
+<span class="text-indigo-400">VAR</span> CurrentRev = [<span class="text-emerald-400">Total Net Revenue</span>]
+<span class="text-indigo-400">VAR</span> PriorYearRev = 
+    <span class="text-amber-300">CALCULATE</span>(
+        [<span class="text-emerald-400">Total Net Revenue</span>],
+        <span class="text-amber-300">SAMEPERIODLASTYEAR</span>( 'Dim_Date'[Date] )
+    )
+<span class="text-indigo-400">RETURN</span>
+    <span class="text-amber-300">DIVIDE</span>( CurrentRev - PriorYearRev, PriorYearRev, 0 )</code></pre>
+                        <div class="flex items-center justify-between text-[11px] font-mono text-slate-400 pt-1">
+                            <span>Constellation Schema · 30+ Measures</span>
+                            <a href="assets/Samsung_Dashboard.pbix" download class="text-sky-400 hover:underline">Download .PBIX ↓</a>
+                        </div>
+                    </div>
+
+                    <!-- TAB 3: T-SQL & DWH Window Function Preview -->
+                    <div id="telemetry-panel-sql" class="p-5 space-y-3 hidden">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] font-mono text-emerald-400">Gold_Layer_Analytics.sql · T-SQL</span>
+                            <button onclick="copyCodeSnippet('sql-hero-code')" class="px-2 py-1 rounded text-[10px] font-mono bg-white/[0.05] hover:bg-white/[0.1] text-slate-300 border border-white/10 transition">
+                                Copy SQL
+                            </button>
+                        </div>
+                        <pre id="sql-hero-code" class="code-surface rounded-xl p-3.5 text-[11px] font-mono leading-relaxed text-slate-300 overflow-x-auto"><code><span class="text-indigo-400">WITH</span> CustomerRFM <span class="text-indigo-400">AS</span> (
+    <span class="text-indigo-400">SELECT</span>
+        customer_id,
+        <span class="text-amber-300">SUM</span>(net_amount) <span class="text-indigo-400">AS</span> lifetime_value,
+        <span class="text-amber-300">DENSE_RANK</span>() <span class="text-indigo-400">OVER</span> (
+            <span class="text-indigo-400">PARTITION BY</span> region 
+            <span class="text-indigo-400">ORDER BY</span> <span class="text-amber-300">SUM</span>(net_amount) <span class="text-indigo-400">DESC</span>
+        ) <span class="text-indigo-400">AS</span> regional_rank
+    <span class="text-indigo-400">FROM</span> gold.fact_sales
+    <span class="text-indigo-400">GROUP BY</span> customer_id, region
+)
+<span class="text-indigo-400">SELECT</span> * <span class="text-indigo-400">FROM</span> CustomerRFM <span class="text-indigo-400">WHERE</span> regional_rank &lt;= 10;</code></pre>
+                        <div class="flex items-center justify-between text-[11px] font-mono text-slate-400 pt-1">
+                            <span>Bronze / Silver / Gold Architecture</span>
+                            <button onclick="openModal('sql-dwh')" class="text-sky-400 hover:underline">Inspect DWH Case →</button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
         </section>
 
-        <!-- CONTACT -->
-        <section id="contact" class="scroll-mt-24">
-            <div class="surface rounded-2xl p-8 sm:p-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
-                <div class="space-y-2">
-                    <h2 class="text-2xl font-semibold text-white tracking-tight">Get in Touch</h2>
-                    <p class="text-sm text-slate-400 max-w-md">
-                        Interested in helping a Growth or BI team turn customer and business data into clear actions.
+        <!-- ==========================================================================
+             2. EXECUTIVE IMPACT METRICS TELEMETRY STRIP (Exposed Hairline Grid)
+             ========================================================================== -->
+        <section id="impact" class="scroll-mt-24 space-y-3">
+            <div class="flex items-center justify-between text-xs font-mono text-slate-400 px-1">
+                <span class="uppercase tracking-wider text-sky-400 flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                    <span>Quantified Portfolio Telemetry</span>
+                </span>
+                <span class="hidden sm:inline text-slate-500">VERIFIED ACROSS 11 PRODUCTION REPOSITORIES</span>
+            </div>
+
+            <div class="hairline-grid rounded-2xl overflow-hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[1px] shadow-2xl tabular-nums">
+                
+                <!-- Metric 1 -->
+                <div class="hairline-cell p-6 sm:p-7 flex flex-col justify-between space-y-4">
+                    <div class="flex items-center justify-between text-[11px] font-mono text-slate-400">
+                        <span>01 / COMMERCIAL BI</span>
+                        <span class="px-2 py-0.5 rounded bg-sky-400/10 text-sky-300 border border-sky-400/20">Power BI</span>
+                    </div>
+                    <div>
+                        <div class="text-3xl sm:text-4xl font-extrabold font-mono text-white tracking-tight">$1.95M+</div>
+                        <div class="text-xs text-sky-400 font-semibold mt-1">Samsung Global Revenue</div>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Diagnosed across 4 operational domains in Power BI with constellation schema modeling.
                     </p>
                 </div>
 
-                <div class="flex flex-wrap items-center gap-3 text-xs font-mono">
-                    <a href="mailto:mohamednady0@outlook.com"
-                       class="px-4 py-3 rounded-lg bg-white text-slate-950 font-sans font-medium text-sm hover:bg-slate-200 transition">
-                        mohamednady0@outlook.com
-                    </a>
-                    <a href="tel:+201005705460"
-                       class="px-4 py-3 rounded-lg surface text-slate-200 hover:text-white">
-                        +20 100 570 5460
-                    </a>
-                    <a href="https://www.linkedin.com/in/mohamed-alnady-52b87123b" target="_blank" rel="noopener noreferrer"
-                       class="px-4 py-3 rounded-lg surface text-slate-200 hover:text-white">
-                        LinkedIn ↗
-                    </a>
+                <!-- Metric 2 -->
+                <div class="hairline-cell p-6 sm:p-7 flex flex-col justify-between space-y-4">
+                    <div class="flex items-center justify-between text-[11px] font-mono text-slate-400">
+                        <span>02 / RETENTION COHORTS</span>
+                        <span class="px-2 py-0.5 rounded bg-amber-400/10 text-amber-300 border border-amber-400/20">$2.86M Risk</span>
+                    </div>
+                    <div>
+                        <div class="text-3xl sm:text-4xl font-extrabold font-mono text-white tracking-tight">7,043</div>
+                        <div class="text-xs text-sky-400 font-semibold mt-1">Telecom Customer Accounts</div>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Analyzed for retention with $2.86M churn exposure isolated across contract &amp; payment segments.
+                    </p>
+                </div>
+
+                <!-- Metric 3 -->
+                <div class="hairline-cell p-6 sm:p-7 flex flex-col justify-between space-y-4">
+                    <div class="flex items-center justify-between text-[11px] font-mono text-slate-400">
+                        <span>03 / SEMANTIC MODELING</span>
+                        <span class="px-2 py-0.5 rounded bg-indigo-400/10 text-indigo-300 border border-indigo-400/20">DAX / T-SQL</span>
+                    </div>
+                    <div>
+                        <div class="text-3xl sm:text-4xl font-extrabold font-mono text-white tracking-tight">30+</div>
+                        <div class="text-xs text-sky-400 font-semibold mt-1">Production DAX Measures</div>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Time intelligence, dynamic currency &amp; metric switching, YoY variances, and attrition ratios.
+                    </p>
+                </div>
+
+                <!-- Metric 4 -->
+                <div class="hairline-cell p-6 sm:p-7 flex flex-col justify-between space-y-4">
+                    <div class="flex items-center justify-between text-[11px] font-mono text-slate-400">
+                        <span>04 / EXECUTIVE OWNERSHIP</span>
+                        <span class="px-2 py-0.5 rounded bg-emerald-400/10 text-emerald-300 border border-emerald-400/20">C-Suite BI</span>
+                    </div>
+                    <div>
+                        <div class="text-3xl sm:text-4xl font-extrabold font-mono text-white tracking-tight">100%</div>
+                        <div class="text-xs text-sky-400 font-semibold mt-1">Sole Factory Analyst</div>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        End-to-end data pipeline, shift quality auditing &amp; real-time reporting directly to the CEO.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==========================================================================
+             3. ENTERPRISE & TECHNICAL PROJECTS SHOWCASE (All 11 Projects)
+             ========================================================================== -->
+        <section id="projects" class="scroll-mt-24 space-y-8">
+            
+            <!-- Section Header & Interactive Control Bar -->
+            <div class="space-y-5 border-b border-white/[0.08] pb-6">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div class="space-y-1">
+                        <div class="text-xs font-mono text-sky-400 uppercase tracking-wider flex items-center gap-2">
+                            <span>Proof of Work</span>
+                            <span class="text-slate-600">/</span>
+                            <span id="project-count-label" class="text-slate-400 tabular-nums">Showing 11 of 11 Cataloged Projects</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Enterprise &amp; Technical Projects</h2>
+                    </div>
+
+                    <!-- View Mode Toggle (Cards View vs. Matrix Table View) -->
+                    <div class="flex items-center gap-1 p-1 rounded-xl bg-white/[0.03] border border-white/[0.08] text-xs font-mono self-start md:self-auto">
+                        <button id="view-grid-btn" class="view-btn active px-3 py-1.5 rounded-lg border border-transparent transition flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                            <span>Cards View</span>
+                        </button>
+                        <button id="view-table-btn" class="view-btn px-3 py-1.5 rounded-lg border border-transparent transition text-slate-400 hover:text-white flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+                            <span>Matrix View</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Category Filter Pills -->
+                <div class="flex items-center gap-3 pt-1">
+                    <div class="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-white/[0.03] border border-white/[0.08] text-xs font-mono tabular-nums" id="filter-container">
+                        <button class="filter-btn active px-3.5 py-1.5 rounded-lg transition text-slate-300" data-filter="all">All (11)</button>
+                        <button class="filter-btn px-3.5 py-1.5 rounded-lg transition text-slate-300 hover:text-white" data-filter="powerbi">Power BI (4)</button>
+                        <button class="filter-btn px-3.5 py-1.5 rounded-lg transition text-slate-300 hover:text-white" data-filter="sql">SQL &amp; DWH (6)</button>
+                        <button class="filter-btn px-3.5 py-1.5 rounded-lg transition text-slate-300 hover:text-white" data-filter="excel">Excel (1)</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1. GRID CARDS VIEW CONTAINER -->
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Populated dynamically via JavaScript -->
+            </div>
+
+            <!-- 2. TABLE MATRIX VIEW CONTAINER -->
+            <div id="projects-table" class="glass-card rounded-2xl overflow-hidden hidden border-white/[0.08]">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs font-mono tabular-nums">
+                        <thead class="bg-[#090B12] text-slate-400 border-b border-white/[0.08] uppercase tracking-wider text-[10px]">
+                            <tr>
+                                <th class="py-3.5 px-4">#</th>
+                                <th class="py-3.5 px-4">Project &amp; Architecture</th>
+                                <th class="py-3.5 px-4">Primary Stack</th>
+                                <th class="py-3.5 px-4">Business Domain</th>
+                                <th class="py-3.5 px-4">Verified Metric / Impact</th>
+                                <th class="py-3.5 px-4 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projects-table-body" class="divide-y divide-white/[0.06] text-slate-300">
+                            <!-- Populated dynamically via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==========================================================================
+             4. CAREER EXPERIENCE SECTION (Architectural Split-Grid Timeline)
+             ========================================================================== -->
+        <section id="experience" class="scroll-mt-24 space-y-8">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-white/[0.08] pb-4">
+                <div>
+                    <div class="text-xs font-mono text-sky-400 uppercase tracking-wider">Career Journey</div>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Work Experience</h2>
+                </div>
+                <span class="text-xs font-mono text-slate-400">Industrial Operations Analytics &amp; Consultative Commercial Background</span>
+            </div>
+
+            <!-- Exposed Hairline Split-Grid Timeline (No left-border cliché) -->
+            <div class="hairline-grid rounded-2xl overflow-hidden divide-y divide-white/[0.08] shadow-xl">
+                
+                <!-- Role 01: Data Analyst (Sole Analyst) -->
+                <article class="hairline-cell p-6 sm:p-8 lg:p-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+                    <!-- Left Column: Chronology & Metadata -->
+                    <div class="lg:col-span-4 space-y-3">
+                        <div class="flex items-center gap-2 font-mono text-xs">
+                            <span class="px-2 py-0.5 rounded bg-sky-400/15 text-sky-300 border border-sky-400/30 font-semibold">01 / LEAD ROLE</span>
+                            <span class="text-slate-400 tabular-nums">Feb 2026 – Oct 2026</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg sm:text-xl font-bold text-white">Data Analyst (Sole Analyst)</h3>
+                            <div class="text-sm font-semibold text-sky-400 mt-0.5">Arab Company for Calcium Carbonate</div>
+                            <div class="text-xs font-mono text-slate-400 mt-1">Minya / Cairo · Manufacturing &amp; Industrial Operations</div>
+                        </div>
+                        <div class="pt-2">
+                            <div class="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06] space-y-1 font-mono text-[11px]">
+                                <div class="text-slate-400">REPORTING LINE</div>
+                                <div class="text-emerald-400 font-semibold">Direct to CEO &amp; Factory Owner</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Operational Impact & Execution -->
+                    <div class="lg:col-span-8 space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div class="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] space-y-1.5">
+                                <div class="text-[11px] font-mono text-sky-400 font-semibold">01 · END-TO-END OWNERSHIP</div>
+                                <p class="text-xs text-slate-300 leading-relaxed">
+                                    Managed the complete data lifecycle as the company’s only data analyst, delivering daily production and sales reporting directly to the CEO and plant management.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] space-y-1.5">
+                                <div class="text-[11px] font-mono text-sky-400 font-semibold">02 · DATA QUALITY &amp; AUDITING</div>
+                                <p class="text-xs text-slate-300 leading-relaxed">
+                                    Audited, cleaned, and standardized raw Excel source tables across production shifts, rectifying format discrepancies and missing entries.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] space-y-1.5">
+                                <div class="text-[11px] font-mono text-sky-400 font-semibold">03 · EXECUTIVE POWER BI &amp; MOBILE</div>
+                                <p class="text-xs text-slate-300 leading-relaxed">
+                                    Developed interactive Power BI desktop and mobile layouts for executive review, reducing report turnaround times from days to real-time.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] space-y-1.5">
+                                <div class="text-[11px] font-mono text-sky-400 font-semibold">04 · THROUGHPUT OPTIMIZATION</div>
+                                <p class="text-xs text-slate-300 leading-relaxed">
+                                    Identified operational bottlenecks in quarry processing runs, helping management adjust shifts to improve throughput.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Roles 02 & 03: Commercial & Market Modeling -->
+                <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-white/[0.08]">
+                    <!-- Role 02 -->
+                    <article class="hairline-cell p-6 sm:p-8 space-y-3">
+                        <div class="flex items-center justify-between font-mono text-xs">
+                            <span class="text-slate-400">02 / COMMERCIAL ANALYTICS</span>
+                            <span class="px-2.5 py-0.5 rounded bg-white/[0.04] text-slate-300 border border-white/10 tabular-nums">2023 – 2025</span>
+                        </div>
+                        <div>
+                            <h3 class="text-base sm:text-lg font-bold text-white">Real Estate Agent – Resale</h3>
+                            <div class="text-xs font-mono text-sky-400 mt-0.5">Smart Step · Cairo</div>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Maintained pricing databases, client follow-up pipelines, and comparative market Excel models for high-value residential resale properties.
+                        </p>
+                    </article>
+
+                    <!-- Role 03 -->
+                    <article class="hairline-cell p-6 sm:p-8 space-y-3">
+                        <div class="flex items-center justify-between font-mono text-xs">
+                            <span class="text-slate-400">03 / PRIMARY MARKET PIPELINES</span>
+                            <span class="px-2.5 py-0.5 rounded bg-white/[0.04] text-slate-300 border border-white/10 tabular-nums">2022 – 2023</span>
+                        </div>
+                        <div>
+                            <h3 class="text-base sm:text-lg font-bold text-white">Real Estate Agent – Primary Sales</h3>
+                            <div class="text-xs font-mono text-sky-400 mt-0.5">MLS · Cairo</div>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Tracked primary developer pricing variations, payment plans, and lead qualification metrics in structured analytical spreadsheets.
+                        </p>
+                    </article>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==========================================================================
+             5. TECHNICAL ARSENAL & CREDENTIALS BENTO SECTION
+             ========================================================================== -->
+        <section id="skills" class="scroll-mt-24 grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Technical Stack (7 Columns) -->
+            <div class="lg:col-span-7 space-y-5">
+                <div class="border-b border-white/[0.08] pb-4 flex items-end justify-between">
+                    <div>
+                        <div class="text-xs font-mono text-sky-400 uppercase tracking-wider">Capabilities</div>
+                        <h2 class="text-2xl font-bold text-white tracking-tight">Technical Arsenal</h2>
+                    </div>
+                    <span class="text-xs font-mono text-slate-500">5 Core Domains</span>
+                </div>
+
+                <div class="hairline-grid rounded-2xl overflow-hidden divide-y divide-white/[0.07] text-xs">
+                    <div class="hairline-cell p-5 flex flex-col sm:flex-row sm:items-baseline gap-3">
+                        <div class="w-44 shrink-0">
+                            <span class="font-mono text-sky-400 font-semibold block">Power BI &amp; DAX</span>
+                            <span class="font-mono text-[10px] text-slate-500">BI &amp; Semantic Layer</span>
+                        </div>
+                        <span class="text-slate-300 leading-relaxed">Power BI Desktop, Power BI Service, DAX Measures, Calculated Columns, Star &amp; Constellation Schemas, Mobile Layouts, Drillthrough, RLS</span>
+                    </div>
+                    <div class="hairline-cell p-5 flex flex-col sm:flex-row sm:items-baseline gap-3">
+                        <div class="w-44 shrink-0">
+                            <span class="font-mono text-sky-400 font-semibold block">SQL &amp; Databases</span>
+                            <span class="font-mono text-[10px] text-slate-500">Querying &amp; DWH</span>
+                        </div>
+                        <span class="text-slate-300 leading-relaxed">SQL Server (T-SQL), Joins, Aggregations, CTEs, Window Functions (OVER, RANK, LAG/LEAD), Stored Procedures, Views, DWH Staging</span>
+                    </div>
+                    <div class="hairline-cell p-5 flex flex-col sm:flex-row sm:items-baseline gap-3">
+                        <div class="w-44 shrink-0">
+                            <span class="font-mono text-sky-400 font-semibold block">Excel &amp; Modeling</span>
+                            <span class="font-mono text-[10px] text-slate-500">Spreadsheet BI</span>
+                        </div>
+                        <span class="text-slate-300 leading-relaxed">Power Pivot, Power Query (M), Advanced Formulas (XLOOKUP, INDEX/MATCH), What-If Analysis, Financial Modeling, KPI Dashboards</span>
+                    </div>
+                    <div class="hairline-cell p-5 flex flex-col sm:flex-row sm:items-baseline gap-3">
+                        <div class="w-44 shrink-0">
+                            <span class="font-mono text-sky-400 font-semibold block">Data Quality &amp; ETL</span>
+                            <span class="font-mono text-[10px] text-slate-500">Pipeline Hygiene</span>
+                        </div>
+                        <span class="text-slate-300 leading-relaxed">Data Cleaning, Anomaly Detection, Type Standardization, Missing Value Imputation, Dimensional Fact/Dim Architecture</span>
+                    </div>
+                    <div class="hairline-cell p-5 flex flex-col sm:flex-row sm:items-baseline gap-3">
+                        <div class="w-44 shrink-0">
+                            <span class="font-mono text-sky-400 font-semibold block">Python</span>
+                            <span class="font-mono text-[10px] text-slate-500">Programmatic EDA</span>
+                        </div>
+                        <span class="text-slate-300 leading-relaxed">Python fundamentals; data analysis with Pandas, NumPy, and Jupyter Notebooks</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Education & Diplomas (5 Columns) -->
+            <div class="lg:col-span-5 space-y-5">
+                <div class="border-b border-white/[0.08] pb-4 flex items-end justify-between">
+                    <div>
+                        <div class="text-xs font-mono text-sky-400 uppercase tracking-wider">Credentials</div>
+                        <h2 class="text-2xl font-bold text-white tracking-tight">Education &amp; Diplomas</h2>
+                    </div>
+                    <span class="text-xs font-mono text-slate-500">Academic &amp; Technical</span>
+                </div>
+
+                <div class="hairline-grid rounded-2xl overflow-hidden divide-y divide-white/[0.07] text-xs tabular-nums">
+                    <div class="hairline-cell p-5 flex items-baseline justify-between gap-4">
+                        <div class="space-y-1">
+                            <div class="font-bold text-white text-sm">Bachelor of Commerce</div>
+                            <div class="text-slate-400 text-xs">Helwan University, Cairo</div>
+                        </div>
+                        <span class="font-mono text-sky-400 shrink-0 px-2.5 py-0.5 rounded bg-sky-400/10 border border-sky-400/20">2018 – 2022</span>
+                    </div>
+                    <div class="hairline-cell p-5 flex items-baseline justify-between gap-4">
+                        <div class="space-y-1">
+                            <div class="font-bold text-white text-sm">Modern Data Warehouse</div>
+                            <div class="text-slate-400 text-xs">Data Engineering Specialization · Udemy</div>
+                        </div>
+                        <span class="font-mono text-slate-300 shrink-0">Jun 2026</span>
+                    </div>
+                    <div class="hairline-cell p-5 flex items-baseline justify-between gap-4">
+                        <div class="space-y-1">
+                            <div class="font-bold text-white text-sm">Data Analysis Diploma</div>
+                            <div class="text-slate-400 text-xs">EraaSoft Academy</div>
+                        </div>
+                        <span class="font-mono text-slate-300 shrink-0">Apr 2026</span>
+                    </div>
+                    <div class="hairline-cell p-5 flex items-baseline justify-between gap-4">
+                        <div class="space-y-1">
+                            <div class="font-bold text-white text-sm">Complete SQL Bootcamp</div>
+                            <div class="text-slate-400 text-xs">Udemy</div>
+                        </div>
+                        <span class="font-mono text-slate-300 shrink-0">2026</span>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==========================================================================
+             6. DIRECT CONTACT TERMINAL SECTION
+             ========================================================================== -->
+        <section id="contact" class="scroll-mt-24">
+            <div class="glass-card rounded-3xl p-8 sm:p-12 relative overflow-hidden border-sky-400/25 shadow-2xl">
+                <!-- Decorative Right Telemetry Accent -->
+                <div class="hidden lg:block absolute right-10 top-1/2 -translate-y-1/2 w-72 p-5 rounded-2xl bg-[#080A10]/90 border border-white/[0.08] font-mono text-xs space-y-3">
+                    <div class="flex items-center justify-between text-[10px] text-slate-400 border-b border-white/[0.06] pb-2">
+                        <span>CANDIDATE_STATUS</span>
+                        <span class="text-emerald-400">● READY</span>
+                    </div>
+                    <div class="space-y-1.5 text-[11px]">
+                        <div class="flex justify-between"><span class="text-slate-500">Base:</span><span class="text-slate-200">Maadi, Cairo, EG</span></div>
+                        <div class="flex justify-between"><span class="text-slate-500">Roles:</span><span class="text-sky-400">Data / BI Analyst</span></div>
+                        <div class="flex justify-between"><span class="text-slate-500">Work Mode:</span><span class="text-slate-200">On-site / Hybrid / Remote</span></div>
+                    </div>
+                </div>
+
+                <div class="relative z-10 max-w-xl space-y-5">
+                    <div class="inline-flex items-center gap-2 text-xs font-mono text-sky-400">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                        <span>Direct Channel · Immediate Response</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                        Ready to make your business data actionable?
+                    </h2>
+                    <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+                        Whether you need a dedicated Junior Data Analyst, an enterprise Power BI dashboard built from scratch, or performant SQL models, I'm available for roles and contracts.
+                    </p>
+
+                    <div class="flex flex-wrap items-center gap-3 pt-2">
+                        <a href="mailto:mohamednady0@outlook.com"
+                           class="px-5 py-3 rounded-xl bg-sky-400 text-slate-950 font-bold text-xs hover:bg-sky-300 transition shadow-lg shadow-sky-400/15 flex items-center gap-2">
+                            <span>mohamednady0@outlook.com</span>
+                            <span class="font-mono">→</span>
+                        </a>
+                        <button onclick="copyEmailAddress()"
+                                class="px-4 py-3 rounded-xl glass-card glass-card-interactive text-slate-200 text-xs font-mono hover:text-white flex items-center gap-1.5">
+                            <span id="copy-email-label">Copy Email</span>
+                        </button>
+                        <a href="tel:+201005705460"
+                           class="px-4 py-3 rounded-xl glass-card glass-card-interactive text-slate-200 text-xs font-mono hover:text-white tabular-nums">
+                            +20 100 570 5460
+                        </a>
+                        <a href="https://www.linkedin.com/in/mohamed-alnady-52b87123b" target="_blank" rel="noopener noreferrer"
+                           class="px-4 py-3 rounded-xl glass-card glass-card-interactive text-slate-200 text-xs font-mono hover:text-white">
+                            LinkedIn ↗
+                        </a>
+                        <a href="cv/Mohamed_Alnady_CV.html" target="_blank" rel="noopener noreferrer"
+                           class="px-4 py-3 rounded-xl bg-sky-400/10 text-sky-300 border border-sky-400/30 text-xs font-mono hover:bg-sky-400/20 transition">
+                            View Resume ↗
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- Minimal Footer -->
-    <footer class="relative z-10 border-t border-white/[0.06] py-8 text-xs text-slate-500">
-        <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <span>Mohamed Al Nady · Junior Data Analyst</span>
-            <span>Maadi, Cairo, Egypt</span>
+    <!-- ==========================================================================
+         FOOTER
+         ========================================================================== -->
+    <footer class="relative z-10 border-t border-white/[0.07] py-8 text-xs text-slate-500 bg-[#06070B]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono">
+            <div class="flex items-center gap-2.5">
+                <span class="w-2 h-2 rounded-full bg-sky-400"></span>
+                <span>© 2026 Mohamed Al Nady · Data Analyst &amp; BI Specialist</span>
+            </div>
+            <span>Maadi, Cairo, Egypt · Built for High-Impact Analytics</span>
         </div>
     </footer>
 
-    <!-- Minimalist Three.js Architectural Wave -->
+    <!-- ==========================================================================
+         TOAST NOTIFICATION (Replaces browser alert)
+         ========================================================================== -->
+    <div id="toast-notification" class="fixed bottom-5 right-5 z-50 hidden px-4 py-3 rounded-xl bg-[#111522] border border-sky-400/40 text-xs font-mono text-white shadow-2xl flex items-center gap-2.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span id="toast-message">Copied to clipboard</span>
+    </div>
+
+    <!-- ==========================================================================
+         INTERACTIVE CASE STUDY MODAL / DRAWER (With Visual & Code/Schema Tabs)
+         ========================================================================== -->
+    <div id="project-modal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-3 sm:p-6 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="relative w-full max-w-4xl glass-card rounded-2xl border-white/15 bg-[#0B0E17] shadow-2xl overflow-hidden my-6 max-h-[92vh] flex flex-col">
+            
+            <!-- Modal Header -->
+            <div class="p-5 sm:p-6 border-b border-white/[0.08] flex items-start justify-between gap-4 bg-[#080A11]">
+                <div class="space-y-1.5">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span id="modal-category" class="px-2.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-sky-400/15 text-sky-300 border border-sky-400/30"></span>
+                        <span id="modal-domain" class="text-xs font-mono text-slate-400"></span>
+                    </div>
+                    <h3 id="modal-title" class="text-xl sm:text-2xl font-bold text-white tracking-tight"></h3>
+                </div>
+                <button id="modal-close-btn" aria-label="Close Case Study Modal" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Modal Sub-Navigation Tabs -->
+            <div class="px-5 sm:px-6 py-2.5 bg-[#090C14] border-b border-white/[0.07] flex items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 text-xs font-mono">
+                    <button id="modal-tab-overview-btn" onclick="switchModalTab('overview')" class="modal-tab active px-3 py-1.5 rounded-lg border border-transparent transition">
+                        01 · Visuals &amp; Executive Brief
+                    </button>
+                    <button id="modal-tab-code-btn" onclick="switchModalTab('code')" class="modal-tab px-3 py-1.5 rounded-lg border border-transparent text-slate-400 hover:text-white transition">
+                        02 · Architecture &amp; Code Snippet
+                    </button>
+                </div>
+                <span id="modal-gallery-counter" class="hidden sm:inline text-[11px] font-mono text-slate-500 tabular-nums"></span>
+            </div>
+
+            <!-- Modal Body (Scrollable) -->
+            <div class="p-5 sm:p-6 overflow-y-auto space-y-6">
+                
+                <!-- TAB 1: VISUALS & OVERVIEW -->
+                <div id="modal-tab-overview" class="space-y-6">
+                    <!-- Main Image / SVG Preview Container -->
+                    <div class="space-y-3">
+                        <div id="modal-visual-stage" class="w-full h-64 sm:h-96 rounded-xl overflow-hidden bg-[#06070B] border border-white/10 flex items-center justify-center relative">
+                            <img id="modal-main-img" src="" alt="Project Preview" class="w-full h-full object-contain" />
+                            <div id="modal-svg-fallback" class="hidden w-full h-full"></div>
+                        </div>
+                        <!-- Multi-page Gallery Thumbnails -->
+                        <div id="modal-thumbnails" class="flex gap-2.5 overflow-x-auto pb-1"></div>
+                    </div>
+
+                    <!-- Verified Metrics & Stack Summary Row -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.07] font-mono tabular-nums">
+                        <div>
+                            <div class="text-[10px] uppercase text-slate-400">Primary Impact Metric</div>
+                            <div id="modal-metric-1" class="text-lg font-bold text-emerald-400 mt-0.5"></div>
+                        </div>
+                        <div>
+                            <div class="text-[10px] uppercase text-slate-400">Architecture / Scope</div>
+                            <div id="modal-metric-2" class="text-sm font-semibold text-white mt-0.5"></div>
+                        </div>
+                        <div>
+                            <div class="text-[10px] uppercase text-slate-400">Core Technical Stack</div>
+                            <div id="modal-tags" class="flex flex-wrap gap-1 mt-1.5"></div>
+                        </div>
+                    </div>
+
+                    <!-- Deep-Dive Business Context -->
+                    <div class="space-y-2.5 text-sm leading-relaxed">
+                        <h4 class="font-bold text-white text-base">Business Context &amp; Analytical Solution</h4>
+                        <p id="modal-description" class="text-slate-300"></p>
+                    </div>
+                </div>
+
+                <!-- TAB 2: ARCHITECTURE & CODE SNIPPET -->
+                <div id="modal-tab-code" class="hidden space-y-5">
+                    <div class="p-4 rounded-xl bg-white/[0.02] border border-white/[0.07] space-y-2">
+                        <div class="text-xs font-mono text-sky-400 uppercase tracking-wider">Data Model &amp; Engineering Architecture</div>
+                        <p id="modal-architecture-notes" class="text-xs sm:text-sm text-slate-300 leading-relaxed"></p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span id="modal-code-label" class="text-xs font-mono text-emerald-400">Production Code Snippet</span>
+                            <button onclick="copyCodeSnippet('modal-code-block')" class="px-2.5 py-1 rounded text-[11px] font-mono bg-white/[0.05] hover:bg-white/[0.1] text-slate-200 border border-white/10 transition">
+                                Copy Snippet
+                            </button>
+                        </div>
+                        <pre id="modal-code-block" class="code-surface rounded-xl p-4 text-xs font-mono leading-relaxed text-slate-200 overflow-x-auto"></pre>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-5 sm:p-6 border-t border-white/[0.08] flex flex-wrap items-center justify-between gap-3 bg-[#080A11]">
+                <div id="modal-download-slot"></div>
+                <a id="modal-github-link" href="#" target="_blank" rel="noopener noreferrer" 
+                   class="px-5 py-2.5 rounded-xl text-xs font-bold bg-sky-400 text-slate-950 hover:bg-sky-300 transition flex items-center gap-2 ml-auto">
+                    <span>Inspect GitHub Repository</span>
+                    <span class="font-mono">↗</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         CLIENT-SIDE APPLICATION LOGIC: 11 PROJECTS & UI
+         ========================================================================== -->
     <script>
-        const canvas = document.getElementById('bg-canvas');
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 100);
-        camera.position.set(0, 6, 14);
-        camera.lookAt(0, 0, 0);
+        // Complete authentic catalog of all 11 projects with architectural & code deep-dives
+        const projects = [
+            {
+                id: 'samsung',
+                title: 'Samsung Global Operations Performance',
+                category: 'powerbi',
+                categoryLabel: 'Power BI · Flagship',
+                domain: 'Operations & Commercial Intelligence',
+                primaryMetric: '$1.95M Net Revenue',
+                secondaryMetric: '4 Integrated Domains · 30+ DAX',
+                description: 'Enterprise-grade multi-page Power BI solution integrating Executive Overview, Commercial Sales, Supply Chain Logistics, and Constellation Schema data modeling. Designed with 30+ custom DAX measures, time-intelligence month-over-month variances, and automated drill-throughs for senior leadership.',
+                architectureNotes: 'Built on a multi-fact Constellation Schema uniting Sales Orders and Supply Chain Shipments through conformed Date, Product, Customer, and Geography dimensions. Utilizes dynamic DAX parameter tables and mobile-optimized executive layouts.',
+                codeLanguage: 'DAX · Constellation Schema Measure',
+                codeSnippet: `// Dynamic SLA & Net Revenue Executive Telemetry
+Net Revenue MoM Variance % = 
+VAR CurrentMonthRev = [Total Net Revenue]
+VAR PreviousMonthRev = 
+    CALCULATE(
+        [Total Net Revenue],
+        DATEADD( 'Dim_Calendar'[Date], -1, MONTH )
+    )
+RETURN
+    DIVIDE( CurrentMonthRev - PreviousMonthRev, PreviousMonthRev, 0 )`,
+                tags: ['Power BI', 'DAX', 'Constellation Schema', 'Supply Chain', 'Mobile Layout'],
+                featured: true,
+                images: [
+                    'assets/samsung-executive-overview.png',
+                    'assets/samsung-commercial-sales.png',
+                    'assets/samsung-logistics.png',
+                    'assets/samsung-data-model.png'
+                ],
+                github: 'https://github.com/Nady-07/Samsung-Performance-Dashboard',
+                download: 'assets/Samsung_Dashboard.pbix'
+            },
+            {
+                id: 'telecom',
+                title: 'Telecom Customer Churn & Retention Analytics',
+                category: 'powerbi',
+                categoryLabel: 'Power BI · Analytics',
+                domain: 'Customer Retention & Cohort Modeling',
+                primaryMetric: '$2.86M Revenue Loss',
+                secondaryMetric: '7,043 Customer Accounts Analyzed',
+                description: 'Interactive retention dashboard analyzing 7,043 subscriber records. Uncovered critical customer churn drivers linked to month-to-month contracts, lack of tech support bundling, and electronic check payments, empowering retention teams with targeted segmentation filters.',
+                architectureNotes: 'Star Schema model segmenting 7,043 subscriber accounts by tenure cohort, contract structure, payment method, and bundled services to isolate high-risk revenue flight.',
+                codeLanguage: 'DAX · Churn Risk Exposure Measure',
+                codeSnippet: `// Revenue At Risk from Churned Subscribers
+Churned Monthly Revenue Exposure = 
+CALCULATE(
+    SUM( 'Fact_Subscriptions'[TotalCharges] ),
+    'Fact_Subscriptions'[Churn_Status] = "Yes"
+)
 
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-        // Clean Geometric Grid Wave
-        const cols = 36;
-        const rows = 24;
-        const count = cols * rows;
-        const positions = new Float32Array(count * 3);
-
-        let i = 0;
-        for (let x = 0; x < cols; x++) {
-            for (let z = 0; z < rows; z++) {
-                positions[i * 3] = (x - cols / 2) * 0.9;
-                positions[i * 3 + 1] = 0;
-                positions[i * 3 + 2] = (z - rows / 2) * 0.9;
-                i++;
+Churn Rate % = 
+DIVIDE( [Churned Customers Count], [Total Active Subscribers], 0 )`,
+                tags: ['Power BI', 'DAX Measures', 'Churn Modeling', 'Cohort Analysis'],
+                featured: false,
+                images: [
+                    'assets/etisalat-churn-page1.png',
+                    'assets/etisalat-churn-page2.png',
+                    'assets/etisalat-churn-revenue.png',
+                    'assets/etisalat-churn-slicers.png'
+                ],
+                github: 'https://github.com/Nady-07/Telecom-Churn-Dashboard'
+            },
+            {
+                id: 'ibm-hr',
+                title: 'IBM HR Workforce Attrition & Intelligence',
+                category: 'powerbi',
+                categoryLabel: 'Power BI · HR Analytics',
+                domain: 'People Analytics & Retention',
+                primaryMetric: '16.1% Turnover Baseline',
+                secondaryMetric: '1,470 Records · 35 Attributes',
+                description: 'A 4-page diagnostic Power BI dashboard examining workforce dynamics across 35 attributes. Identified overtime frequency, low job satisfaction in Sales and Lab Technician roles, and stagnant compensation as top turnover indicators.',
+                architectureNotes: 'Multi-page people analytics semantic model evaluating 1,470 employee profiles across 35 demographic, compensation, and satisfaction dimensions.',
+                codeLanguage: 'DAX · Attrition Driver Index',
+                codeSnippet: `// Overtime Turnover Multiplier Analysis
+Attrition Rate (Overtime) = 
+CALCULATE(
+    DIVIDE(
+        COUNTROWS( FILTER( 'Fact_HR', 'Fact_HR'[Attrition] = "Yes" ) ),
+        COUNTROWS( 'Fact_HR' ),
+        0
+    ),
+    'Fact_HR'[OverTime] = "Yes"
+)`,
+                tags: ['Power BI', 'People Analytics', 'Attrition Drivers', 'DAX'],
+                featured: false,
+                images: [
+                    'assets/ibm-hr-overview.png',
+                    'assets/ibm-hr-page2.png',
+                    'assets/ibm-hr-page3.png',
+                    'assets/ibm-hr-page4.png'
+                ],
+                github: 'https://github.com/Nady-07/IBM-HR-Attrition-Dashboard'
+            },
+            {
+                id: 'ecommerce-sales',
+                title: 'Ecommerce Sales & Delivery Reliability',
+                category: 'excel',
+                categoryLabel: 'Excel · Power Pivot',
+                domain: 'Fulfillment & Regional Sales',
+                primaryMetric: '$4.44M Net Revenue',
+                secondaryMetric: 'Order Volume & SLA Tracking',
+                description: 'Advanced financial and operations workbook built on Excel Power Pivot and DAX modeling. Cross-analyzed shipping speed against customer reviews and product category return rates across national fulfillment hubs.',
+                architectureNotes: 'Relational Excel Data Model powered by Power Query (M) ETL pipelines and Power Pivot DAX measures, connecting regional fulfillment SLA metrics with net revenue performance.',
+                codeLanguage: 'Power Query (M) & Power Pivot DAX',
+                codeSnippet: `// On-Time Delivery SLA Compliance %
+SLA_Compliance_Pct := 
+DIVIDE(
+    CALCULATE(
+        [Total_Orders],
+        Fact_Orders[Delivery_Status] = "On-Time"
+    ),
+    [Total_Orders],
+    0
+)`,
+                tags: ['Excel', 'Power Pivot', 'DAX', 'Supply Chain', 'Financial Modeling'],
+                featured: false,
+                images: [
+                    'assets/excel-sales-performance.png'
+                ],
+                github: 'https://github.com/Nady-07/Ecommerce-Sales-Delivery-Dashboard'
+            },
+            {
+                id: 'bank-churn',
+                title: 'Banking Customer Churn & Risk Modeling',
+                category: 'powerbi',
+                categoryLabel: 'Power BI · Risk',
+                domain: 'Retail Banking & Finance',
+                primaryMetric: '10,000 Accounts',
+                secondaryMetric: 'Active vs. Inactive Risk Profile',
+                description: '3-page banking intelligence report evaluating customer deposit flight risk. Discovered highest churn risk in customers with balances exceeding $100K but lacking secondary wealth products.',
+                architectureNotes: 'Segmented 10,000 retail banking profiles by credit tier, deposit balance bracket, product holdings, and member activity status.',
+                codeLanguage: 'DAX · High-Value Balance Flight Risk',
+                codeSnippet: `// High-Balance Customer Flight Exposure (> $100K)
+High Balance Churn % = 
+CALCULATE(
+    [Customer Churn Rate %],
+    FILTER(
+        'Fact_Bank_Accounts',
+        'Fact_Bank_Accounts'[Account_Balance] >= 100000
+    )
+)`,
+                tags: ['Power BI', 'Financial Risk', 'Segmentation', 'DAX'],
+                featured: false,
+                images: [
+                    'assets/bank-churn-overview.png'
+                ],
+                github: 'https://github.com/Nady-07/Bank-Customer-Churn-Dashboard'
+            },
+            {
+                id: 'sql-dwh',
+                title: 'Modern Enterprise Data Warehouse & ETL',
+                category: 'sql',
+                categoryLabel: 'SQL Server · DWH',
+                domain: 'Data Architecture & Staging',
+                primaryMetric: 'Bronze / Silver / Gold Staging',
+                secondaryMetric: 'Star Schema & Stored Procs',
+                description: 'Engineered an end-to-end data warehouse pipeline in SQL Server. Established dimensional fact/dimension tables, foreign key constraints, automated data cleaning procedures, and surrogate keys.',
+                architectureNotes: 'Three-tier Medallion Architecture (Bronze raw ingestion, Silver cleansed & standardized staging, Gold star schema views) orchestrated via T-SQL stored procedures.',
+                codeLanguage: 'T-SQL · Silver-to-Gold Star Schema View',
+                codeSnippet: `CREATE OR ALTER VIEW gold.fact_sales AS
+SELECT
+    s.sls_ord_num   AS order_number,
+    pr.product_key  AS product_key,
+    cu.customer_key AS customer_key,
+    s.sls_order_dt  AS order_date,
+    s.sls_sales     AS sales_amount,
+    s.sls_quantity  AS quantity
+FROM silver.crm_sales_details s
+LEFT JOIN gold.dim_products pr ON s.sls_prd_key = pr.product_number
+LEFT JOIN gold.dim_customers cu ON s.sls_cust_id = cu.customer_id;`,
+                tags: ['SQL Server', 'Star Schema', 'ETL Staging', 'T-SQL', 'Dimensional Modeling'],
+                featured: false,
+                images: [
+                    'assets/cover-sql-generic.svg'
+                ],
+                github: 'https://github.com/Nady-07/SQL_Data_Warehouse_Project'
+            },
+            {
+                id: 'flight-sql',
+                title: 'Flight Booking Relational Database & Queries',
+                category: 'sql',
+                categoryLabel: 'SQL Server · T-SQL',
+                domain: 'Aviation Logistics & Operations',
+                primaryMetric: '10 Business Queries Solved',
+                secondaryMetric: 'CTEs, Window Functions, Views',
+                description: 'Designed a normalized relational flight reservation schema. Formulated complex SQL queries implementing RANK(), DENSE_RANK(), LAG(), and CTEs to compute flight load factors, airport delays, and repeat flyers.',
+                architectureNotes: 'Normalized 3NF relational schema covering Flights, Aircrafts, Bookings, Tickets, and Boarding Passes with indexed foreign keys and analytical window queries.',
+                codeLanguage: 'T-SQL · Aviation Load Factor & Ranking',
+                codeSnippet: `WITH RouteUtilization AS (
+    SELECT 
+        f.departure_airport,
+        f.arrival_airport,
+        COUNT(bp.ticket_no) AS boarded_passengers,
+        DENSE_RANK() OVER (
+            ORDER BY COUNT(bp.ticket_no) DESC
+        ) AS route_demand_rank
+    FROM flights f
+    JOIN boarding_passes bp ON f.flight_id = bp.flight_id
+    GROUP BY f.departure_airport, f.arrival_airport
+)
+SELECT * FROM RouteUtilization WHERE route_demand_rank <= 5;`,
+                tags: ['SQL Server', 'CTEs', 'Window Functions', 'Relational Design', 'T-SQL'],
+                featured: false,
+                images: [
+                    'assets/cover-sql-generic.svg'
+                ],
+                github: 'https://github.com/Nady-07/Flight-Database-SQL-Analysis'
+            },
+            {
+                id: 'eda-project',
+                title: 'Exploratory Data Analysis using SQL',
+                category: 'sql',
+                categoryLabel: 'SQL Server · EDA',
+                domain: 'Business Trend Discovery',
+                primaryMetric: 'Advanced Query Workflows',
+                secondaryMetric: 'Window Functions & CTEs',
+                description: 'Exploratory Data Analysis using SQL — uncovering trends, patterns, and business insights through advanced queries, window functions, and CTEs.',
+                architectureNotes: 'Systematic SQL EDA framework profiling table cardinality, date range coverage, category distributions, and top-N customer revenue concentration.',
+                codeLanguage: 'T-SQL · Dimensional Revenue Profiling',
+                codeSnippet: `SELECT
+    p.category,
+    p.subcategory,
+    SUM(f.sales_amount) AS total_revenue,
+    CAST(SUM(f.sales_amount) * 100.0 / 
+         SUM(SUM(f.sales_amount)) OVER () AS DECIMAL(5,2)) AS pct_of_total
+FROM gold.fact_sales f
+LEFT JOIN gold.dim_products p ON f.product_key = p.product_key
+GROUP BY p.category, p.subcategory
+ORDER BY total_revenue DESC;`,
+                tags: ['SQL Server', 'T-SQL', 'EDA', 'Window Functions', 'CTEs'],
+                featured: false,
+                images: [
+                    'assets/cover-sql-generic.svg'
+                ],
+                github: 'https://github.com/Nady-07/EDA_Project'
+            },
+            {
+                id: 'advanced-eda',
+                title: 'Advanced SQL Exploratory Data Analysis',
+                category: 'sql',
+                categoryLabel: 'SQL Server · Advanced Analytics',
+                domain: 'Customer RFM & Revenue Trends',
+                primaryMetric: 'RFM Customer Segmentation',
+                secondaryMetric: 'YoY Growth & Moving Averages',
+                description: 'Advanced T-SQL exploratory scripts computing cumulative moving revenues, month-over-month growth deltas, RFM segmentation, and automated views for ongoing business reporting.',
+                architectureNotes: 'Implements time-series cumulative aggregations, LAG() year-over-year variance analysis, and multi-tier customer RFM (Recency, Frequency, Monetary) scoring.',
+                codeLanguage: 'T-SQL · Cumulative & YoY Window Analysis',
+                codeSnippet: `WITH MonthlySales AS (
+    SELECT
+        DATETRUNC(month, order_date) AS order_month,
+        SUM(sales_amount) AS monthly_rev
+    FROM gold.fact_sales
+    WHERE order_date IS NOT NULL
+    GROUP BY DATETRUNC(month, order_date)
+)
+SELECT
+    order_month,
+    monthly_rev,
+    SUM(monthly_rev) OVER (ORDER BY order_month) AS running_total,
+    LAG(monthly_rev, 12) OVER (ORDER BY order_month) AS prior_year_month
+FROM MonthlySales;`,
+                tags: ['SQL Server', 'T-SQL', 'RFM Analysis', 'Advanced EDA'],
+                featured: false,
+                images: [
+                    'assets/cover-sql-generic.svg'
+                ],
+                github: 'https://github.com/Nady-07/Advanced_EDA_Project'
+            },
+            {
+                id: 'ipl-sql',
+                title: 'IPL Cricket Analytics & Match Performance',
+                category: 'sql',
+                categoryLabel: 'SQL Server · Sports Analytics',
+                domain: 'Tournament & Athlete Performance',
+                primaryMetric: 'Strike Rate & Economy Models',
+                secondaryMetric: 'Player Matchup Aggregations',
+                description: 'Relational SQL analytics examining cricketer performance statistics, player strike rates, boundary percentages, bowling economy in death overs, and match-winning factor correlations.',
+                architectureNotes: 'Ball-by-ball and match-level relational aggregation evaluating batter strike rates and bowler economy across powerplay, middle, and death overs.',
+                codeLanguage: 'T-SQL · Death Overs Bowling Economy',
+                codeSnippet: `SELECT
+    bowler,
+    COUNT(*) / 6.0 AS overs_bowled,
+    SUM(total_runs) AS runs_conceded,
+    ROUND(SUM(total_runs) / (COUNT(*) / 6.0), 2) AS economy_rate
+FROM deliveries
+WHERE over_number BETWEEN 16 AND 20
+GROUP BY bowler
+HAVING COUNT(*) >= 120
+ORDER BY economy_rate ASC;`,
+                tags: ['SQL Server', 'Sports Analytics', 'Aggregations', 'T-SQL'],
+                featured: false,
+                images: [
+                    'assets/cover-sql-generic.svg'
+                ],
+                github: 'https://github.com/Nady-07/ipl-sql-analytics'
+            },
+            {
+                id: 't20i-sql',
+                title: 'T20I International Cricket SQL Analysis',
+                category: 'sql',
+                categoryLabel: 'SQL Server · Sports Analytics',
+                domain: 'International Sports Analytics',
+                primaryMetric: 'International Match Modeling',
+                secondaryMetric: 'T20 Tournament Benchmarks',
+                description: 'In-depth relational SQL queries analyzing international T20 cricket matches, evaluating run-rate acceleration phases, venue impact, toss advantages, and head-to-head records.',
+                architectureNotes: 'Comparative SQL benchmark analyzing venue toss-win conversion rates, first-innings vs second-innings chase probabilities, and team head-to-head dominance.',
+                codeLanguage: 'T-SQL · Venue Toss & Chase Win Probability',
+                codeSnippet: `SELECT
+    venue,
+    COUNT(*) AS total_matches,
+    SUM(CASE WHEN toss_winner = winner THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS toss_win_pct
+FROM t20i_matches
+GROUP BY venue
+HAVING COUNT(*) >= 15
+ORDER BY toss_win_pct DESC;`,
+                tags: ['SQL Server', 'Sports Analytics', 'T-SQL', 'Comparative Analysis'],
+                featured: false,
+                images: [
+                    'assets/cover-sql-generic.svg'
+                ],
+                github: 'https://github.com/Nady-07/t20i-sql-analysis'
             }
+        ];
+
+        // ==========================================================================
+        // RENDER GRID CARDS VIEW (Preserving all real images & SQL SVG icon)
+        // ==========================================================================
+        function renderGrid(items) {
+            const grid = document.getElementById('projects-grid');
+            const countLabel = document.getElementById('project-count-label');
+            countLabel.textContent = `Showing ${items.length} of ${projects.length} Cataloged Projects`;
+
+            if (!items.length) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-16 px-6 text-center glass-card rounded-2xl space-y-3">
+                        <div class="text-slate-400 font-mono text-sm">No projects found in this category.</div>
+                        <button onclick="resetProjectFilters()" class="px-4 py-2 rounded-lg text-xs font-mono bg-sky-400/15 text-sky-300 border border-sky-400/30 hover:bg-sky-400/25 transition">
+                            Reset All Filters (Show All 11)
+                        </button>
+                    </div>`;
+                return;
+            }
+
+            grid.innerHTML = items.map((p, index) => {
+                const isFeatured = p.featured;
+                const colSpan = isFeatured ? 'md:col-span-2 lg:col-span-2' : '';
+                const mainImg = p.images[0] || 'assets/cover-sql-generic.svg';
+                const isSvg = mainImg.endsWith('.svg');
+                const imgFitClass = isSvg ? 'object-cover object-center' : 'object-cover object-top';
+
+                return `
+                    <article class="glass-card glass-card-interactive rounded-2xl overflow-hidden flex flex-col justify-between ${colSpan} group">
+                        <div>
+                            <!-- Visual Banner with Real Image & Quick Preview Trigger -->
+                            <div class="relative ${isFeatured ? 'h-60 sm:h-72' : 'h-48'} w-full overflow-hidden bg-[#070910] border-b border-white/[0.08] cursor-pointer" onclick="openModal('${p.id}')">
+                                <img src="${mainImg}" alt="${p.title}" 
+                                     class="w-full h-full ${imgFitClass} group-hover:scale-[1.03] transition duration-500" />
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#08090E] via-[#08090E]/20 to-transparent opacity-90 pointer-events-none"></div>
+                                
+                                <!-- Top Badges -->
+                                <div class="absolute top-3 left-3 flex gap-1.5 flex-wrap">
+                                    ${isFeatured ? '<span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-400 text-slate-950 shadow">FLAGSHIP CASE</span>' : ''}
+                                    <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-medium bg-[#08090E]/85 text-sky-300 border border-white/15 backdrop-blur-md">${p.categoryLabel}</span>
+                                </div>
+
+                                <div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition">
+                                    <span class="px-2.5 py-1 rounded-md text-[10px] font-mono bg-sky-400 text-slate-950 font-bold shadow">
+                                        Inspect Case + Code ↗
+                                    </span>
+                                </div>
+
+                                <!-- Bottom Domain & Verified KPI Strip -->
+                                <div class="absolute bottom-3 left-3.5 right-3.5 flex items-center justify-between text-[11px] font-mono tabular-nums">
+                                    <span class="truncate max-w-[58%] text-slate-300">${p.domain}</span>
+                                    <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-semibold">${p.primaryMetric}</span>
+                                </div>
+                            </div>
+
+                            <!-- Card Body -->
+                            <div class="p-6 space-y-3">
+                                <div class="flex items-baseline justify-between gap-2">
+                                    <h3 class="text-base ${isFeatured ? 'sm:text-xl' : 'sm:text-lg'} font-bold text-white group-hover:text-sky-400 transition cursor-pointer" onclick="openModal('${p.id}')">
+                                        ${p.title}
+                                    </h3>
+                                    <span class="text-[10px] font-mono text-slate-500 shrink-0 tabular-nums">#${String(index + 1).padStart(2, '0')}</span>
+                                </div>
+                                <p class="text-xs text-slate-300 leading-relaxed line-clamp-3">
+                                    ${p.description}
+                                </p>
+                                <div class="flex flex-wrap gap-1.5 pt-1">
+                                    ${p.tags.map(t => `<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.03] text-slate-300 border border-white/[0.06]">${t}</span>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Footer Actions -->
+                        <div class="px-6 py-3.5 bg-[#090C14]/60 border-t border-white/[0.06] flex items-center justify-between text-xs font-mono">
+                            <button onclick="openModal('${p.id}')" class="text-sky-400 hover:text-sky-300 font-semibold flex items-center gap-1.5">
+                                <span>Case Study &amp; Code</span>
+                                <span>→</span>
+                            </button>
+                            <div class="flex items-center gap-3.5">
+                                ${p.download ? `<a href="${p.download}" download class="text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-1" title="Download Power BI .PBIX Source"><span>.PBIX</span><span>↓</span></a>` : ''}
+                                <a href="${p.github}" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white flex items-center gap-1">
+                                    <span>GitHub</span>
+                                    <span>↗</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
         }
 
-        const geometry = new THREE.BufferGeometry();
-        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        // ==========================================================================
+        // RENDER TABLE MATRIX VIEW
+        // ==========================================================================
+        function renderTable(items) {
+            const tbody = document.getElementById('projects-table-body');
+            if (!items.length) {
+                tbody.innerHTML = `<tr><td colspan="6" class="py-10 text-center text-slate-500">No matching projects found.</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = items.map((p, idx) => `
+                <tr class="hover:bg-white/[0.03] transition">
+                    <td class="py-3.5 px-4 text-slate-500">#${String(idx + 1).padStart(2, '0')}</td>
+                    <td class="py-3.5 px-4 font-semibold text-white">
+                        <button class="text-left hover:text-sky-400 transition flex items-center gap-2" onclick="openModal('${p.id}')">
+                            <span>${p.title}</span>
+                            ${p.featured ? '<span class="px-1.5 py-0.2 rounded text-[9px] bg-sky-400 text-slate-950 font-bold">FLAGSHIP</span>' : ''}
+                        </button>
+                    </td>
+                    <td class="py-3.5 px-4">
+                        <span class="px-2 py-0.5 rounded text-[10px] bg-white/[0.04] text-sky-300 border border-white/10">
+                            ${p.categoryLabel}
+                        </span>
+                    </td>
+                    <td class="py-3.5 px-4 text-slate-400">${p.domain}</td>
+                    <td class="py-3.5 px-4 text-emerald-400 font-semibold">${p.primaryMetric}</td>
+                    <td class="py-3.5 px-4 text-right space-x-3 whitespace-nowrap">
+                        <button onclick="openModal('${p.id}')" class="text-sky-400 hover:underline font-semibold">Inspect</button>
+                        ${p.download ? `<a href="${p.download}" download class="text-emerald-400 hover:underline">.PBIX ↓</a>` : ''}
+                        <a href="${p.github}" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white">GitHub ↗</a>
+                    </td>
+                </tr>
+            `).join('');
+        }
 
-        const material = new THREE.PointsMaterial({
-            size: 0.055,
-            color: 0x38BDF8,
-            transparent: true,
-            opacity: 0.45
+        // ==========================================================================
+        // CATEGORY FILTERING LOGIC
+        // ==========================================================================
+        let activeFilter = 'all';
+
+        function getFilteredProjects() {
+            return projects.filter(p => {
+                return activeFilter === 'all' || p.category === activeFilter;
+            });
+        }
+
+        function refreshViews() {
+            const filtered = getFilteredProjects();
+            renderGrid(filtered);
+            renderTable(filtered);
+        }
+
+        window.resetProjectFilters = function() {
+            activeFilter = 'all';
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.classList.toggle('active', b.getAttribute('data-filter') === 'all');
+            });
+            refreshViews();
+        };
+
+        // Category filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeFilter = btn.getAttribute('data-filter');
+                refreshViews();
+            });
         });
 
-        const points = new THREE.Points(geometry, material);
-        scene.add(points);
+        // View Mode Toggling (Cards vs Matrix)
+        const gridBtn = document.getElementById('view-grid-btn');
+        const tableBtn = document.getElementById('view-table-btn');
+        const gridContainer = document.getElementById('projects-grid');
+        const tableContainer = document.getElementById('projects-table');
 
-        let mouseX = 0;
-        let mouseY = 0;
-        window.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth - 0.5) * 1.5;
-            mouseY = (e.clientY / window.innerHeight - 0.5) * 1.5;
+        gridBtn.addEventListener('click', () => {
+            gridBtn.classList.add('active');
+            tableBtn.classList.remove('active');
+            gridContainer.classList.remove('hidden');
+            tableContainer.classList.add('hidden');
         });
 
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+        tableBtn.addEventListener('click', () => {
+            tableBtn.classList.add('active');
+            gridBtn.classList.remove('active');
+            gridContainer.classList.add('hidden');
+            tableContainer.classList.remove('hidden');
         });
 
-        const clock = new THREE.Clock();
-        function animate() {
-            requestAnimationFrame(animate);
-            const t = clock.getElapsedTime() * 0.6;
-            const pos = geometry.attributes.position.array;
-
-            let idx = 0;
-            for (let x = 0; x < cols; x++) {
-                for (let z = 0; z < rows; z++) {
-                    pos[idx * 3 + 1] = Math.sin(x * 0.25 + t) * 0.45 + Math.cos(z * 0.25 + t) * 0.45;
-                    idx++;
+        // ==========================================================================
+        // HERO TELEMETRY TABS SWITCHER
+        // ==========================================================================
+        window.switchTelemetryTab = function(tabName) {
+            ['visual', 'dax', 'sql'].forEach(t => {
+                const btn = document.getElementById(`tab-btn-${t}`);
+                const panel = document.getElementById(`telemetry-panel-${t}`);
+                if (t === tabName) {
+                    btn.classList.add('active');
+                    btn.classList.remove('text-slate-400');
+                    panel.classList.remove('hidden');
+                } else {
+                    btn.classList.remove('active');
+                    btn.classList.add('text-slate-400');
+                    panel.classList.add('hidden');
                 }
+            });
+        };
+
+        // ==========================================================================
+        // CASE STUDY MODAL & CODE INSPECTOR LOGIC
+        // ==========================================================================
+        const modal = document.getElementById('project-modal');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+
+        window.switchModalTab = function(tabName) {
+            const overviewTab = document.getElementById('modal-tab-overview');
+            const codeTab = document.getElementById('modal-tab-code');
+            const overviewBtn = document.getElementById('modal-tab-overview-btn');
+            const codeBtn = document.getElementById('modal-tab-code-btn');
+
+            if (tabName === 'overview') {
+                overviewTab.classList.remove('hidden');
+                codeTab.classList.add('hidden');
+                overviewBtn.classList.add('active');
+                codeBtn.classList.remove('active');
+            } else {
+                overviewTab.classList.add('hidden');
+                codeTab.classList.remove('hidden');
+                codeBtn.classList.add('active');
+                overviewBtn.classList.remove('active');
             }
-            geometry.attributes.position.needsUpdate = true;
+        };
 
-            camera.position.x += (mouseX - camera.position.x) * 0.03;
-            camera.position.y += (6 - mouseY - camera.position.y) * 0.03;
-            camera.lookAt(0, 0, 0);
+        function setModalStageImage(imgSrc, project) {
+            const mainImg = document.getElementById('modal-main-img');
+            const isSvg = imgSrc && imgSrc.endsWith('.svg');
 
-            renderer.render(scene, camera);
+            mainImg.src = imgSrc || 'assets/cover-sql-generic.svg';
+            mainImg.className = isSvg ? 'w-full h-full object-contain p-6' : 'w-full h-full object-contain';
         }
-        animate();
+
+        window.openModal = function(projectId) {
+            const p = projects.find(item => item.id === projectId);
+            if (!p) return;
+
+            switchModalTab('overview');
+
+            document.getElementById('modal-title').textContent = p.title;
+            document.getElementById('modal-category').textContent = p.categoryLabel;
+            document.getElementById('modal-domain').textContent = p.domain;
+            document.getElementById('modal-description').textContent = p.description;
+            document.getElementById('modal-metric-1').textContent = p.primaryMetric;
+            document.getElementById('modal-metric-2').textContent = p.secondaryMetric;
+            document.getElementById('modal-github-link').href = p.github;
+
+            // Code & Architecture Tab
+            document.getElementById('modal-architecture-notes').textContent = p.architectureNotes;
+            document.getElementById('modal-code-label').textContent = p.codeLanguage;
+            document.getElementById('modal-code-block').textContent = p.codeSnippet;
+
+            // Tags
+            const tagsContainer = document.getElementById('modal-tags');
+            tagsContainer.innerHTML = p.tags.map(t => `<span class="px-2 py-0.5 rounded bg-white/[0.05] text-[10px] text-slate-300 border border-white/[0.06]">${t}</span>`).join('');
+
+            // Download .PBIX button if available
+            const downloadSlot = document.getElementById('modal-download-slot');
+            if (p.download) {
+                downloadSlot.innerHTML = `
+                    <a href="${p.download}" download class="px-4 py-2.5 rounded-xl text-xs font-mono font-semibold bg-emerald-500/15 text-emerald-300 hover:bg-emerald-500/25 border border-emerald-500/30 transition flex items-center gap-2">
+                        <span>Download .PBIX Source</span>
+                        <span>↓</span>
+                    </a>
+                `;
+            } else {
+                downloadSlot.innerHTML = '';
+            }
+
+            // Visual Stage & Gallery Thumbnails (Preserving real multi-page images)
+            setModalStageImage(p.images[0], p);
+            const counter = document.getElementById('modal-gallery-counter');
+            const thumbnails = document.getElementById('modal-thumbnails');
+
+            if (p.images.length > 1) {
+                counter.textContent = `${p.images.length} Report Views Available`;
+                thumbnails.innerHTML = p.images.map((img, idx) => `
+                    <img src="${img}" onclick="selectModalThumbnail('${p.id}', ${idx})" 
+                         alt="View ${idx + 1}" 
+                         class="h-14 sm:h-16 w-20 sm:w-24 object-cover object-top rounded-lg border border-white/20 hover:border-sky-400 transition cursor-pointer shrink-0" />
+                `).join('');
+                thumbnails.classList.remove('hidden');
+            } else {
+                counter.textContent = 'Interactive Case Preview';
+                thumbnails.innerHTML = '';
+                thumbnails.classList.add('hidden');
+            }
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.selectModalThumbnail = function(projectId, imageIdx) {
+            const p = projects.find(item => item.id === projectId);
+            if (!p) return;
+            setModalStageImage(p.images[imageIdx], p);
+        };
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        modalCloseBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+
+        // ==========================================================================
+        // CLIPBOARD & TOAST HELPERS
+        // ==========================================================================
+        function showToast(msg) {
+            const toast = document.getElementById('toast-notification');
+            document.getElementById('toast-message').textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 2600);
+        }
+
+        function copyTextToClipboard(text, successMsg) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast(successMsg);
+            } catch (err) {
+                showToast('Ready to copy');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        window.copyEmailAddress = function() {
+            copyTextToClipboard('mohamednady0@outlook.com', 'Copied mohamednady0@outlook.com to clipboard');
+            const label = document.getElementById('copy-email-label');
+            label.textContent = '✓ Copied';
+            setTimeout(() => { label.textContent = 'Copy Email'; }, 2200);
+        };
+
+        window.copyCodeSnippet = function(elementId) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            copyTextToClipboard(el.innerText, 'Copied code snippet to clipboard');
+        };
+
+        // ==========================================================================
+        // MOBILE DRAWER NAVIGATION
+        // ==========================================================================
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
+        const iconOpen = document.getElementById('mobile-menu-icon-open');
+        const iconClose = document.getElementById('mobile-menu-icon-close');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            const isHidden = mobileMenuDrawer.classList.toggle('hidden');
+            iconOpen.classList.toggle('hidden', !isHidden);
+            iconClose.classList.toggle('hidden', isHidden);
+        });
+
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuDrawer.classList.add('hidden');
+                iconOpen.classList.remove('hidden');
+                iconClose.classList.add('hidden');
+            });
+        });
+
+        // Initial Render
+        refreshViews();
     </script>
 </body>
 </html>
