@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" fill="none">
+    <defs>
+        <radialGradient id="xl-stage-glow" cx="50%" cy="46%" r="58%">
+            <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.14" />
+            <stop offset="46%" stop-color="#D7D7D7" stop-opacity="0.05" />
+            <stop offset="100%" stop-color="#09090A" stop-opacity="0" />
+        </radialGradient>
+
+        <linearGradient id="xl-diag-plane" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#D7D7D7" stop-opacity="0.065" />
+            <stop offset="100%" stop-color="#D7D7D7" stop-opacity="0.015" />
+        </linearGradient>
+
+        <linearGradient id="xl-sheet-bright" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#F5F5F5" />
+            <stop offset="100%" stop-color="#C8C8C8" />
+        </linearGradient>
+
+        <linearGradient id="xl-body-dark" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#1E1E20" />
+            <stop offset="45%" stop-color="#2D2D30" />
+            <stop offset="100%" stop-color="#141416" />
+        </linearGradient>
+
+        <pattern id="xl-arch-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" stroke="#FFFFFF" stroke-opacity="0.035" stroke-width="1" />
+        </pattern>
+    </defs>
+
+    <!-- Obsidian Base Surface matching Portfolio & Hero Dark Stage -->
+    <rect width="800" height="500" fill="#0B0B0C" />
+    <rect width="800" height="500" fill="url(#xl-arch-grid)" />
+
+    <!-- Subtle Diagonal Plane echoing Hero Stone Split -->
+    <polygon points="0,0 320,0 245,500 0,500" fill="url(#xl-diag-plane)" />
+    <line x1="320" y1="0" x2="245" y2="500" stroke="#FFFFFF" stroke-opacity="0.1" stroke-width="1" />
+
+    <!-- Studio Spotlight Radial Depth -->
+    <rect width="800" height="500" fill="url(#xl-stage-glow)" />
+
+    <!-- Outer Architectural Framing Marks -->
+    <path d="M 42 54 V 34 H 62" stroke="#D7D7D7" stroke-opacity="0.35" stroke-width="1.5" />
+    <path d="M 758 54 V 34 H 738" stroke="#D7D7D7" stroke-opacity="0.35" stroke-width="1.5" />
+    <path d="M 42 446 V 466 H 62" stroke="#D7D7D7" stroke-opacity="0.35" stroke-width="1.5" />
+    <path d="M 758 446 V 466 H 738" stroke="#D7D7D7" stroke-opacity="0.35" stroke-width="1.5" />
+
+    <!-- Subtle Connecting Workbook / Pivot Lines -->
+    <path d="M 150 220 H 290 M 510 220 H 650" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1" stroke-dasharray="4 6" />
+    <circle cx="150" cy="220" r="3" fill="#D7D7D7" fill-opacity="0.45" />
+    <circle cx="650" cy="220" r="3" fill="#D7D7D7" fill-opacity="0.45" />
+
+    <!-- Architectural Side Nodes (Pivot Table & Summary Cue) -->
+    <g opacity="0.55">
+        <!-- Left Pivot Grid Node -->
+        <rect x="114" y="198" width="36" height="44" fill="#141416" stroke="#D7D7D7" stroke-opacity="0.32" stroke-width="1.2" />
+        <line x1="126" y1="198" x2="126" y2="242" stroke="#D7D7D7" stroke-opacity="0.3" stroke-width="1" />
+        <line x1="114" y1="212" x2="150" y2="212" stroke="#D7D7D7" stroke-opacity="0.3" stroke-width="1" />
+        <line x1="114" y1="227" x2="150" y2="227" stroke="#D7D7D7" stroke-opacity="0.3" stroke-width="1" />
+
+        <!-- Right Summary Formula Node -->
+        <rect x="650" y="198" width="36" height="44" fill="#141416" stroke="#D7D7D7" stroke-opacity="0.32" stroke-width="1.2" />
+        <line x1="658" y1="212" x2="678" y2="212" stroke="#D7D7D7" stroke-opacity="0.65" stroke-width="1.5" />
+        <line x1="658" y1="221" x2="674" y2="221" stroke="#D7D7D7" stroke-opacity="0.4" stroke-width="1.5" />
+        <line x1="658" y1="230" x2="676" y2="230" stroke="#D7D7D7" stroke-opacity="0.4" stroke-width="1.5" />
+    </g>
+
+    <!-- Centerpiece Architectural Excel Workbook + X Tile -->
+    <g transform="translate(400, 206)">
+        <!-- Cast Shadow -->
+        <ellipse cx="0" cy="112" rx="98" ry="18" fill="#000000" fill-opacity="0.72" />
+
+        <!-- Secondary Offset Sheet Layer Behind (Depth Plane) -->
+        <rect x="-26" y="-82" width="112" height="172" fill="#141416" stroke="#D7D7D7" stroke-opacity="0.4" stroke-width="1.6" />
+
+        <!-- Primary Foreground Workbook Sheet -->
+        <g>
+            <!-- Formula Header Band (Dark Brushed Slate Matching SQL Body) -->
+            <rect x="-40" y="-68" width="114" height="32" fill="url(#xl-body-dark)" stroke="#F5F5F5" stroke-width="1.8" />
+            <circle cx="-26" cy="-52" r="2.5" fill="#FFFFFF" />
+            <rect x="-15" y="-54.5" width="76" height="5" fill="#FFFFFF" fill-opacity="0.24" />
+
+            <!-- Sheet Cell Matrix Body (Silver-Platinum Matching SQL Top Face) -->
+            <rect x="-40" y="-36" width="114" height="138" fill="url(#xl-sheet-bright)" stroke="#FFFFFF" stroke-width="2" />
+
+            <!-- Crisp Cell Grid Rules Inside Sheet -->
+            <line x1="-2" y1="-36" x2="-2" y2="102" stroke="#0B0B0C" stroke-opacity="0.22" stroke-width="1.2" />
+            <line x1="36" y1="-36" x2="36" y2="102" stroke="#0B0B0C" stroke-opacity="0.22" stroke-width="1.2" />
+
+            <line x1="-40" y1="-2" x2="74" y2="-2" stroke="#0B0B0C" stroke-opacity="0.22" stroke-width="1.2" />
+            <line x1="-40" y1="33" x2="74" y2="33" stroke="#0B0B0C" stroke-opacity="0.22" stroke-width="1.2" />
+            <line x1="-40" y1="68" x2="74" y2="68" stroke="#0B0B0C" stroke-opacity="0.22" stroke-width="1.2" />
+
+            <!-- Active Focused Range Highlight (B2:C2) -->
+            <rect x="-1" y="-1" width="74" height="33" fill="#0B0B0C" fill-opacity="0.12" stroke="#0B0B0C" stroke-opacity="0.72" stroke-width="1.6" />
+            <rect x="69" y="28" width="5" height="5" fill="#0B0B0C" />
+
+            <!-- Minimal Value Bars Inside Lower Cells -->
+            <rect x="6" y="47" width="24" height="6" fill="#0B0B0C" fill-opacity="0.3" />
+            <rect x="44" y="47" width="20" height="6" fill="#0B0B0C" fill-opacity="0.22" />
+            <rect x="6" y="82" width="18" height="6" fill="#0B0B0C" fill-opacity="0.24" />
+            <rect x="44" y="82" width="24" height="6" fill="#0B0B0C" fill-opacity="0.34" />
+        </g>
+
+        <!-- Drop Shadow Cast by Elevated Obsidian 'X' Tile onto Sheet -->
+        <rect x="-40" y="-16" width="12" height="82" fill="#000000" fill-opacity="0.58" />
+        <rect x="-80" y="54" width="76" height="10" fill="#000000" fill-opacity="0.45" />
+
+        <!-- Overlapping Elevated Obsidian 'X' Monogram Tile -->
+        <g transform="translate(-88, -22)">
+            <rect x="0" y="0" width="78" height="78" fill="url(#xl-body-dark)" stroke="#FFFFFF" stroke-width="2" />
+            <rect x="5" y="5" width="68" height="68" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="1" />
+            <!-- Geometric Precision 'X' -->
+            <path d="M 21 20 L 31 20 L 57 58 L 47 58 Z" fill="#D7D7D7" />
+            <path d="M 47 20 L 57 20 L 31 58 L 21 58 Z" fill="#FFFFFF" />
+        </g>
+    </g>
+
+    <!-- Editorial Excel Emblem Box (Matches SQL Bracket Framing) -->
+    <g transform="translate(400, 382)">
+        <line x1="-116" y1="-20" x2="-116" y2="20" stroke="#FFFFFF" stroke-width="2.5" />
+        <line x1="116" y1="-20" x2="116" y2="20" stroke="#FFFFFF" stroke-width="2.5" />
+        <rect x="-114" y="-20" width="228" height="40" fill="#141416" fill-opacity="0.85" />
+        <text x="0" y="6"
+              text-anchor="middle"
+              font-family="Montserrat, 'Open Sans', system-ui, sans-serif"
+              font-size="16"
+              font-weight="800"
+              letter-spacing="5.5"
+              fill="#F5F5F5">EXCEL &#183; PIVOT</text>
+    </g>
+
+    <!-- Subtle Monogram Corner Stamp -->
+    <g transform="translate(44, 434)" opacity="0.42">
+        <rect x="0" y="-14" width="24" height="24" stroke="#D7D7D7" stroke-width="1.4" />
+        <text x="12" y="3"
+              text-anchor="middle"
+              font-family="Montserrat, system-ui, sans-serif"
+              font-size="9.5"
+              font-weight="800"
+              letter-spacing="0.8"
+              fill="#D7D7D7">MN</text>
+    </g>
+</svg>

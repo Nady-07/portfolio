@@ -30,6 +30,7 @@ RETURN
     DIVIDE( CurrentRev - PriorRev, PriorRev, 0 )`,
         tags: ['Power BI', 'DAX', 'Constellation Schema', 'Supply Chain', 'Mobile Layout'],
         featured: true,
+        coverImage: 'assets/cover-powerbi-generic.svg',
         images: [
             'assets/samsung-executive-overview.png',
             'assets/samsung-commercial-sales.png',
@@ -68,6 +69,7 @@ Churn Rate % =
 DIVIDE( [Churned Customers], [Total Customers], 0 )`,
         tags: ['Power BI', 'Star Schema', 'DAX', 'Churn Analysis', 'Cohort Modeling'],
         featured: true,
+        coverImage: 'assets/cover-powerbi-generic.svg',
         images: [
             'assets/etisalat-churn-page1.png',
             'assets/etisalat-churn-page2.png',
@@ -136,6 +138,7 @@ LEFT JOIN gold.dim_customers cu ON s.sls_cust_id = cu.customer_id;`,
 DIVIDE( [Total Profit], [Total Revenue], 0 )`,
         tags: ['Excel', 'Power Query (M)', 'Power Pivot', 'Star Schema', 'DAX'],
         featured: true,
+        coverImage: 'assets/cover-excel-generic.svg',
         images: [
             'assets/excel-adventureworks.png'
         ],
@@ -165,6 +168,7 @@ DIVIDE(
 )`,
         tags: ['Power BI', 'People Analytics', 'DAX', 'Attrition Modeling'],
         featured: true,
+        coverImage: 'assets/cover-powerbi-generic.svg',
         images: [
             'assets/ibm-hr-overview.png',
             'assets/ibm-hr-page2.png',
@@ -206,6 +210,7 @@ DIVIDE(
 )`,
         tags: ['Power BI', 'Financial Risk', 'Segmentation', 'DAX'],
         featured: true,
+        coverImage: 'assets/cover-powerbi-generic.svg',
         images: [
             'assets/bank-churn-overview.png'
         ],
@@ -235,6 +240,7 @@ DIVIDE(
 )`,
         tags: ['Microsoft Excel', 'PivotTables', 'Slicers', 'Sales KPIs'],
         featured: false,
+        coverImage: 'assets/cover-excel-generic.svg',
         images: [
             'assets/excel-sales-performance.png'
         ],

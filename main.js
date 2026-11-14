@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             portfolioGrid.innerHTML = visible
                 .map((p) => {
-                    const cover = p.images[0] || 'assets/cover-sql-generic.svg';
+                    const cover = p.coverImage || p.images[0] || 'assets/cover-sql-generic.svg';
                     const isCentered = cover.endsWith('.svg') || p.category === 'sql';
                     return `
                         <article class="project-tile">
