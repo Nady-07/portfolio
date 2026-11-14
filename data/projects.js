@@ -1,6 +1,6 @@
 /**
  * Verified portfolio project catalog for Mohamed Al Nady.
- * Synced with latest CV (Mohamed_Alnady_CV_BI_Reporting_Automation.html) and local assets.
+ * Synced with CV (Mohamed_Alnady_CV.html) and local assets.
  */
 window.PORTFOLIO_PROJECTS = [
     {
