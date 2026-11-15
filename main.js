@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener('click', (e) => {
             const href = anchor.getAttribute('href');
-            if (!href) return;
+            if (!href || !href.startsWith('#')) return;
             e.preventDefault();
             if (mobileDrawer && !mobileDrawer.hidden) {
                 mobileDrawer.hidden = true;
