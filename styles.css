@@ -1162,6 +1162,11 @@ a {
     color: var(--ink-secondary);
 }
 
+.edu-row .timeline-date {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
 /* ==========================================================================
    8. PORTFOLIO SECTION (Dark Banner + Filter Bar + Visual Showcase Grid)
    ========================================================================== */
